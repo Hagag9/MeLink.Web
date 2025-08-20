@@ -4,7 +4,6 @@
     {
         public string? CompanyRegistrationNo { get; set; }
         public string? ContactPersonName { get; set; }
-
         public int? MaxPaymentPeriodInDays { get; set; }
     }
 }

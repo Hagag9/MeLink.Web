@@ -4,7 +4,6 @@ namespace MeLink.Web.Models
 {
     public class Medicine
     {
-
         public int Id { get; set; }
 
         [Required, MaxLength(200)]
@@ -24,5 +23,6 @@ namespace MeLink.Web.Models
 
         [MaxLength(200)]
         public string? ActiveIngredient { get; set; }
+
     }
 }

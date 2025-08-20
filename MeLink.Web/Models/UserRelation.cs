@@ -15,13 +15,12 @@
 
     public enum RelationType
     {
-        PharmacyCompany = 1,        // علاقة بين صيدلية وشركة موزعة
-        PharmacyWarehouse = 2,      // علاقة بين صيدلية ومخزن أدوية
-        PharmacyManufacturer = 3,   // علاقة بين صيدلية وشركة مصنّعة
-        CompanyWarehouse = 4,       // علاقة بين شركة موزعة ومخزن أدوية
-        CompanyManufacturer = 5,    // علاقة بين شركة موزعة وشركة مصنّعة
-        WarehouseManufacturer = 6   // علاقة بين مخزن أدوية وشركة مصنّعة
+        PatientPharmacy = 1,        // مريض → صيدلية  
+        PharmacyCompany = 2,        // صيدلية → شركة موزعة
+        PharmacyWarehouse = 3,      // صيدلية → مخزن أدوية
+        PharmacyManufacturer = 4,   // صيدلية → مصنع
+        CompanyWarehouse = 5,       // شركة → مخزن أدوية
+        CompanyManufacturer = 6,    // شركة → مصنع
+        WarehouseManufacturer = 7   // مخزن → مصنع
     }
-
-
 }

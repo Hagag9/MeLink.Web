@@ -1,0 +1,49 @@
+﻿@model MeLink.Web.Models.ApplicationUser
+
+@if (Model != null)
+{
+    // التحقق من نوع المستخدم بناءً على الـ Discriminator
+    @if (Model is MeLink.Web.Models.Patient)
+    {
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="ordersDropdown" role="button"
+               data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fas fa-pills me-1"></i> Medicine Orders
+            </a>
+            <ul class="dropdown-menu shadow" aria-labelledby="ordersDropdown">
+                <li>
+                    <a class="dropdown-item" asp-controller="Order" asp-action="Create">
+                        <i class="fas fa-search me-2 text-primary"></i> New Order
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" asp-controller="Order" asp-action="Index">
+                        <i class="fas fa-search me-2 text-primary"></i> Search Medicines
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" asp-controller="Order" asp-action="MyOrders">
+                        <i class="fas fa-clipboard-list me-2 text-success"></i> My Orders
+                    </a>
+                </li>
+                <li><hr class="dropdown-divider"></li>
+                <li>
+                    <a class="dropdown-item" href="#" onclick="showComingSoon()">
+                        <i class="fas fa-heart me-2 text-danger"></i> Favorite Pharmacies
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="#" onclick="showComingSoon()">
+                        <i class="fas fa-history me-2 text-info"></i> Prescription History
+                    </a>
+                </li>
+            </ul>
+        </li>
+    }
+    else if (Model is MeLink.Web.Models.Pharmacy)
+    {
+        // المحتوى الخاص بالصيدلي (مثلاً: رابط لاستقبال الطلبات)
+        <a class="nav-link text-dark" asp-area="" asp-controller="Order" asp-action="IncomingOrders">الطلبات الواردة</a>
+    }
+    // يمكنك إضافة المزيد من أنواع المستخدمين هنا
+}

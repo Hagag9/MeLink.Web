@@ -1,0 +1,512 @@
+﻿// Controllers/OrderController.cs
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using MeLink.Web.Data;
+using MeLink.Web.Models;
+using MeLink.Web.ViewModels;
+
+namespace MeLink.Web.Controllers
+{
+    [Authorize]
+    public class OrderController : Controller
+    {
+        private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IWebHostEnvironment _environment;
+
+        public OrderController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, IWebHostEnvironment environment)
+        {
+            _context = context;
+            _userManager = userManager;
+            _environment = environment;
+        }
+
+        // صفحة البحث عن الأدوية والصيدليات
+        public async Task<IActionResult> Index(string? searchTerm)
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+
+            // تأكد إن المستخدم مريض
+            if (currentUser is not Patient)
+            {
+                return RedirectToAction("AccessDenied", "Home");
+            }
+
+            var query = _context.Inventories
+                .Include(i => i.Medicine)
+                .Include(i => i.User)
+                .Where(i => i.User is Pharmacy && i.IsAvailable && i.StockQuantity > 0);
+
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                query = query.Where(i =>
+                    i.Medicine!.GenericName.Contains(searchTerm) ||
+                    i.Medicine!.BrandName!.Contains(searchTerm) ||
+                    i.Medicine!.ActiveIngredient!.Contains(searchTerm));
+            }
+            var availableMedicines = await query.ToListAsync();
+
+            var viewModelList = availableMedicines.Select(i =>
+            {
+                var distance = CalculateDistance(
+                    currentUser.Latitude.Value,
+                    currentUser.Longitude.Value,
+                    i.User!.Latitude.Value,
+                    i.User!.Longitude.Value
+                );
+
+                return new MedicineInventoryViewModel
+                {
+                    MedicineId = i.MedicineId,
+                    GenericName = i.Medicine!.GenericName,
+                    BrandName = i.Medicine.BrandName,
+                    DosageForm = i.Medicine.DosageForm,
+                    Strength = i.Medicine.Strength,
+                    PharmacyId = i.UserId,
+                    PharmacyName = i.User!.DisplayName!,
+                    PharmacyAddress = i.User.Address,
+                    Price = i.Price,
+                    StockQuantity = i.StockQuantity,
+                    InventoryId = i.Id,
+                    DistanceInKm = distance
+                };
+            })
+                .OrderBy(m => m.DistanceInKm) // الترتيب حسب المسافة
+                 .ToList();
+          
+
+            var viewModel = new OrderSearchViewModel
+            {
+                SearchTerm = searchTerm,
+                AvailableMedicines = viewModelList
+            };
+
+            return View(viewModel);
+        }
+
+        // صفحة إنشاء طلب جديد
+        [HttpGet]
+        public async Task<IActionResult> Create()
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+
+            var viewModel = new CreateOrderViewModel
+            {
+                FromUserId = currentUser!.Id,
+                FromUserName = currentUser.DisplayName!,
+                IsPatient = currentUser is Patient
+            };
+
+            return View(viewModel);
+        }
+
+        // إضافة دواء للطلب
+        [HttpPost]
+        public async Task<IActionResult> AddToCart([FromBody] AddToCartRequest request)
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+
+            if (currentUser is not Patient)
+            {
+                return Json(new { success = false, message = "غير مسموح" });
+            }
+
+            var inventory = await _context.Inventories
+                .Include(i => i.Medicine)
+                .Include(i => i.User)
+                .FirstOrDefaultAsync(i => i.Id == request.InventoryId);
+
+            if (inventory == null || !inventory.IsAvailable || inventory.StockQuantity < request.Quantity)
+            {
+                return Json(new { success = false, message = "الدواء غير متوفر بالكمية المطلوبة" });
+            }
+
+            // هنا ممكن تحفظ في Session أو تنشئ طلب مؤقت
+            // للبساطة، نرجع البيانات للعرض في الـ frontend
+
+            return Json(new
+            {
+                success = true,
+                item = new
+                {
+                    inventoryId = inventory.Id,
+                    medicineName = inventory.Medicine!.GenericName,
+                    brandName = inventory.Medicine.BrandName,
+                    pharmacyName = inventory.User!.DisplayName,
+                    price = inventory.Price,
+                    quantity = request.Quantity,
+                    total = inventory.Price * request.Quantity
+                }
+            });
+        }
+        // تأكيد الطلب
+        [HttpPost]
+        public async Task<IActionResult> ConfirmOrder(CreateOrderViewModel model)
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+
+            //if (currentUser is not Patient)
+            //{
+            //    TempData["Error"] = "غير مسموح لك بإنشاء طلبات";
+            //    return RedirectToAction("Index");
+            //}
+
+            // تعبئة بيانات المريض إذا كانت فارغة
+            if (string.IsNullOrEmpty(model.FromUserId))
+            {
+                model.FromUserId = currentUser.Id;
+            }
+
+            if (model.OrderItems == null || !model.OrderItems.Any())
+            {
+                TempData["Error"] = "لا توجد أدوية في الطلب";
+                return RedirectToAction("Index");
+            }
+
+            if (string.IsNullOrEmpty(model.PharmacyId))
+            {
+                TempData["Error"] = "لم يتم تحديد الصيدلية";
+                return RedirectToAction("Index");
+            }
+
+            using var transaction = await _context.Database.BeginTransactionAsync();
+
+            try
+            {
+                // إنشاء الطلب الرئيسي
+                var order = new Order
+                {
+                    FromUserId = currentUser.Id,
+                    ToUserId = model.PharmacyId,
+                    Status = OrderStatus.Pending,
+                    OrderType = "Patient-Pharmacy"
+                };
+
+                _context.Orders.Add(order);
+                await _context.SaveChangesAsync();
+
+                // إضافة تفاصيل الطلب
+                foreach (var item in model.OrderItems)
+                {
+                    var inventory = await _context.Inventories
+                        .FirstOrDefaultAsync(i => i.Id == item.InventoryId);
+
+                    if (inventory == null || inventory.StockQuantity < item.Quantity)
+                    {
+                        throw new Exception($"الدواء '{item.MedicineName}' غير متوفر بالكمية المطلوبة");
+                    }
+
+                    var orderDetail = new OrderDetail
+                    {
+                        OrderId = order.Id,
+                        MedicineId = inventory.MedicineId,
+                        Quantity = item.Quantity
+                    };
+
+                    _context.OrderDetails.Add(orderDetail);
+
+                    // تقليل المخزون
+                    inventory.StockQuantity -= item.Quantity;
+                    if (inventory.StockQuantity <= 0)
+                    {
+                        inventory.IsAvailable = false;
+                    }
+                }
+
+                // حفظ الروشتة إن وجدت
+                if (model.PrescriptionFile != null)
+                {
+                    var prescription = await SavePrescriptionAsync(model.PrescriptionFile, order.Id, currentUser.Id);
+                    _context.Prescriptions.Add(prescription);
+                }
+
+                await _context.SaveChangesAsync();
+                await transaction.CommitAsync();
+
+                TempData["Success"] = "تم إنشاء طلبك بنجاح!";
+
+                // توجيه لصفحة الفاتورة
+                return RedirectToAction("Invoice", new { orderId = order.Id });
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync();
+                TempData["Error"] = "حدث خطأ أثناء إنشاء الطلب: " + ex.Message;
+                return RedirectToAction("Index");
+            }
+        }
+
+        // عرض الفاتورة
+        public async Task<IActionResult> Invoice(int orderId)
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+
+            var order = await _context.Orders
+                .Include(o => o.FromUser)
+                .Include(o => o.ToUser)
+                .Include(o => o.Items)
+                    .ThenInclude(i => i.Medicine)
+                .FirstOrDefaultAsync(o => o.Id == orderId && o.FromUserId == currentUser!.Id);
+
+            if (order == null)
+            {
+                return NotFound();
+            }
+
+            // Get all inventory items for this order's pharmacy at once
+            var pharmacyInventory = await _context.Inventories
+                .Where(i => i.UserId == order.ToUserId && order.Items.Select(item => item.MedicineId).Contains(i.MedicineId))
+                .ToDictionaryAsync(i => i.MedicineId, i => i);
+            // حساب التفاصيل المالية
+            var invoiceItems = new List<InvoiceItemViewModel>();
+            decimal totalAmount = 0;
+
+            foreach (var item in order.Items)
+            {
+                if (pharmacyInventory.TryGetValue(item.MedicineId, out var inventory))
+                {
+                    var itemTotal = (inventory.Price) * item.Quantity;
+                    totalAmount += itemTotal;
+
+                    invoiceItems.Add(new InvoiceItemViewModel
+                    {
+                        MedicineName = item.Medicine!.GenericName,
+                        BrandName = item.Medicine.BrandName,
+                        Quantity = item.Quantity,
+                        UnitPrice = inventory.Price,
+                        Total = itemTotal
+                    });
+                }
+            }
+
+            var viewModel = new InvoiceViewModel
+            {
+                OrderId = order.Id,
+                OrderDate = order.CreatedAt,
+                PatientName = order.FromUser!.DisplayName!,
+                PharmacyName = order.ToUser!.DisplayName!,
+                PharmacyAddress = order.ToUser.Address,
+                Items = invoiceItems,
+                TotalAmount = totalAmount,
+                Status = order.Status.ToString()
+            };
+
+            return View(viewModel);
+        }
+
+        // طلبات المريض
+        public async Task<IActionResult> MyOrders()
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+
+            var orders = await _context.Orders
+                .Include(o => o.ToUser)
+                .Where(o => o.FromUserId == currentUser!.Id)
+                .OrderByDescending(o => o.CreatedAt)
+                .Select(o => new OrderSummaryViewModel
+                {
+                    OrderId = o.Id,
+                    OrderDate = o.CreatedAt,
+                    PharmacyName = o.ToUser!.DisplayName!,
+                    Status = o.Status.ToString(),
+                    TotalItems = o.Items.Count()
+                })
+                .ToListAsync();
+
+            return View(orders);
+        }
+
+        private async Task<Prescription> SavePrescriptionAsync(IFormFile file, int orderId, string userId)
+        {
+            var uploadsFolder = Path.Combine(_environment.WebRootPath, "prescriptions");
+
+            if (!Directory.Exists(uploadsFolder))
+                Directory.CreateDirectory(uploadsFolder);
+
+            var fileName = $"{Guid.NewGuid()}_{file.FileName}";
+            var filePath = Path.Combine(uploadsFolder, fileName);
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            return new Prescription
+            {
+                OrderId = orderId,
+                ImagePath = $"/prescriptions/{fileName}",
+                UploadedByUserId = userId
+            };
+        }
+        // API للبحث السريع في الأدوية
+        [HttpGet]
+        public async Task<IActionResult> SearchMedicines(string term, string? forUserId)
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (currentUser == null)
+            {
+                return Forbid();
+            }
+
+            var inventoriesQuery = _context.Inventories
+                .Include(i => i.Medicine)
+                .Include(i => i.User)
+                .Where(i => i.IsAvailable && i.StockQuantity > 0);
+
+            // Filter by search term
+            if (!string.IsNullOrEmpty(term))
+            {
+                inventoriesQuery = inventoriesQuery.Where(i =>
+                    i.Medicine!.GenericName.Contains(term) ||
+                    (i.Medicine!.BrandName != null && i.Medicine.BrandName.Contains(term)) ||
+                    (i.Medicine!.ActiveIngredient != null && i.Medicine.ActiveIngredient.Contains(term)));
+            }
+
+            // Determine allowed supplier IDs based on the current user's role
+            var allowedSupplierIds = Enumerable.Empty<string>();
+
+            if (currentUser is Patient)
+            {
+                // Patient can only order from Pharmacies
+                allowedSupplierIds = _context.Users.OfType<Pharmacy>().Select(p => p.Id);
+            }
+            else if (currentUser is Pharmacy)
+            {
+                // Pharmacy orders from Companies, Warehouses, and Manufacturers
+                allowedSupplierIds = _context.UserRelations
+                    .Where(r => r.FromUserId == currentUser.Id &&
+                                (r.RelationType == RelationType.PharmacyCompany ||
+                                 r.RelationType == RelationType.PharmacyWarehouse ||
+                                 r.RelationType == RelationType.PharmacyManufacturer))
+                    .Select(r => r.ToUserId);
+            }
+            else if (currentUser is MedicineWarehouse)
+            {
+                // Warehouse orders from Companies and Manufacturers
+                allowedSupplierIds = _context.UserRelations
+                    .Where(r => r.FromUserId == currentUser.Id &&
+                                (r.RelationType == RelationType.CompanyManufacturer || // Note: this might need adjustment based on your full relation types
+                                 r.RelationType == RelationType.WarehouseManufacturer))
+                    .Select(r => r.ToUserId);
+            }
+            else if (currentUser is DistributionCompany)
+            {
+                // Company orders from Manufacturers
+                allowedSupplierIds = _context.UserRelations
+                    .Where(r => r.FromUserId == currentUser.Id &&
+                                r.RelationType == RelationType.CompanyManufacturer)
+                    .Select(r => r.ToUserId);
+            }
+            else
+            {
+                // Any other user type (e.g., Manufacturer) cannot search for medicines to order.
+                return Json(new List<MedicineSearchResult>());
+            }
+
+            // Apply the user-specific filter to the main query
+            inventoriesQuery = inventoriesQuery.Where(i => allowedSupplierIds.Contains(i.UserId));
+
+            var medicines = await inventoriesQuery
+                .Select(i => new MedicineSearchResult
+                {
+                    InventoryId = i.Id,
+                    MedicineName = i.Medicine!.GenericName,
+                    BrandName = i.Medicine!.BrandName,
+                    SourceName = i.User!.DisplayName!,
+                    SourceId = i.User.Id,
+                    Price = i.Price,
+                    Stock = i.StockQuantity
+                })
+                .Take(20)
+                .ToListAsync();
+
+            return Json(medicines);
+        }
+        [HttpPost]
+        public async Task<IActionResult> CancelOrder(int orderId)
+        {
+            // Logic to cancel order
+            return Json(new { success = true });
+        }
+
+        public async Task<IActionResult> Reorder(int orderId)
+        {
+            // Logic to recreate order with same items
+            return RedirectToAction("Create");
+        }
+        public static double CalculateDistance(double lat1, double lon1, double lat2, double lon2)
+        {
+            var R = 6371; // Radius of the earth in km
+            var dLat = ToRadians(lat2 - lat1);
+            var dLon = ToRadians(lon2 - lon1);
+            var a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
+                    Math.Cos(ToRadians(lat1)) * Math.Cos(ToRadians(lat2)) *
+                    Math.Sin(dLon / 2) * Math.Sin(dLon / 2);
+            var c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+            var distance = R * c; // Distance in km
+            return distance;
+        }
+        private static double ToRadians(double degrees)
+        {
+            return degrees * (Math.PI / 180);
+        }
+
+        public async Task<IActionResult> BrowseMedicines(string supplierId, string? searchTerm)
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+
+            // التحقق من أن المستخدم الحالي صيدلي وأن المورد فعلاً مرتبط به
+            if (currentUser is not Pharmacy)
+            {
+                return Forbid(); // منع الوصول
+            }
+
+            var isRelated = await _context.UserRelations
+                .AnyAsync(r => r.FromUserId == currentUser.Id && r.ToUserId == supplierId);
+
+            if (!isRelated)
+            {
+                return BadRequest("Invalid supplier.");
+            }
+
+            var query = _context.Inventories
+                .Include(i => i.Medicine)
+                .Include(i => i.User)
+                .Where(i => i.UserId == supplierId && i.IsAvailable && i.StockQuantity > 0);
+
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                query = query.Where(i =>
+                    i.Medicine!.GenericName.Contains(searchTerm) ||
+                    i.Medicine!.BrandName!.Contains(searchTerm) ||
+                    i.Medicine!.ActiveIngredient!.Contains(searchTerm));
+            }
+
+            var availableMedicines = await query.Select(i => new MedicineInventoryViewModel
+            {
+                MedicineId = i.MedicineId,
+                GenericName = i.Medicine!.GenericName,
+                BrandName = i.Medicine.BrandName,
+                DosageForm = i.Medicine.DosageForm,
+                Strength = i.Medicine.Strength,
+                PharmacyId = i.UserId, // هنا الـ UserId هيكون الـ supplierId
+                PharmacyName = i.User!.DisplayName!,
+                PharmacyAddress = i.User.Address,
+                Price = i.Price,
+                StockQuantity = i.StockQuantity,
+                InventoryId = i.Id
+            }).ToListAsync();
+
+            var viewModel = new OrderSearchViewModel
+            {
+                SearchTerm = searchTerm,
+                AvailableMedicines = availableMedicines,
+                SupplierId = supplierId // **تعبئة الخاصية الجديدة هنا**
+            };
+
+            return View("Index", viewModel); // استخدم نفس الـ View الخاص بصفحة البحث
+        }
+    }
+}

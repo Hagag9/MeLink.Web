@@ -1,0 +1,543 @@
+﻿@* Views/Order/MyOrders.cshtml *@
+@model List<MeLink.Web.ViewModels.OrderSummaryViewModel>
+
+@{
+    ViewData["Title"] = "My Orders";
+}
+
+<div class="container-fluid mt-4">
+    <div class="row">
+        <div class="col-12">
+
+            <!-- Page Header -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h2 class="h3 mb-1">
+                        <i class="fas fa-clipboard-list text-primary me-2"></i>
+                        My Orders
+                    </h2>
+                    <p class="text-muted mb-0">Track and manage your medicine orders</p>
+                </div>
+                <div>
+                    <a asp-action="Index" class="btn btn-success btn-lg">
+                        <i class="fas fa-plus me-2"></i>
+                        Place New Order
+                    </a>
+                </div>
+            </div>
+
+            @if (Model.Any())
+            {
+                <!-- Orders Statistics -->
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <div class="card border-primary bg-light">
+                            <div class="card-body text-center py-3">
+                                <i class="fas fa-shopping-cart fa-2x text-primary mb-2"></i>
+                                <h4 class="text-primary mb-1">@Model.Count()</h4>
+                                <small class="text-muted">Total Orders</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card border-warning bg-light">
+                            <div class="card-body text-center py-3">
+                                <i class="fas fa-clock fa-2x text-warning mb-2"></i>
+                                <h4 class="text-warning mb-1">@Model.Count(o => o.Status == "Pending")</h4>
+                                <small class="text-muted">Pending Orders</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card border-success bg-light">
+                            <div class="card-body text-center py-3">
+                                <i class="fas fa-check-circle fa-2x text-success mb-2"></i>
+                                <h4 class="text-success mb-1">@Model.Count(o => o.Status == "Delivered")</h4>
+                                <small class="text-muted">Delivered Orders</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card border-info bg-light">
+                            <div class="card-body text-center py-3">
+                                <i class="fas fa-pills fa-2x text-info mb-2"></i>
+                                <h4 class="text-info mb-1">@Model.Sum(o => o.TotalItems)</h4>
+                                <small class="text-muted">Total Items</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filter and Sort Controls -->
+                <div class="card shadow-sm mb-4">
+                    <div class="card-body py-3">
+                        <div class="row align-items-center">
+                            <div class="col-md-6">
+                                <div class="btn-group" role="group" aria-label="Status filter">
+                                    <button type="button" class="btn btn-outline-secondary active" data-filter="all">
+                                        All Orders
+                                    </button>
+                                    <button type="button" class="btn btn-outline-warning" data-filter="pending">
+                                        Pending
+                                    </button>
+                                    <button type="button" class="btn btn-outline-success" data-filter="delivered">
+                                        Delivered
+                                    </button>
+                                    <button type="button" class="btn btn-outline-danger" data-filter="cancelled">
+                                        Cancelled
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-md-6 text-end">
+                                <div class="input-group" style="max-width: 300px; margin-left: auto;">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-search"></i>
+                                    </span>
+                                    <input type="text" class="form-control" id="search-orders"
+                                           placeholder="Search by pharmacy name...">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Orders Grid -->
+                <div class="row" id="orders-container">
+                    @foreach (var order in Model.OrderByDescending(o => o.OrderDate))
+                    {
+                        <div class="col-lg-4 col-md-6 mb-4 order-card"
+                             data-status="@order.Status.ToLower()"
+                             data-pharmacy="@order.PharmacyName.ToLower()">
+
+                            <div class="card h-100 shadow-sm border-0 order-item">
+
+                                <!-- Card Header with Status -->
+                                <div class="card-header @GetStatusHeaderClass(order.Status) text-white border-0">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h6 class="mb-0 fw-bold">
+                                            Order #@order.OrderId
+                                        </h6>
+                                        <span class="badge bg-light text-dark px-2 py-1">
+                                            @GetStatusIcon(order.Status) @GetStatusText(order.Status)
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <div class="mb-3">
+                                        <!-- Pharmacy Info -->
+                                        <div class="d-flex align-items-center mb-2">
+                                            <i class="fas fa-store text-success me-2"></i>
+                                            <h6 class="mb-0 text-success">@order.PharmacyName</h6>
+                                        </div>
+
+                                        <!-- Order Date -->
+                                        <div class="d-flex align-items-center mb-2">
+                                            <i class="fas fa-calendar-alt text-muted me-2"></i>
+                                            <small class="text-muted">
+                                                @order.OrderDate.ToString("MMM dd, yyyy 'at' h:mm tt")
+                                            </small>
+                                        </div>
+
+                                        <!-- Items Count -->
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-pills text-primary me-2"></i>
+                                            <small class="text-primary fw-bold">
+                                                @order.TotalItems item@(order.TotalItems > 1 ? "s" : "")
+                                            </small>
+                                        </div>
+                                    </div>
+
+                                    <!-- Order Timeline (for active orders) -->
+                                    @if (order.Status == "Pending" || order.Status == "Approved" || order.Status == "Shipped")
+                                    {
+                                        <div class="mb-3">
+                                            <div class="progress" style="height: 8px;">
+                                                <div class="progress-bar @GetProgressBarClass(order.Status)"
+                                                     role="progressbar"
+                                                     style="width: @GetProgressPercentage(order.Status)%"
+                                                     aria-valuenow="@GetProgressPercentage(order.Status)"
+                                                     aria-valuemin="0"
+                                                     aria-valuemax="100">
+                                                </div>
+                                            </div>
+                                            <small class="text-muted">@GetProgressText(order.Status)</small>
+                                        </div>
+                                    }
+                                </div>
+
+                                <!-- Card Footer with Actions -->
+                                <div class="card-footer bg-transparent border-0 pt-0">
+                                    <div class="d-grid gap-2">
+                                        <a asp-action="Invoice" asp-route-orderId="@order.OrderId"
+                                           class="btn btn-outline-primary btn-sm">
+                                            <i class="fas fa-eye me-1"></i>
+                                            View Details
+                                        </a>
+
+                                        @if (order.Status == "Pending")
+                                        {
+                                            <button type="button"
+                                                    class="btn btn-outline-danger btn-sm cancel-order-btn"
+                                                    data-order-id="@order.OrderId"
+                                                    data-pharmacy="@order.PharmacyName">
+                                                <i class="fas fa-times me-1"></i>
+                                                Cancel Order
+                                            </button>
+                                        }
+                                        else if (order.Status == "Delivered")
+                                        {
+                                            <button type="button" class="btn btn-outline-success btn-sm">
+                                                <i class="fas fa-star me-1"></i>
+                                                Rate Order
+                                            </button>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <!-- No Results Message (hidden by default) -->
+                <div id="no-results" class="text-center py-5" style="display: none;">
+                    <i class="fas fa-search text-muted" style="font-size: 3rem;"></i>
+                    <h5 class="text-muted mt-3">No orders found</h5>
+                    <p class="text-muted">Try adjusting your search or filter criteria</p>
+                </div>
+            }
+            else
+            {
+                <!-- Empty State -->
+                <div class="text-center py-5">
+                    <div class="mb-4">
+                        <i class="fas fa-clipboard-list text-muted" style="font-size: 5rem; opacity: 0.3;"></i>
+                    </div>
+                    <h4 class="text-muted mb-3">No Orders Yet</h4>
+                    <p class="text-muted mb-4 lead">
+                        You haven't placed any medicine orders yet.<br>
+                        Start by searching for the medicines you need.
+                    </p>
+                    <a asp-action="Index" class="btn btn-primary btn-lg">
+                        <i class="fas fa-plus me-2"></i>
+                        Place Your First Order
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<!-- Cancel Order Modal -->
+<div class="modal fade" id="cancelOrderModal" tabindex="-1" aria-labelledby="cancelOrderModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="cancelOrderModalLabel">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    Cancel Order
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="text-center mb-3">
+                    <i class="fas fa-question-circle fa-3x text-warning"></i>
+                </div>
+                <h6 class="text-center mb-3">Are you sure you want to cancel this order?</h6>
+                <div class="alert alert-warning">
+                    <div class="d-flex align-items-start">
+                        <i class="fas fa-info-circle me-2 mt-1"></i>
+                        <div>
+                            <strong>Order Details:</strong><br>
+                            <span id="cancel-order-details"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="alert alert-danger">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    <strong>Warning:</strong> This action cannot be undone. Any reserved medicines will be released back to inventory.
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="fas fa-arrow-left me-2"></i>
+                    Keep Order
+                </button>
+                <form id="cancel-order-form" method="post" style="display: inline;">
+                    <input type="hidden" name="orderId" id="cancel-order-id">
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-times me-2"></i>
+                        Yes, Cancel Order
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+
+            // Filter functionality
+            $('[data-filter]').on('click', function() {
+                const filter = $(this).data('filter');
+
+                // Update active button
+                $('[data-filter]').removeClass('active');
+                $(this).addClass('active');
+
+                // Filter orders
+                filterOrders(filter, $('#search-orders').val());
+            });
+
+            // Search functionality
+            $('#search-orders').on('keyup', function() {
+                const searchTerm = $(this).val();
+                const activeFilter = $('[data-filter].active').data('filter');
+                filterOrders(activeFilter, searchTerm);
+            });
+
+            // Cancel order modal
+            $('.cancel-order-btn').on('click', function() {
+                const orderId = $(this).data('order-id');
+                const pharmacyName = $(this).data('pharmacy');
+
+                $('#cancel-order-id').val(orderId);
+                $('#cancel-order-details').text(`Order #${orderId} from ${pharmacyName}`);
+                $('#cancel-order-form').attr('action', '/Order/Cancel');
+
+                $('#cancelOrderModal').modal('show');
+            });
+
+            // Animate order cards on load
+            $('.order-item').each(function(index) {
+                $(this).css({
+                    'opacity': '0',
+                    'transform': 'translateY(20px)'
+                }).delay(index * 100).animate({
+                    'opacity': '1'
+                }, {
+                    duration: 500,
+                    step: function(now) {
+                        $(this).css('transform', `translateY(${20 * (1 - now)}px)`);
+                    }
+                });
+            });
+
+            function filterOrders(statusFilter, searchTerm) {
+                let visibleCount = 0;
+
+                $('.order-card').each(function() {
+                    const orderStatus = $(this).data('status');
+                    const pharmacyName = $(this).data('pharmacy');
+
+                    let showOrder = true;
+
+                    // Apply status filter
+                    if (statusFilter !== 'all' && orderStatus !== statusFilter) {
+                        showOrder = false;
+                    }
+
+                    // Apply search filter
+                    if (searchTerm && !pharmacyName.includes(searchTerm.toLowerCase())) {
+                        showOrder = false;
+                    }
+
+                    if (showOrder) {
+                        $(this).fadeIn(300);
+                        visibleCount++;
+                    } else {
+                        $(this).fadeOut(300);
+                    }
+                });
+
+                // Show/hide no results message
+                if (visibleCount === 0) {
+                    $('#no-results').fadeIn(300);
+                } else {
+                    $('#no-results').fadeOut(300);
+                }
+            }
+
+            // Show success/error messages from TempData
+            @if (TempData["SuccessMessage"] != null)
+            {
+                    <text>showToast('@TempData["SuccessMessage"]', 'success');</text>
+            }
+
+            @if (TempData["ErrorMessage"] != null)
+            {
+                    <text>showToast('@TempData["ErrorMessage"]', 'danger');</text>
+            }
+
+            function showToast(message, type = 'info') {
+                const toastHtml = `
+                    <div class="toast align-items-center text-white bg-${type} border-0 position-fixed"
+                         style="top: 20px; right: 20px; z-index: 9999;" role="alert">
+                        <div class="d-flex">
+                            <div class="toast-body">
+                                ${message}
+                            </div>
+                            <button type="button" class="btn-close btn-close-white me-2 m-auto"
+                                    data-bs-dismiss="toast"></button>
+                        </div>
+                    </div>
+                `;
+
+                $('body').append(toastHtml);
+                $('.toast').last().toast({ delay: 4000 }).toast('show');
+
+                $('.toast').last().on('hidden.bs.toast', function() {
+                    $(this).remove();
+                });
+            }
+
+        });
+    </script>
+
+    <style>
+        .order-item {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+            .order-item:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2) !important;
+            }
+
+        .card-header {
+            border-bottom: none;
+        }
+
+        .progress {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-group .btn {
+            border-color: #dee2e6;
+        }
+
+            .btn-group .btn.active {
+                background-color: #007bff;
+                border-color: #007bff;
+                color: white;
+            }
+
+        .badge {
+            font-size: 0.75rem;
+        }
+
+        .card-footer {
+            background-color: transparent;
+            border-top: 1px solid rgba(0, 0, 0, 0.125);
+        }
+
+        .input-group-text {
+            background-color: #f8f9fa;
+            border-color: #dee2e6;
+        }
+
+        .order-card {
+            transition: all 0.3s ease;
+        }
+
+        @@media (max-width: 768px) {
+            .btn-group
+
+        {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.25rem;
+        }
+
+        .btn-group .btn {
+            flex: 1 1 calc(50% - 0.125rem);
+            border-radius: 0.375rem !important;
+            margin-bottom: 0.25rem;
+        }
+
+        }
+    </style>
+}
+
+@functions {
+    string GetStatusHeaderClass(string status)
+    {
+        return status switch
+        {
+            "Pending" => "bg-warning",
+            "Approved" => "bg-info",
+            "Shipped" => "bg-primary",
+            "Delivered" => "bg-success",
+            "Cancelled" => "bg-secondary",
+            "Rejected" => "bg-danger",
+            _ => "bg-dark"
+        };
+    }
+
+    string GetStatusText(string status)
+    {
+        return status switch
+        {
+            "Pending" => "Pending Review",
+            "Approved" => "Approved",
+            "Shipped" => "In Transit",
+            "Delivered" => "Delivered",
+            "Cancelled" => "Cancelled",
+            "Rejected" => "Rejected",
+            _ => "Unknown"
+        };
+    }
+
+    string GetStatusIcon(string status)
+    {
+        return status switch
+        {
+            "Pending" => "<i class='fas fa-clock'></i>",
+            "Approved" => "<i class='fas fa-check'></i>",
+            "Shipped" => "<i class='fas fa-shipping-fast'></i>",
+            "Delivered" => "<i class='fas fa-check-circle'></i>",
+            "Cancelled" => "<i class='fas fa-times'></i>",
+            "Rejected" => "<i class='fas fa-times-circle'></i>",
+            _ => "<i class='fas fa-question'></i>"
+        };
+    }
+
+    string GetProgressBarClass(string status)
+    {
+        return status switch
+        {
+            "Pending" => "bg-warning",
+            "Approved" => "bg-info",
+            "Shipped" => "bg-primary",
+            _ => "bg-secondary"
+        };
+    }
+
+    int GetProgressPercentage(string status)
+    {
+        return status switch
+        {
+            "Pending" => 25,
+            "Approved" => 50,
+            "Shipped" => 75,
+            "Delivered" => 100,
+            _ => 0
+        };
+    }
+
+    string GetProgressText(string status)
+    {
+        return status switch
+        {
+            "Pending" => "Order received, waiting for pharmacy confirmation",
+            "Approved" => "Order confirmed, preparing medicines",
+            "Shipped" => "Order dispatched, on the way to you",
+            "Delivered" => "Order delivered successfully",
+            _ => "Status unknown"
+        };
+    }
+}

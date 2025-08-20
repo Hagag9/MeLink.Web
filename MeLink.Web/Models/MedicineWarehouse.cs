@@ -4,8 +4,6 @@
     {
         public string? WarehouseCode { get; set; }
         public string? Capacity { get; set; }
-
         public int? MaxPaymentPeriodInDays { get; set; }
-
     }
 }

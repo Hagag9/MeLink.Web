@@ -11,6 +11,7 @@ namespace MeLink.Web.Data
         {
         }
         public DbSet<Medicine> Medicines => Set<Medicine>();
+        public DbSet<UserRelation> UserRelations => Set<UserRelation>();
         public DbSet<Inventory> Inventories => Set<Inventory>();
         public DbSet<Order> Orders => Set<Order>();
         public DbSet<OrderDetail> OrderDetails => Set<OrderDetail>();

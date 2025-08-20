@@ -1,4 +1,6 @@
 ﻿
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace MeLink.Web.Models
 {
     public enum Gender { Male , Female }
@@ -8,5 +10,8 @@ namespace MeLink.Web.Models
         public string? LastName { get; set; }
         public DateTime? DateOfBirth { get; set; }
         public Gender? Gender { get; set; }
+
+        [NotMapped]
+        public string FullName => $"{FirstName} {LastName}".Trim();
     }
 }

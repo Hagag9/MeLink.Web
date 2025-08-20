@@ -18,12 +18,10 @@ namespace MeLink.Web.Models
         public ApplicationUser? ToUser { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-
         public OrderStatus Status { get; set; } = OrderStatus.Pending;
 
         // اختياري: لتصنيف النوع (عميل→صيدلية، صيدلية→شركة... لو حبيت)
         public string? OrderType { get; set; }
-
         public ICollection<OrderDetail> Items { get; set; } = new List<OrderDetail>();
     }
 }
