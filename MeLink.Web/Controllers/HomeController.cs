@@ -8,17 +8,16 @@ namespace MeLink.Web.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly UserManager<ApplicationUser> _userManager;
+      
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
         }
 
-        public async Task<IActionResult>  Index()
+        public IActionResult  Index()
         {
-            var currentUser = await _userManager.GetUserAsync(User);
-            ViewBag.IsPatient = currentUser is Patient;
-            return View();
+          
+                return View();
         }
 
         public IActionResult Privacy()
