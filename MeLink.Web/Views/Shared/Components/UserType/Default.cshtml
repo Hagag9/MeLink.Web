@@ -5,45 +5,90 @@
     // التحقق من نوع المستخدم بناءً على الـ Discriminator
     @if (Model is MeLink.Web.Models.Patient)
     {
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="ordersDropdown" role="button"
-               data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="fas fa-pills me-1"></i> Medicine Orders
-            </a>
-            <ul class="dropdown-menu shadow" aria-labelledby="ordersDropdown">
-                <li>
-                    <a class="dropdown-item" asp-controller="Order" asp-action="Create">
-                        <i class="fas fa-search me-2 text-primary"></i> New Order
-                    </a>
-                </li>
-                <li>
-                    <a class="dropdown-item" asp-controller="Order" asp-action="Index">
-                        <i class="fas fa-search me-2 text-primary"></i> Search Medicines
-                    </a>
-                </li>
-                <li>
-                    <a class="dropdown-item" asp-controller="Order" asp-action="MyOrders">
-                        <i class="fas fa-clipboard-list me-2 text-success"></i> My Orders
-                    </a>
-                </li>
-                <li><hr class="dropdown-divider"></li>
-                <li>
-                    <a class="dropdown-item" href="#" onclick="showComingSoon()">
-                        <i class="fas fa-heart me-2 text-danger"></i> Favorite Pharmacies
-                    </a>
-                </li>
-                <li>
-                    <a class="dropdown-item" href="#" onclick="showComingSoon()">
-                        <i class="fas fa-history me-2 text-info"></i> Prescription History
-                    </a>
-                </li>
-            </ul>
-        </li>
+      @*       <ul class="dropdown-menu" aria-labelledby="ordersDropdown">
+                <li> <a class="dropdown-item" asp-controller="Order" asp-action="NearbyPharmacies"> Pharmacies</a> </li>
+                <li> <a class="dropdown-item" asp-controller="Order" asp-action="Create"> New Order</a></li>
+                <li> <a class="dropdown-item" asp-controller="Order" asp-action="Index"> Search Medicines</a> </li>
+                <li> <a class="dropdown-item" asp-controller="Order" asp-action="MyOrders"> My Orders</a> </li>
+            </ul> *@
+
+
+        <div id="mega-menu-full-dropdown" class="hidden mt-1 border-gray-200 shadow-xs bg-gray-50 md:bg-white border-y dark:bg-gray-800 dark:border-gray-600">
+            <div class="grid max-w-screen-lg px-4 py-5 mx-auto text-gray-900 dark:text-white sm:grid-cols-2 md:px-6">
+                <ul>
+                    <li>
+                        <a asp-controller="Order" asp-action="NearbyPharmacies" class="block p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+                            <div class="font-semibold">Pharmacies</div>
+                            <span class="text-sm text-gray-500 dark:text-gray-400">Connect with near Pharmacies.</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-controller="Order" asp-action="Create" class="block p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+                            <div class="font-semibold">New Order</div>
+                            <span class="text-sm text-gray-500 dark:text-gray-400">Make order from your near Pharamacy.</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-controller ="Order" asp-action="Index" class="block p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+                            <div class="font-semibold">Search Medicines</div>
+                            <span class="text-sm text-gray-500 dark:text-gray-400">Find medecine.</span>
+                        </a>
+                    </li>
+                </ul>
+                <ul>
+                    <li>
+                        <a asp-controller="Order" asp-action="MyOrders" class="block p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+                            <div class="font-semibold">My Orders</div>
+                            <span class="text-sm text-gray-500 dark:text-gray-400">Your Order history.</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
     }
-    else if (Model is MeLink.Web.Models.Pharmacy)
+    else if (Model is MeLink.Web.Models.Pharmacy || Model is MeLink.Web.Models.MedicineWarehouse || Model is MeLink.Web.Models.DistributionCompany)
     {
-        // المحتوى الخاص بالصيدلي (مثلاً: رابط لاستقبال الطلبات)
-        <a class="nav-link text-dark" asp-area="" asp-controller="Order" asp-action="IncomingOrders">الطلبات الواردة</a>
+@* 
+        <ul class="dropdown-menu" aria-labelledby="ordersDropdown">
+            <li> <a class="dropdown-item" asp-controller="Supplier" asp-action="Index"> Suppliers</a> </li>
+            <li> <a class="dropdown-item" asp-controller="Order" asp-action="Create"> New Order</a></li>
+            <li> <a class="dropdown-item" asp-controller="Order" asp-action="Index"> Search Medicines</a> </li>
+            <li> <a class="dropdown-item" asp-controller="Order" asp-action="MyOrders"> My Orders</a> </li>
+        </ul> *@
+
+        <div id="mega-menu-full-dropdown" class="hidden mt-1 border-gray-200 shadow-xs bg-gray-50 md:bg-white border-y dark:bg-gray-800 dark:border-gray-600">
+            <div class="grid max-w-screen-lg px-4 py-5 mx-auto text-gray-900 dark:text-white sm:grid-cols-2 md:px-6">
+                <ul>
+                    <li>
+                        <a asp-controller="Supplier" asp-action="Index" class="block p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+                            <div class="font-semibold">Suppliers</div>
+                            <span class="text-sm text-gray-500 dark:text-gray-400">Connect with Your Suppliers.</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a asp-controller="Order" asp-action="Create" class="block p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+                            <div class="font-semibold">New Order</div>
+                            <span class="text-sm text-gray-500 dark:text-gray-400">Make order from your your supplier.</span>
+                        </a>
+                    </li>
+                    @* <li>
+                        <a asp-controller="Order" asp-action="Index" class="block p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+                            <div class="font-semibold">Search Medicines</div>
+                            <span class="text-sm text-gray-500 dark:text-gray-400">Find medecine.</span>
+                        </a>
+                    </li> *@
+                </ul>
+                <ul>
+                    <li>
+                        <a asp-controller="Order" asp-action="MyOrders" class="block p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+                            <div class="font-semibold">My Orders</div>
+                            <span class="text-sm text-gray-500 dark:text-gray-400">Your Order history.</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
     }
-    // يمكنك إضافة المزيد من أنواع المستخدمين هنا
 }
+
+

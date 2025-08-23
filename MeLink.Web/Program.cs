@@ -13,7 +13,7 @@ builder.Services
     {
         options.SignIn.RequireConfirmedAccount = false;
     })
-    .AddRoles<IdentityRole>() // åäÍÊÇÌ ÃÏæÇÑ áÇÍÞðÇ
+    .AddRoles<IdentityRole>() // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddControllersWithViews();
@@ -31,13 +31,13 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthentication(); // ãåã
+app.UseAuthentication(); // ï¿½ï¿½ï¿½
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-app.MapRazorPages(); // ááÜ Identity UI
+app.MapRazorPages(); // ï¿½ï¿½ï¿½ Identity UI
 
 using (var scope = app.Services.CreateScope())
 {

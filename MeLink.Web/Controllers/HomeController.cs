@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using MeLink.Web.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MeLink.Web.Controllers
@@ -7,14 +8,16 @@ namespace MeLink.Web.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
+        private readonly UserManager<ApplicationUser> _userManager;
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult>  Index()
         {
+            var currentUser = await _userManager.GetUserAsync(User);
+            ViewBag.IsPatient = currentUser is Patient;
             return View();
         }
 

@@ -24,10 +24,11 @@ namespace MeLink.Web.Controllers
         }
 
         // صفحة البحث عن الأدوية والصيدليات
-        public async Task<IActionResult> Index(string? searchTerm)
+        public async Task<IActionResult> Index(string? searchTerm, string? supplierId)
         {
             var currentUser = await _userManager.GetUserAsync(User);
-
+            // التحقق من أن المستخدم مريض وتخزين النتيجة في ViewBag
+            ViewBag.IsPatient = currentUser is Patient;
             // تأكد إن المستخدم مريض
             if (currentUser is not Patient)
             {
@@ -38,6 +39,10 @@ namespace MeLink.Web.Controllers
                 .Include(i => i.Medicine)
                 .Include(i => i.User)
                 .Where(i => i.User is Pharmacy && i.IsAvailable && i.StockQuantity > 0);
+            if (!string.IsNullOrEmpty(supplierId))
+            {
+                query = query.Where(i => i.UserId == supplierId);
+            }
 
             if (!string.IsNullOrEmpty(searchTerm))
             {
@@ -80,12 +85,57 @@ namespace MeLink.Web.Controllers
             var viewModel = new OrderSearchViewModel
             {
                 SearchTerm = searchTerm,
-                AvailableMedicines = viewModelList
+                AvailableMedicines = viewModelList,
+                SupplierId = supplierId
             };
 
             return View(viewModel);
         }
+        public async Task<IActionResult> NearbyPharmacies()
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
 
+            if (currentUser is not Patient || currentUser.Latitude == null || currentUser.Longitude == null)
+            {
+                // For demo purposes, we can use fixed coordinates if user's location is missing
+                currentUser.Latitude = 30.0444;
+                currentUser.Longitude = 31.2357;
+            }
+
+            // Get all Pharmacy users
+            var pharmacies = await _context.Users.OfType<Pharmacy>().ToListAsync();
+
+            var viewModel = new NearbyPharmaciesViewModel();
+
+            foreach (var pharmacy in pharmacies)
+            {
+                // Calculate distance only if pharmacy has location data
+                double? distance = null;
+                if (pharmacy.Latitude != null && pharmacy.Longitude != null)
+                {
+                    distance = CalculateDistance(
+                        currentUser.Latitude.Value,
+                        currentUser.Longitude.Value,
+                        pharmacy.Latitude.Value,
+                        pharmacy.Longitude.Value
+                    );
+                }
+
+                viewModel.Pharmacies.Add(new PharmacyViewModel
+                {
+                    UserId = pharmacy.Id,
+                    DisplayName = pharmacy.DisplayName!,
+                    Address = pharmacy.Address,
+                    City = pharmacy.City,
+                    DistanceInKm = distance
+                });
+            }
+
+            // Sort by distance (closest first)
+            viewModel.Pharmacies = viewModel.Pharmacies.OrderBy(p => p.DistanceInKm).ToList();
+
+            return View(viewModel);
+        }
         // صفحة إنشاء طلب جديد
         [HttpGet]
         public async Task<IActionResult> Create()
@@ -123,8 +173,7 @@ namespace MeLink.Web.Controllers
                 return Json(new { success = false, message = "الدواء غير متوفر بالكمية المطلوبة" });
             }
 
-            // هنا ممكن تحفظ في Session أو تنشئ طلب مؤقت
-            // للبساطة، نرجع البيانات للعرض في الـ frontend
+            
 
             return Json(new
             {
@@ -147,11 +196,6 @@ namespace MeLink.Web.Controllers
         {
             var currentUser = await _userManager.GetUserAsync(User);
 
-            //if (currentUser is not Patient)
-            //{
-            //    TempData["Error"] = "غير مسموح لك بإنشاء طلبات";
-            //    return RedirectToAction("Index");
-            //}
 
             // تعبئة بيانات المريض إذا كانت فارغة
             if (string.IsNullOrEmpty(model.FromUserId))
@@ -355,6 +399,7 @@ namespace MeLink.Web.Controllers
                 .Include(i => i.User)
                 .Where(i => i.IsAvailable && i.StockQuantity > 0);
 
+
             // Filter by search term
             if (!string.IsNullOrEmpty(term))
             {
@@ -453,28 +498,22 @@ namespace MeLink.Web.Controllers
             return degrees * (Math.PI / 180);
         }
 
-        public async Task<IActionResult> BrowseMedicines(string supplierId, string? searchTerm)
+        public async Task<IActionResult> BrowseMedicines(string? supplierId, string? searchTerm)
         {
             var currentUser = await _userManager.GetUserAsync(User);
-
-            // التحقق من أن المستخدم الحالي صيدلي وأن المورد فعلاً مرتبط به
-            if (currentUser is not Pharmacy)
-            {
-                return Forbid(); // منع الوصول
-            }
-
-            var isRelated = await _context.UserRelations
-                .AnyAsync(r => r.FromUserId == currentUser.Id && r.ToUserId == supplierId);
-
-            if (!isRelated)
-            {
-                return BadRequest("Invalid supplier.");
-            }
+            
+            ViewBag.IsPatient=false;
 
             var query = _context.Inventories
-                .Include(i => i.Medicine)
-                .Include(i => i.User)
-                .Where(i => i.UserId == supplierId && i.IsAvailable && i.StockQuantity > 0);
+                  .Include(i => i.Medicine)
+                  .Include(i => i.User).AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+
+                query = query.Where(i => i.UserId == supplierId && i.IsAvailable && i.StockQuantity > 0);
+            }
+           
 
             if (!string.IsNullOrEmpty(searchTerm))
             {

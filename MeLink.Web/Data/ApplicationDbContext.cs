@@ -49,8 +49,19 @@ namespace MeLink.Web.Data
                    .HasForeignKey(d => d.OrderId)
                    .OnDelete(DeleteBehavior.Cascade);
 
+           builder.Entity<UserRelation>()
+                    .HasOne(r => r.ToUser)
+                    .WithMany()
+                    .HasForeignKey(r => r.ToUserId)
+                    .OnDelete(DeleteBehavior.Restrict);
 
-     
+            builder.Entity<UserRelation>()
+                    .HasOne(r => r.FromUser)
+                    .WithMany()
+                    .HasForeignKey(r => r.FromUserId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+
         }
     }
 }

@@ -1,185 +1,164 @@
 ﻿@model MeLink.Web.ViewModels.OrderSearchViewModel
-
 @{
     ViewData["Title"] = "Order Medicines";
 }
 
-@if (TempData["Error"] != null)
-{
-    <div class="alert alert-danger alert-dismissible fade show">
-        <i class="fas fa-exclamation-triangle"></i>
-        @TempData["Error"]
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    </div>
-}
+<div class="container py-5">
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fas fa-exclamation-triangle me-2"></i>
+            @TempData["Error"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
 
-@if (TempData["Success"] != null)
-{
-    <div class="alert alert-success alert-dismissible fade show">
-        <i class="fas fa-check-circle"></i>
-        @TempData["Success"]
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    </div>
-}
-
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-10">
-            <h2 class="mb-4 text-center text-primary">
-                <i class="fas fa-pills me-2"></i>
-                Order Medicines
-            </h2>
-
-            <div class="card shadow-sm mb-4">
-                <div class="card-body">
-                    <form asp-controller="Order"
-                          asp-action="@(string.IsNullOrEmpty(Model.SupplierId) ? "Index" : "BrowseMedicines")"
-                          method="get" class="d-flex">
-
-                        @if (!string.IsNullOrEmpty(Model.SupplierId))
-                        {
-                            <input type="hidden" name="supplierId" value="@Model.SupplierId" />
-                        }
-
-                        <input type="text" name="searchTerm" class="form-control form-control-lg me-2"
-                               placeholder="Search by name or active ingredient..." value="@Model.SearchTerm">
-                        <button type="submit" class="btn btn-primary btn-lg">
-                            <i class="fas fa-search me-1"></i> Search
-                        </button>
-                    </form>
+    <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-body p-md-5">
+            <div class="text-center mb-5">
+                <div class="icon-circle bg-primary-subtle text-primary mx-auto mb-3">
+                    <i class="fas fa-pills fa-2x"></i>
                 </div>
+                <h2 class="display-6 fw-bold text-dark">Order Medicines</h2>
+                <p class="text-muted lead-sm">Find and order the medicines you need from our partners.</p>
             </div>
 
-            <div id="cart" class="card shadow-sm mb-4" style="display: none;">
-                <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0"><i class="fas fa-shopping-cart me-2"></i> Shopping Cart</h5>
-                    <button type="button" class="btn btn-sm btn-light" onclick="clearCart()">
-                        <i class="fas fa-trash me-1"></i> Clear Cart
-                    </button>
-                </div>
-                <div class="card-body">
-                    <div id="cart-items"></div>
-                    <hr class="my-3">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <strong>Total: <span id="cart-total" class="text-success fs-5">0.00</span> EGP</strong>
-                        </div>
-                        <div>
-                            <button type="button" class="btn btn-success" onclick="proceedToOrder()">
-                                <i class="fas fa-shopping-bag me-1"></i> Proceed to Order
-                            </button>
-                        </div>
+            <div class="mb-4">
+                <form asp-controller="Order"
+                      asp-action="@(string.IsNullOrEmpty(Model.SupplierId) || ViewBag.IsPatient ? "Index" : "BrowseMedicines")"
+                      method="get" class="d-flex flex-column flex-md-row gap-3">
+                    @if (!string.IsNullOrEmpty(Model.SupplierId))
+                    {
+                        <input type="hidden" name="supplierId" value="@Model.SupplierId" />
+                    }
+                    <div class="input-group input-group-lg flex-grow-1">
+                        <span class="input-group-text bg-white border-end-0 text-muted"><i class="fas fa-search"></i></span>
+                        <input type="text" name="searchTerm" class="form-control border-start-0"
+                               placeholder="Search by name or active ingredient..." value="@Model.SearchTerm">
                     </div>
-                </div>
+                    <button type="submit" class="btn btn-primary btn-lg px-4">Search</button>
+                </form>
             </div>
 
             @if (Model.AvailableMedicines.Any())
             {
-                <div class="card shadow-sm">
-                    <div class="card-header bg-info text-white">
-                        <h5 class="mb-0">Available Medicines (@Model.AvailableMedicines.Count)</h5>
-                    </div>
-                    <div class="card-body p-0">
-                        <div class="table-responsive">
-                            <table class="table table-hover table-striped mb-0">
-                                <thead class="table-light">
-                                    <tr>
-                                        <th class="col-4">Medicine</th>
-                                        <th class="col-2">Source</th>
-                                        <th class="col-2">Price</th>
-                                        <th class="col-2">Available</th>
-                                        <th class="col-2">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var medicine in Model.AvailableMedicines)
-                                    {
-                                        <tr>
-                                            <td>
-                                                <div>
-                                                    <strong class="d-block">@medicine.GenericName</strong>
-                                                    @if (!string.IsNullOrEmpty(medicine.BrandName))
-                                                    {
-                                                        <small class="text-muted">(@medicine.BrandName)</small>
-                                                    }
-                                                    <small class="d-block text-info">@medicine.DosageForm - @medicine.Strength</small>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div>
-                                                    <strong class="d-block">@medicine.PharmacyName</strong>
-                                                    @if (!string.IsNullOrEmpty(medicine.PharmacyAddress))
-                                                    {
-                                                        <small class="text-muted">@medicine.PharmacyAddress</small>
-                                                    }
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <span class="badge bg-success fs-6">@medicine.Price.ToString("C")</span>
-                                            </td>
-                                            <td>
-                                                <span class="badge bg-info">@medicine.StockQuantity units</span>
-                                            </td>
-                                            <td>
-                                                <div class="input-group input-group-sm">
-                                                    <input type="number" class="form-control" id="qty-@medicine.InventoryId"
-                                                           value="1" min="1" max="@medicine.StockQuantity">
-                                                    <button class="btn btn-outline-primary" type="button"
-                                                            onclick="addToCart(@medicine.InventoryId, '@medicine.GenericName', '@medicine.BrandName', '@medicine.PharmacyName', @medicine.Price, '@medicine.PharmacyId')">
-                                                        <i class="fas fa-plus"></i>
-                                                    </button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                <h4 class="mb-3 text-dark fw-bold">Available Medicines <span class="badge bg-primary-subtle text-primary ms-2">@Model.AvailableMedicines.Count</span></h4>
+                <div class="table-responsive rounded-4 border">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="bg-light">
+                            <tr>
+                                <th scope="col" class="col-4">Medicine</th>
+                                <th scope="col" class="col-2">Source</th>
+                                <th scope="col" class="col-2">Price</th>
+                                <th scope="col" class="col-2">Available</th>
+                                <th scope="col" class="col-2">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var medicine in Model.AvailableMedicines)
+                            {
+                                <tr>
+                                    <td>
+                                        <div class="fw-bold">@medicine.GenericName</div>
+                                        @if (!string.IsNullOrEmpty(medicine.BrandName))
+                                        {
+                                            <div class="text-muted small">(@medicine.BrandName)</div>
+                                        }
+                                        <div class="text-info small">@medicine.DosageForm - @medicine.Strength</div>
+                                    </td>
+                                    <td>
+                                        <div class="fw-semibold">@medicine.PharmacyName</div>
+                                        @if (!string.IsNullOrEmpty(medicine.PharmacyAddress))
+                                        {
+                                            <div class="text-muted small">@medicine.PharmacyAddress</div>
+                                        }
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-success-subtle text-success fs-6 fw-normal">@medicine.Price.ToString("C")</span>
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-info-subtle text-info fs-6 fw-normal">@medicine.StockQuantity units</span>
+                                    </td>
+                                    <td>
+                                        <div class="input-group input-group-sm">
+                                            <input type="number" class="form-control text-center" id="qty-@medicine.InventoryId"
+                                                   value="1" min="1" max="@medicine.StockQuantity">
+                                            <button class="btn btn-primary" type="button"
+                                                    onclick="addToCart(@medicine.InventoryId, '@medicine.GenericName', '@medicine.BrandName', '@medicine.PharmacyName', @medicine.Price, '@medicine.PharmacyId')">
+                                                <i class="fas fa-plus"></i> Add
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
                 </div>
             }
             else if (!string.IsNullOrEmpty(Model.SearchTerm))
             {
-                <div class="alert alert-warning text-center">
-                    <i class="fas fa-exclamation-triangle"></i>
-                    No medicines found containing "<strong>@Model.SearchTerm</strong>"
+                <div class="alert alert-warning text-center rounded-3 p-4">
+                    <h5 class="alert-heading"><i class="fas fa-exclamation-triangle me-2"></i> No Results Found</h5>
+                    <p class="mb-0">We couldn't find any medicines containing "<strong>@Model.SearchTerm</strong>". Please try a different search term.</p>
                 </div>
             }
             else
             {
-                <div class="alert alert-info text-center">
-                    <i class="fas fa-info-circle"></i>
-                    Use the search bar above to find the medicines you need.
+                <div class="alert alert-info text-center rounded-3 p-4">
+                    <h5 class="alert-heading"><i class="fas fa-info-circle me-2"></i> Ready to Find Your Medicine?</h5>
+                    <p class="mb-0">Use the search bar above to quickly find the medicines you need from our wide network of pharmacies.</p>
                 </div>
             }
+        </div>
+    </div>
+
+    <div id="cart" class="card shadow-lg border-0 rounded-4 mt-5" style="display: none;">
+        <div class="card-header bg-success text-white d-flex justify-content-between align-items-center rounded-top-4">
+            <h5 class="mb-0"><i class="fas fa-shopping-cart me-2"></i> Shopping Cart</h5>
+            <button type="button" class="btn btn-sm btn-light" onclick="clearCart()">
+                <i class="fas fa-trash me-1"></i> Clear Cart
+            </button>
+        </div>
+        <div class="card-body">
+            <div id="cart-items"></div>
+            <hr class="my-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <strong class="text-dark">Total: <span id="cart-total" class="text-success fs-5">0.00</span> EGP</strong>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-success btn-lg" onclick="proceedToOrder()">
+                        <i class="fas fa-shopping-bag me-1"></i> Proceed to Order
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
 <div class="modal fade" id="orderModal" tabindex="-1">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header bg-primary text-white">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content rounded-4 shadow-lg">
+            <div class="modal-header bg-primary text-white rounded-top-4">
                 <h5 class="modal-title">Confirm Order</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <form id="orderForm" asp-action="ConfirmOrder" method="post" enctype="multipart/form-data">
-                <div class="modal-body">
+                <div class="modal-body p-4">
                     <div id="order-summary"></div>
-
                     <hr>
-
+                    @if (ViewBag.IsPatient)
+                    {
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Upload Prescription (Optional)</label>
+                            <input type="file" class="form-control" name="PrescriptionFile" accept="image/*,.pdf">
+                            <small class="form-text text-muted">You can upload an image of your prescription or PDF file.</small>
+                        </div>
+                    }
                     <div class="mb-3">
-                        <label class="form-label">Upload Prescription (Optional)</label>
-                        <input type="file" class="form-control" name="PrescriptionFile" accept="image/*,.pdf">
-                        <small class="form-text text-muted">You can upload an image of your prescription or PDF file</small>
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label">Additional Notes</label>
+                        <label class="form-label fw-semibold">Additional Notes</label>
                         <textarea class="form-control" name="Notes" rows="3" placeholder="Any notes or special instructions..."></textarea>
                     </div>
-
                     <input type="hidden" name="PatientId" value="">
                     <input type="hidden" name="PharmacyId" id="pharmacy-id">
                     <input type="hidden" name="PharmacyName" id="pharmacy-name">
@@ -196,23 +175,22 @@
 
 @section Scripts {
     <script>
-        // (Your existing JavaScript code remains here)
         let cart = [];
-        let currentPharmacyId = null;
-        let currentPharmacyName = null;
+        let currentSourceId = null;
+        let currentSourceName = null;
 
-        function addToCart(inventoryId, medicineName, brandName, pharmacyName, price, pharmacyId) {
+        function addToCart(inventoryId, medicineName, brandName, sourceName, price, sourceId) {
             const quantity = parseInt(document.getElementById('qty-' + inventoryId).value);
 
-            if (currentPharmacyId && currentPharmacyId !== pharmacyId) {
-                if (!confirm('You cannot order from different pharmacies/suppliers in the same order. Do you want to clear the cart and start over?')) {
+            if (currentSourceId && currentSourceId !== sourceId) {
+                if (!confirm('You cannot order from different sources in the same order. Do you want to clear the cart and start over?')) {
                     return;
                 }
                 clearCart();
             }
 
-            currentPharmacyId = pharmacyId;
-            currentPharmacyName = pharmacyName;
+            currentSourceId = sourceId;
+            currentSourceName = sourceName;
 
             const existingItem = cart.find(item => item.inventoryId === inventoryId);
             if (existingItem) {
@@ -243,7 +221,7 @@
 
             cartDiv.style.display = 'block';
 
-            let html = `<div class="mb-2"><strong>Source: ${currentPharmacyName}</strong></div>`;
+            let html = `<div class="mb-3 alert alert-secondary p-2 rounded"><strong>Source: ${currentSourceName}</strong></div>`;
             let total = 0;
 
             cart.forEach((item, index) => {
@@ -251,19 +229,17 @@
                 total += itemTotal;
 
                 html += `
-                    <div class="row mb-2 p-2 border rounded">
-                        <div class="col-md-6">
-                            <strong>${item.medicineName}</strong>
-                            ${item.brandName ? `<br><small>(${item.brandName})</small>` : ''}
+                    <div class="d-flex align-items-center justify-content-between p-3 mb-2 bg-light rounded-3">
+                        <div class="flex-grow-1">
+                            <div class="fw-bold">${item.medicineName}</div>
+                            ${item.brandName ? `<div class="text-muted small">(${item.brandName})</div>` : ''}
                         </div>
-                        <div class="col-md-2 text-center">
-                            ${item.quantity} × ${item.price.toFixed(2)}
+                        <div class="text-center mx-3 flex-shrink-0">
+                            <div class="fw-bold">${item.quantity} × ${item.price.toFixed(2)} EGP</div>
+                            <div class="text-muted small">Subtotal: ${itemTotal.toFixed(2)} EGP</div>
                         </div>
-                        <div class="col-md-2 text-center">
-                            <strong>${itemTotal.toFixed(2)} EGP</strong>
-                        </div>
-                        <div class="col-md-2 text-end">
-                            <button type="button" class="btn btn-sm btn-danger" onclick="removeFromCart(${index})">
+                        <div>
+                            <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeFromCart(${index})">
                                 <i class="fas fa-times"></i>
                             </button>
                         </div>
@@ -278,16 +254,16 @@
         function removeFromCart(index) {
             cart.splice(index, 1);
             if (cart.length === 0) {
-                currentPharmacyId = null;
-                currentPharmacyName = null;
+                currentSourceId = null;
+                currentSourceName = null;
             }
             updateCartDisplay();
         }
 
         function clearCart() {
             cart = [];
-            currentPharmacyId = null;
-            currentPharmacyName = null;
+            currentSourceId = null;
+            currentSourceName = null;
             updateCartDisplay();
         }
 
@@ -297,25 +273,15 @@
                 return;
             }
 
-            document.getElementById('pharmacy-id').value = currentPharmacyId;
-            document.querySelector('input[name="PharmacyName"]').value = currentPharmacyName;
+            document.getElementById('pharmacy-id').value = currentSourceId;
+            document.querySelector('#pharmacy-name').value = currentSourceName;
 
             let summaryHtml = `
-                <div class="alert alert-info">
-                    <strong>Source:</strong> ${currentPharmacyName}<br>
+                <div class="alert alert-primary">
+                    <strong>Source:</strong> ${currentSourceName}<br>
                     <strong>Number of Items:</strong> ${cart.length}
                 </div>
-                <div class="table-responsive">
-                    <table class="table table-sm">
-                        <thead>
-                            <tr>
-                                <th>Medicine</th>
-                                <th>Quantity</th>
-                                <th>Price</th>
-                                <th>Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+                <ul class="list-group list-group-flush">
             `;
 
             let total = 0;
@@ -323,25 +289,22 @@
                 const itemTotal = item.price * item.quantity;
                 total += itemTotal;
                 summaryHtml += `
-                    <tr>
-                        <td>${item.medicineName}</td>
-                        <td>${item.quantity}</td>
-                        <td>${item.price.toFixed(2)} EGP</td>
-                        <td>${itemTotal.toFixed(2)} EGP</td>
-                    </tr>
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <div class="fw-bold">${item.medicineName}</div>
+                            <div class="text-muted small">${item.quantity} x ${item.price.toFixed(2)} EGP</div>
+                        </div>
+                        <span class="fw-bold text-primary">${itemTotal.toFixed(2)} EGP</span>
+                    </li>
                 `;
             });
 
             summaryHtml += `
-                        </tbody>
-                        <tfoot>
-                            <tr class="table-success">
-                                <th colspan="3">Total</th>
-                                <th>${total.toFixed(2)} EGP</th>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>
+                <li class="list-group-item d-flex justify-content-between align-items-center bg-light">
+                    <strong class="fs-5">Total:</strong>
+                    <strong class="fs-5 text-success">${total.toFixed(2)} EGP</strong>
+                </li>
+            </ul>
             `;
 
             document.getElementById('order-summary').innerHTML = summaryHtml;
@@ -362,20 +325,20 @@
         }
 
         function showNotification(message, type) {
-            const alertDiv = document.createElement('div');
-            alertDiv.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
-            alertDiv.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
-            alertDiv.innerHTML = `
-                ${message}
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-            `;
+            const alertPlaceholder = document.querySelector('.container');
+            const wrapper = document.createElement('div');
+            wrapper.innerHTML = [
+                `<div class="alert alert-${type} alert-dismissible fade show" role="alert">`,
+                `   <div>${message}</div>`,
+                '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
+                '</div>'
+            ].join('')
 
-            document.body.appendChild(alertDiv);
+            alertPlaceholder.prepend(wrapper);
 
             setTimeout(() => {
-                if (alertDiv.parentNode) {
-                    alertDiv.parentNode.removeChild(alertDiv);
-                }
+                const alert = new bootstrap.Alert(wrapper.querySelector('.alert'));
+                alert.close();
             }, 3000);
         }
 
@@ -391,39 +354,77 @@
     </script>
 
     <style>
-        /* General styling improvements for a more polished look */
         .card {
-            border-radius: 0.75rem;
             border: none;
         }
 
-        .card-header {
-            border-top-left-radius: 0.75rem;
-            border-top-right-radius: 0.75rem;
+        .rounded-4 {
+            border-radius: 1.5rem !important;
+        }
+
+        .rounded-top-4 {
+            border-top-left-radius: 1.5rem !important;
+            border-top-right-radius: 1.5rem !important;
+        }
+
+        .shadow-lg {
+            box-shadow: 0 1rem 3rem rgba(0,0,0,.175) !important;
+        }
+
+        .icon-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lead-sm {
+            font-size: 1.15rem;
+        }
+
+        .bg-primary-subtle {
+            background-color: #e0f2fe !important;
+        }
+
+        .bg-info-subtle {
+            background-color: #cff4fc !important;
+        }
+
+        .bg-success-subtle {
+            background-color: #d1e7dd !important;
+        }
+
+        .input-group-text {
+            border-radius: .75rem 0 0 .75rem !important;
+        }
+
+        .form-control {
+            border-radius: 0 .75rem .75rem 0 !important;
+        }
+
+            .form-control:focus {
+                box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25) !important;
+            }
+
+        .btn {
+            border-radius: .75rem;
         }
 
         .table-responsive {
-            border-radius: 0.75rem;
-        }
-
-        .table thead th {
-            border-bottom: 2px solid #dee2e6;
-        }
-
-        .input-group-sm .form-control,
-        .input-group-sm .btn {
-            height: calc(1.5em + .5rem + 2px);
-            padding: .25rem .5rem;
-            font-size: .875rem;
-        }
-
-        .badge {
-            font-size: 0.85em;
-            padding: 0.5em 0.8em;
+            border-radius: 1rem;
+            overflow: hidden;
         }
 
         .table-hover tbody tr:hover {
-            background-color: #f8f9fa;
+            background-color: #f1f7fe;
+        }
+
+        .table thead th {
+            font-weight: 600;
+            color: #495057;
+            text-transform: uppercase;
         }
     </style>
 }

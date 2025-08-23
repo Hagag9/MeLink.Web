@@ -1,8 +1,199 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home - MeLink";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container py-5">
+    <div class="p-5 text-center bg-primary-subtle rounded-4 mb-5 shadow-sm">
+        <div class="row align-items-center">
+            <div class="col-md-7 text-md-start">
+                <h1 class="display-3 fw-bold text-primary mb-3">Your Health, Our Priority</h1>
+                <p class="fs-5 text-muted mb-4">
+                    Find and order your medicines from trusted pharmacies and suppliers with ease.
+                    MeLink connects you directly to the care you need, fast.
+                </p>
+                <div class="d-flex justify-content-center justify-content-md-start mb-4">
+                    <a asp-controller="Order" asp-action="@(ViewBag.IsPatient ? "Index" : "BrowseMedicines")" class="btn btn-primary btn-lg rounded-pill px-5 me-3">
+                        <i class="fas fa-pills me-2"></i> Find Medicines
+                    </a>
+                    <a asp-controller="Home" asp-action="About" class="btn btn-outline-primary btn-lg rounded-pill px-5">
+                        <i class="fas fa-info-circle me-2"></i> Learn More
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-5 d-none d-md-block text-center">
+                <img src="~/images/pharmacist-cuate.svg" alt="Medicine delivery" class="img-fluid rounded-4 shadow-lg">
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center mb-5">
+        <h2 class="display-6 fw-bold mb-3">How It Works</h2>
+        <p class="text-muted lead-sm">Simple steps to get your medicines delivered to your door.</p>
+    </div>
+    <div class="row g-4 mb-5 text-center justify-content-center">
+        <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="feature-card h-100 p-4 rounded-4 shadow-sm">
+                <div class="icon-circle icon-circle-sm bg-info-subtle text-info mx-auto mb-3">
+                    <i class="fas fa-search fa-2x"></i>
+                </div>
+                <h5 class="fw-bold">1. Search</h5>
+                <p class="text-muted mb-0 small">Find the medicine you need by name or active ingredient.</p>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="feature-card h-100 p-4 rounded-4 shadow-sm">
+                <div class="icon-circle icon-circle-sm bg-success-subtle text-success mx-auto mb-3">
+                    <i class="fas fa-shopping-cart fa-2x"></i>
+                </div>
+                <h5 class="fw-bold">2. Order</h5>
+                <p class="text-muted mb-0 small">Choose from a list of available suppliers and place your order.</p>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="feature-card h-100 p-4 rounded-4 shadow-sm">
+                <div class="icon-circle icon-circle-sm bg-primary-subtle text-primary mx-auto mb-3">
+                    <i class="fas fa-shipping-fast fa-2x"></i>
+                </div>
+                <h5 class="fw-bold">3. Receive</h5>
+                <p class="text-muted mb-0 small">Get your medicines delivered directly to your doorstep.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center mb-5">
+        <h2 class="display-6 fw-bold mb-3">Our Partners</h2>
+        <p class="text-muted lead-sm">Browse our network of trusted suppliers and pharmacies.</p>
+        <div class="row g-4 mt-4 justify-content-center">
+            <div class="col-lg-3 col-md-6 col-sm-12">
+                <div class="supplier-card h-100 p-4 rounded-4 shadow-sm bg-light">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="icon-circle icon-circle-sm bg-info-subtle text-info me-3">
+                            <i class="fas fa-warehouse fa-2x"></i>
+                        </div>
+                        <h5 class="fw-bold mb-0">Medicine Warehouses</h5>
+                    </div>
+                    <p class="text-muted small">A wide selection of medicines and bulk supplies.</p>
+                    <a asp-controller="Supplier" asp-action="ViewSuppliers" asp-route-userType="MedicineWarehouse" class="btn btn-outline-primary rounded-pill">View All</a>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-6 col-sm-12">
+                <div class="supplier-card h-100 p-4 rounded-4 shadow-sm bg-light">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="icon-circle icon-circle-sm bg-success-subtle text-success me-3">
+                            <i class="fas fa-truck fa-2x"></i>
+                        </div>
+                        <h5 class="fw-bold mb-0">Distribution Companies</h5>
+                    </div>
+                    <p class="text-muted small">Efficient and reliable distribution of medical goods.</p>
+                    <a asp-controller="Supplier" asp-action="ViewSuppliers" asp-route-userType="DistributionCompany" class="btn btn-outline-primary rounded-pill">View All</a>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-6 col-sm-12">
+                <div class="supplier-card h-100 p-4 rounded-4 shadow-sm bg-light">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="icon-circle icon-circle-sm bg-primary-subtle text-primary me-3">
+                            <i class="fas fa-industry fa-2x"></i>
+                        </div>
+                        <h5 class="fw-bold mb-0">Manufacturers</h5>
+                    </div>
+                    <p class="text-muted small">Direct access to a wide range of products.</p>
+                    <a asp-controller="Supplier" asp-action="ViewSuppliers" asp-route-userType="Manufacturer" class="btn btn-outline-primary rounded-pill">View All</a>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-6 col-sm-12">
+                <div class="supplier-card h-100 p-4 rounded-4 shadow-sm bg-light">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="icon-circle icon-circle-sm bg-secondary-subtle text-secondary me-3">
+                            <i class="fas fa-prescription-bottle fa-2x"></i>
+                        </div>
+                        <h5 class="fw-bold mb-0">Pharmacies</h5>
+                    </div>
+                    <p class="text-muted small">Get your prescribed medicines from local pharmacies.</p>
+                    <a asp-controller="Order" asp-action="Index" class="btn btn-outline-primary rounded-pill">Find Now</a>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-6 col-sm-12">
+                <div class="supplier-card h-100 p-4 rounded-4 shadow-sm bg-light">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="icon-circle icon-circle-sm bg-warning-subtle text-warning me-3">
+                            <i class="fas fa-user-injured fa-2x"></i>
+                        </div>
+                        <h5 class="fw-bold mb-0">Patients</h5>
+                    </div>
+                    <p class="text-muted small">We serve your needs with fast and reliable delivery.</p>
+                    <a asp-controller="Order" asp-action="Index" class="btn btn-outline-primary rounded-pill">Start an Order</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
+
+@section Scripts {
+    <style>
+        .rounded-4 {
+            border-radius: 1.5rem !important;
+        }
+
+        .rounded-pill {
+            border-radius: 50rem !important;
+        }
+
+        .shadow-sm {
+            box-shadow: 0 .125rem .25rem rgba(0,0,0,.075) !important;
+        }
+
+        .shadow-lg {
+            box-shadow: 0 1rem 3rem rgba(0,0,0,.175) !important;
+        }
+
+        .icon-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icon-circle-sm {
+            width: 60px;
+            height: 60px;
+        }
+
+        .bg-primary-subtle {
+            background-color: #e0f2fe !important;
+        }
+
+        .bg-info-subtle {
+            background-color: #cff4fc !important;
+        }
+
+        .bg-success-subtle {
+            background-color: #d1e7dd !important;
+        }
+
+        .bg-warning-subtle {
+            background-color: #fff3cd !important;
+        }
+
+        .bg-secondary-subtle {
+            background-color: #e2e3e5 !important;
+        }
+
+        .lead-sm {
+            font-size: 1.15rem;
+        }
+
+        .feature-card:hover, .supplier-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0.5rem 1rem rgba(0,0,0,.15) !important;
+            transition: all 0.3s ease;
+        }
+
+        .supplier-card .btn {
+            width: 100%;
+            margin-top: auto;
+        }
+    </style>
+}

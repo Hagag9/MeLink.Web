@@ -1,0 +1,66 @@
+﻿@model MeLink.Web.ViewModels.NearbyPharmaciesViewModel
+
+@{
+    ViewData["Title"] = "Nearby Pharmacies";
+}
+
+<div class="container mt-5">
+    <div class="text-center mb-4">
+        <h2 class="display-5 text-primary">Nearby Pharmacies</h2>
+        <p class="lead text-muted">Browse pharmacies close to you to place an order.</p>
+    </div>
+
+    @if (!Model.Pharmacies.Any())
+    {
+        <div class="alert alert-info text-center" role="alert">
+            No pharmacies found near your location.
+        </div>
+    }
+    else
+    {
+        <div class="row g-4">
+            @foreach (var pharmacy in Model.Pharmacies)
+            {
+                <div class="col-md-4 col-sm-6">
+                    <a asp-controller="Order" asp-action="Index" asp-route-supplierId="@pharmacy.UserId" class="card-link">
+                        <div class="card bg-primary text-white shadow-lg h-100">
+                            <div class="card-body text-center d-flex flex-column justify-content-center align-items-center">
+                                <i class="fas fa-store fa-3x mb-3"></i>
+                                <h5 class="card-title">@pharmacy.DisplayName</h5>
+                                <p class="card-text">
+                                    @if (pharmacy.DistanceInKm.HasValue)
+                                    {
+                                        <span>@($"{pharmacy.DistanceInKm.Value:F2} km away")</span>
+                                    }
+                                    else
+                                    {
+                                        <span>Location not available</span>
+                                    }
+                                </p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+<style>
+    .card-link {
+        text-decoration: none;
+        color: inherit;
+    }
+
+        .card-link:hover .card {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2) !important;
+        }
+
+    .card {
+        border-radius: 15px;
+        transition: all 0.3s ease-in-out;
+    }
+</style>
+
+@* Note: Add the link to the Font Awesome library in your _Layout.cshtml if you haven't already. *@

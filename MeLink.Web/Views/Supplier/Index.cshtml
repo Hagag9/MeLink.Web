@@ -1,0 +1,56 @@
+﻿@model List<MeLink.Web.ViewModels.SupplierTypeViewModel>
+
+@{
+    ViewData["Title"] = "Supplier Types";
+}
+
+<div class="container mt-5">
+    <div class="text-center mb-5">
+        <h2 class="display-4 text-primary">Select a Supplier Type</h2>
+        <p class="lead text-muted">Browse your connected suppliers by type.</p>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info" role="alert">
+            No supplier types are configured for your account.
+        </div>
+    }
+    else
+    {
+        <div class="row g-4 justify-content-center">
+            @foreach (var supplierType in Model)
+            {
+                <div class="col-md-4 col-sm-6">
+                    <a asp-controller="Supplier" asp-action="ListByType" asp-route-type="@supplierType.Type" class="card-link">
+                        <div class="card bg-@supplierType.Color text-white shadow-lg h-100">
+                            <div class="card-body text-center d-flex flex-column justify-content-center align-items-center">
+                                <i class="@supplierType.Icon fa-4x mb-3"></i>
+                                <h4 class="card-title">@supplierType.Title</h4>
+                                <p class="card-text">@supplierType.Description</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+<style>
+    .card-link {
+        text-decoration: none;
+        color: inherit;
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    }
+
+        .card-link:hover .card {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2) !important;
+        }
+
+    .card {
+        border-radius: 15px;
+        transition: all 0.3s ease-in-out;
+    }
+</style>
