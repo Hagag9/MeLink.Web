@@ -71,18 +71,33 @@
                             <span class="text-sm text-gray-500 dark:text-gray-400">Make order from your your supplier.</span>
                         </a>
                     </li>
-                    @* <li>
-                        <a asp-controller="Order" asp-action="Index" class="block p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
-                            <div class="font-semibold">Search Medicines</div>
-                            <span class="text-sm text-gray-500 dark:text-gray-400">Find medecine.</span>
+                    <li>
+                        <a asp-controller="Order" asp-action="IncomingOrders" class="block p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+                            <div class="font-semibold">Incoming Orders</div>
+                            <span class="text-sm text-gray-500 dark:text-gray-400">Follow your Incoming Orders.</span>
                         </a>
-                    </li> *@
+                    </li>
                 </ul>
                 <ul>
                     <li>
                         <a asp-controller="Order" asp-action="MyOrders" class="block p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
                             <div class="font-semibold">My Orders</div>
                             <span class="text-sm text-gray-500 dark:text-gray-400">Your Order history.</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    }
+    else if (Model is MeLink.Web.Models.Manufacturer)
+    {
+        <div id="mega-menu-full-dropdown" class="hidden mt-1 border-gray-200 shadow-xs bg-gray-50 md:bg-white border-y dark:bg-gray-800 dark:border-gray-600">
+            <div class="grid max-w-screen-lg px-4 py-5 mx-auto text-gray-900 dark:text-white sm:grid-cols-2 md:px-6">
+                <ul>
+                    <li>
+                        <a asp-controller="Order" asp-action="IncomingOrders" class="block p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+                            <div class="font-semibold">Incoming Orders</div>
+                            <span class="text-sm text-gray-500 dark:text-gray-400">Follow your Incoming Orders.</span>
                         </a>
                     </li>
                 </ul>

@@ -547,5 +547,38 @@ namespace MeLink.Web.Controllers
 
             return View("Index", viewModel); // استخدم نفس الـ View الخاص بصفحة البحث
         }
+        public async Task<IActionResult> IncomingOrders()
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+
+      
+            if (currentUser is Patient)
+            {
+                return Forbid();
+            }
+
+            var orders = await _context.Orders
+                .Include(o => o.FromUser)
+                .Include(o => o.Items)
+                .Where(o => o.ToUserId == currentUser!.Id)
+                .OrderByDescending(o => o.CreatedAt)
+                .Select(o => new OrderSummaryViewModel
+                {
+                    OrderId = o.Id,
+                    OrderDate = o.CreatedAt,
+                    PharmacyName = o.FromUser!.DisplayName!,
+                    Status = o.Status.ToString(),
+                    TotalItems = o.Items.Count()
+                })
+                .ToListAsync();
+
+            var viewModel = new IncomingOrdersViewModel
+            {
+                IncomingOrders = orders
+            };
+
+            return View(viewModel);
+        }
+
     }
 }

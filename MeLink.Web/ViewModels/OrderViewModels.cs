@@ -115,5 +115,10 @@ namespace MeLink.Web.ViewModels
         public int InventoryId { get; set; }
         public int Quantity { get; set; }
     }
+    // في ViewModels/IncomingOrdersViewModel.cs
+    public class IncomingOrdersViewModel
+    {
+        public List<OrderSummaryViewModel> IncomingOrders { get; set; } = new List<OrderSummaryViewModel>();
+    }
 
 }

@@ -42,7 +42,10 @@
 
             @if (Model.AvailableMedicines.Any())
             {
-                <h4 class="mb-3 text-dark fw-bold">Available Medicines <span class="badge bg-primary-subtle text-primary ms-2">@Model.AvailableMedicines.Count</span></h4>
+                <h4 class="mb-3 text-dark fw-bold">
+                    Available Medicines
+                    <span class="badge bg-primary-subtle text-primary ms-2" id="total-medicines">@Model.AvailableMedicines.Count</span>
+                </h4>
                 <div class="table-responsive rounded-4 border">
                     <table class="table table-hover align-middle mb-0">
                         <thead class="bg-light">
@@ -54,7 +57,7 @@
                                 <th scope="col" class="col-2">Actions</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="medicine-table-body">
                             @foreach (var medicine in Model.AvailableMedicines)
                             {
                                 <tr>
@@ -94,6 +97,22 @@
                         </tbody>
                     </table>
                 </div>
+
+                @* Pagination Controls *@
+                <nav aria-label="Page navigation" class="mt-4" id="pagination-container">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item" id="previous-page">
+                            <a class="page-link" href="#" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <li class="page-item" id="next-page">
+                            <a class="page-link" href="#" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
             }
             else if (!string.IsNullOrEmpty(Model.SearchTerm))
             {
@@ -112,6 +131,7 @@
         </div>
     </div>
 
+    @* Cart & Modal remain unchanged *@
     <div id="cart" class="card shadow-lg border-0 rounded-4 mt-5" style="display: none;">
         <div class="card-header bg-success text-white d-flex justify-content-between align-items-center rounded-top-4">
             <h5 class="mb-0"><i class="fas fa-shopping-cart me-2"></i> Shopping Cart</h5>
@@ -175,6 +195,89 @@
 
 @section Scripts {
     <script>
+        // Pagination variables
+        const pageSize = 10;
+        let currentPage = 1;
+        let allMedicineRows = [];
+
+        // Function to display medicines for the current page
+        function displayPage(page) {
+            const tableBody = document.getElementById('medicine-table-body');
+            const start = (page - 1) * pageSize;
+            const end = start + pageSize;
+            const paginatedItems = allMedicineRows.slice(start, end);
+
+            tableBody.innerHTML = ''; // Clear table
+            paginatedItems.forEach(row => tableBody.appendChild(row));
+        }
+
+        // Function to setup pagination links
+        function setupPagination() {
+            const totalItems = allMedicineRows.length;
+            const totalPages = Math.ceil(totalItems / pageSize);
+            const paginationContainer = document.querySelector('#pagination-container ul');
+            paginationContainer.innerHTML = ''; // Clear previous links
+
+            // Previous button
+            const prevLi = document.createElement('li');
+            prevLi.className = `page-item ${currentPage === 1 ? 'disabled' : ''}`;
+            prevLi.innerHTML = `<a class="page-link" href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>`;
+            prevLi.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (currentPage > 1) {
+                    currentPage--;
+                    displayPage(currentPage);
+                    setupPagination();
+                }
+            });
+            paginationContainer.appendChild(prevLi);
+
+            // Page numbers
+            for (let i = 1; i <= totalPages; i++) {
+                const pageLi = document.createElement('li');
+                pageLi.className = `page-item ${i === currentPage ? 'active' : ''}`;
+                pageLi.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+                pageLi.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    currentPage = i;
+                    displayPage(currentPage);
+                    setupPagination();
+                });
+                paginationContainer.appendChild(pageLi);
+            }
+
+            // Next button
+            const nextLi = document.createElement('li');
+            nextLi.className = `page-item ${currentPage >= totalPages ? 'disabled' : ''}`;
+            nextLi.innerHTML = `<a class="page-link" href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>`;
+            nextLi.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    displayPage(currentPage);
+                    setupPagination();
+                }
+            });
+            paginationContainer.appendChild(nextLi);
+        }
+
+        // Main logic to run on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get all medicine rows
+            const tableBody = document.getElementById('medicine-table-body');
+            allMedicineRows = Array.from(tableBody.querySelectorAll('tr'));
+
+            if (allMedicineRows.length > pageSize) {
+                // If more items than page size, set up pagination
+                setupPagination();
+                displayPage(currentPage);
+            } else {
+                // Otherwise, hide pagination controls
+                document.getElementById('pagination-container').style.display = 'none';
+            }
+        });
+
+        // --- Your existing JavaScript functions ---
         let cart = [];
         let currentSourceId = null;
         let currentSourceName = null;
