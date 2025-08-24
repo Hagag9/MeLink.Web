@@ -70,13 +70,77 @@
         }
     </nav>
 
-    <div  class="container mt-5">
+    <div  class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
 
     </div>
+    <footer class="mt-auto py-1 bg-dark text-white-50">
+        <div class="container mt-3">
+            <div class="row g-4 text-center text-md-start">
 
+                <div class="col-md-4 mb-4">
+                    <div class="d-flex align-items-center justify-content-center justify-content-md-start mb-3">
+                       
+                        <h5 class="text-white mb-0 fw-bold">MeLink</h5>
+                    </div>
+                    <p class="small text-muted mb-2">
+                        A modern platform connecting patients and medical suppliers, ensuring easy access to essential medicines.
+                    </p>
+                    <p class="small text-muted mb-0">
+                        &copy; @DateTime.Now.Year MeLink. All Rights Reserved.
+                    </p>
+                </div>
+
+                <div class="col-md-2 mb-4">
+                    <h6 class="text-white fw-bold mb-3">Quick Links</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#" class="text-white-50 text-decoration-none">Home</a></li>
+                        <li class="mb-2"><a href="#" class="text-white-50 text-decoration-none">About Us</a></li>
+                        <li class="mb-2"><a href="#" class="text-white-50 text-decoration-none">Contact</a></li>
+                        <li class="mb-2"><a href="#" class="text-white-50 text-decoration-none">Privacy Policy</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-md-2 mb-4">
+                    <h6 class="text-white fw-bold mb-3">Categories</h6>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#" class="text-white-50 text-decoration-none">Medicines</a></li>
+                        <li class="mb-2"><a href="#" class="text-white-50 text-decoration-none">Medical Supplies</a></li>
+                        <li class="mb-2"><a href="#" class="text-white-50 text-decoration-none">Cosmetics</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-md-4 mb-4">
+                    <h6 class="text-white fw-bold mb-3 mt-4">Contact Info</h6>
+                    <ul class="list-unstyled small text-muted">
+                        <li class="mb-2"><i class="fas fa-envelope me-2"></i> info@@melink.com</li>
+                        <li class="mb-2"><i class="fas fa-phone me-2"></i> +123 456 7890</li>
+                        <li><i class="fas fa-map-marker-alt me-2"></i> 123 Health St, Cairo, Egypt</li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </footer>
+    <style>
+            .footer-logo {
+                    filter: brightness(0) invert(1);
+
+        }
+
+            footer .list-unstyled a:hover {
+                    color: white !important;
+                    transition: color 0.3s ease;
+
+        }
+            footer .fab:hover {
+                    color: var(--bs-primary) !important;
+                    transition: color 0.3s ease;
+        }
+
+    </style>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
