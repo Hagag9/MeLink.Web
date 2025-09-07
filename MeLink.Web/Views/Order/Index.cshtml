@@ -46,72 +46,53 @@
                     Available Medicines
                     <span class="badge bg-primary-subtle text-primary ms-2" id="total-medicines">@Model.AvailableMedicines.Count</span>
                 </h4>
-                <div class="table-responsive rounded-4 border">
-                    <table class="table table-hover align-middle mb-0">
-                        <thead class="bg-light">
-                            <tr>
-                                <th scope="col" class="col-4">Medicine</th>
-                                <th scope="col" class="col-2">Source</th>
-                                <th scope="col" class="col-2">Price</th>
-                                <th scope="col" class="col-2">Available</th>
-                                <th scope="col" class="col-2">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="medicine-table-body">
-                            @foreach (var medicine in Model.AvailableMedicines)
-                            {
-                                <tr>
-                                    <td>
-                                        <div class="fw-bold">@medicine.GenericName</div>
-                                        @if (!string.IsNullOrEmpty(medicine.BrandName))
-                                        {
-                                            <div class="text-muted small">(@medicine.BrandName)</div>
-                                        }
-                                        <div class="text-info small">@medicine.DosageForm - @medicine.Strength</div>
-                                    </td>
-                                    <td>
-                                        <div class="fw-semibold">@medicine.PharmacyName</div>
-                                        @if (!string.IsNullOrEmpty(medicine.PharmacyAddress))
-                                        {
-                                            <div class="text-muted small">@medicine.PharmacyAddress</div>
-                                        }
-                                    </td>
-                                    <td>
-                                        <span class="badge bg-success-subtle text-success fs-6 fw-normal">@medicine.Price.ToString("C")</span>
-                                    </td>
-                                    <td>
-                                        <span class="badge bg-info-subtle text-info fs-6 fw-normal">@medicine.StockQuantity units</span>
-                                    </td>
-                                    <td>
-                                        <div class="input-group input-group-sm">
-                                            <input type="number" class="form-control text-center" id="qty-@medicine.InventoryId"
-                                                   value="1" min="1" max="@medicine.StockQuantity">
-                                            <button class="btn btn-primary" type="button"
-                                                    onclick="addToCart(@medicine.InventoryId, '@medicine.GenericName', '@medicine.BrandName', '@medicine.PharmacyName', @medicine.Price, '@medicine.PharmacyId')">
-                                                <i class="fas fa-plus"></i> Add
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
+
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-5 row-cols-lg-5 g-3" id="medicines-grid">
+                    @foreach (var medicine in Model.AvailableMedicines)
+                    {
+                        <div class="col medicine-item-col" data-inventory-id="@medicine.InventoryId">
+                            <div class="card h-100 shadow-sm medicine-card">
+                                <div class="supplier-label">@medicine.PharmacyName</div>
+                                <div class="card-img-top-wrapper p-3">
+                                    <img src="~/images/icon_jar_can_box.png" class="img-fluid rounded-3 mb-2" alt="@medicine.GenericName">
+                                </div>
+                                <div class="card-body d-flex flex-column pt-0 pb-3 px-3">
+                                    <h6 class="card-title fw-bold text-dark mb-1 mt-2">@medicine.BrandName</h6>
+
+                                     <p class="card-subtitle mb-2 text-muted small">(@medicine.GenericName) <span class="text-info">@medicine.DosageForm - @medicine.Strength</span></p>
+
+                                    
+                                   
+                                     <div class="d-flex align-items-baseline mb-1 mt-auto">
+                                        <span class="text-muted me-1 small">Avilable</span>
+                                        <span class="badge bg-info-subtle text-info small fw-normal">@medicine.StockQuantity units</span>
+                                    </div>
+                                    <div class="d-flex align-items-baseline mb-2 mt-auto">
+                                       
+                                        <span class="small fw-bold text-success">@medicine.Price.ToString("N2") EGP</span>
+                                    </div>
+
+                                    <div id="add-to-cart-controls-@medicine.InventoryId" class="add-to-cart-controls"
+                                         data-inventory-id="@medicine.InventoryId"
+                                         data-medicine-name="@medicine.GenericName"
+                                         data-brand-name="@(medicine.BrandName ?? "")"
+                                         data-pharmacy-name="@medicine.PharmacyName"
+                                         data-price="@medicine.Price.ToString("F2", System.Globalization.CultureInfo.InvariantCulture)"
+                                         data-pharmacy-id="@medicine.PharmacyId"
+                                         data-stock-quantity="@medicine.StockQuantity">
+
+                                        <button class="btn btn-light w-100 fw-bold text-primary" type="button" onclick="handleAddToCartClick(this)">
+                                            Add +
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
                 </div>
 
-                @* Pagination Controls *@
                 <nav aria-label="Page navigation" class="mt-4" id="pagination-container">
-                    <ul class="pagination justify-content-center">
-                        <li class="page-item" id="previous-page">
-                            <a class="page-link" href="#" aria-label="Previous">
-                                <span aria-hidden="true">&laquo;</span>
-                            </a>
-                        </li>
-                        <li class="page-item" id="next-page">
-                            <a class="page-link" href="#" aria-label="Next">
-                                <span aria-hidden="true">&raquo;</span>
-                            </a>
-                        </li>
-                    </ul>
+                    <ul class="pagination justify-content-center"></ul>
                 </nav>
             }
             else if (!string.IsNullOrEmpty(Model.SearchTerm))
@@ -131,7 +112,6 @@
         </div>
     </div>
 
-    @* Cart & Modal remain unchanged *@
     <div id="cart" class="card shadow-lg border-0 rounded-4 mt-5" style="display: none;">
         <div class="card-header bg-success text-white d-flex justify-content-between align-items-center rounded-top-4">
             <h5 class="mb-0"><i class="fas fa-shopping-cart me-2"></i> Shopping Cart</h5>
@@ -193,32 +173,44 @@
     </div>
 </div>
 
-@section Scripts {
+@section Scripts
+{
     <script>
-        // Pagination variables
-        const pageSize = 10;
+        const pageSize = 15;
         let currentPage = 1;
-        let allMedicineRows = [];
+        let allMedicineItems = [];
 
-        // Function to display medicines for the current page
+        document.addEventListener('DOMContentLoaded', function() {
+            const gridContainer = document.getElementById('medicines-grid');
+            if (gridContainer) {
+                allMedicineItems = Array.from(gridContainer.querySelectorAll('.medicine-item-col'));
+                setupPagination();
+                displayPage(currentPage);
+            }
+        });
+
         function displayPage(page) {
-            const tableBody = document.getElementById('medicine-table-body');
             const start = (page - 1) * pageSize;
             const end = start + pageSize;
-            const paginatedItems = allMedicineRows.slice(start, end);
-
-            tableBody.innerHTML = ''; // Clear table
-            paginatedItems.forEach(row => tableBody.appendChild(row));
+            allMedicineItems.forEach((item, index) => {
+                item.style.display = (index >= start && index < end) ? 'block' : 'none';
+            });
         }
 
-        // Function to setup pagination links
         function setupPagination() {
-            const totalItems = allMedicineRows.length;
+            const totalItems = allMedicineItems.length;
             const totalPages = Math.ceil(totalItems / pageSize);
             const paginationContainer = document.querySelector('#pagination-container ul');
-            paginationContainer.innerHTML = ''; // Clear previous links
+            if (!paginationContainer) return;
 
-            // Previous button
+            paginationContainer.innerHTML = '';
+
+            if (totalPages <= 1) {
+                paginationContainer.parentElement.style.display = 'none';
+                return;
+            }
+            paginationContainer.parentElement.style.display = 'block';
+
             const prevLi = document.createElement('li');
             prevLi.className = `page-item ${currentPage === 1 ? 'disabled' : ''}`;
             prevLi.innerHTML = `<a class="page-link" href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>`;
@@ -227,12 +219,11 @@
                 if (currentPage > 1) {
                     currentPage--;
                     displayPage(currentPage);
-                    setupPagination();
+                    updatePaginationUI();
                 }
             });
             paginationContainer.appendChild(prevLi);
 
-            // Page numbers
             for (let i = 1; i <= totalPages; i++) {
                 const pageLi = document.createElement('li');
                 pageLi.className = `page-item ${i === currentPage ? 'active' : ''}`;
@@ -241,12 +232,11 @@
                     e.preventDefault();
                     currentPage = i;
                     displayPage(currentPage);
-                    setupPagination();
+                    updatePaginationUI();
                 });
                 paginationContainer.appendChild(pageLi);
             }
 
-            // Next button
             const nextLi = document.createElement('li');
             nextLi.className = `page-item ${currentPage >= totalPages ? 'disabled' : ''}`;
             nextLi.innerHTML = `<a class="page-link" href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>`;
@@ -255,67 +245,142 @@
                 if (currentPage < totalPages) {
                     currentPage++;
                     displayPage(currentPage);
-                    setupPagination();
+                    updatePaginationUI();
                 }
             });
             paginationContainer.appendChild(nextLi);
         }
 
-        // Main logic to run on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            // Get all medicine rows
-            const tableBody = document.getElementById('medicine-table-body');
-            allMedicineRows = Array.from(tableBody.querySelectorAll('tr'));
+        function updatePaginationUI() {
+             const totalPages = Math.ceil(allMedicineItems.length / pageSize);
+             const paginationLinks = document.querySelectorAll('#pagination-container .page-item');
+             paginationLinks.forEach((li, index) => {
+                 if (index === 0) {
+                     li.classList.toggle('disabled', currentPage === 1);
+                 } else if (index === paginationLinks.length - 1) {
+                     li.classList.toggle('disabled', currentPage >= totalPages);
+                 } else {
+                     li.classList.toggle('active', index === currentPage);
+                 }
+             });
+        }
 
-            if (allMedicineRows.length > pageSize) {
-                // If more items than page size, set up pagination
-                setupPagination();
-                displayPage(currentPage);
-            } else {
-                // Otherwise, hide pagination controls
-                document.getElementById('pagination-container').style.display = 'none';
-            }
-        });
-
-        // --- Your existing JavaScript functions ---
         let cart = [];
         let currentSourceId = null;
         let currentSourceName = null;
 
-        function addToCart(inventoryId, medicineName, brandName, sourceName, price, sourceId) {
-            const quantity = parseInt(document.getElementById('qty-' + inventoryId).value);
+        function handleAddToCartClick(buttonElement) {
+            try {
+                const controlsDiv = buttonElement.parentElement;
+                const dataset = controlsDiv.dataset;
 
-            if (currentSourceId && currentSourceId !== sourceId) {
-                if (!confirm('You cannot order from different sources in the same order. Do you want to clear the cart and start over?')) {
+                if (!dataset.inventoryId || !dataset.price) {
+                    console.error("Critical product data is missing.", dataset);
+                    return;
+                }
+
+                addToCart(
+                    parseInt(dataset.inventoryId),
+                    dataset.medicineName,
+                    dataset.brandName,
+                    dataset.pharmacyName,
+                    parseFloat(dataset.price),
+                    dataset.pharmacyId,
+                    parseInt(dataset.stockQuantity)
+                );
+            } catch (error) {
+                console.error("Error in handleAddToCartClick:", error);
+                showNotification("An error occurred. Please try again.", "danger");
+            }
+        }
+
+        function updateCardControls(inventoryId) {
+            const controlsDiv = document.getElementById(`add-to-cart-controls-${inventoryId}`);
+            if (!controlsDiv) return;
+
+            const existingItem = cart.find(item => item.inventoryId == inventoryId);
+            const stockQuantity = parseInt(controlsDiv.dataset.stockQuantity);
+
+            if (existingItem) {
+                controlsDiv.innerHTML = `
+                    <div class="input-group quantity-control">
+                        <button class="btn btn-outline-primary" type="button" onclick="changeQuantity(${inventoryId}, -1, ${stockQuantity})"><i class="fas fa-minus"></i></button>
+                        <input type="number" class="form-control text-center quantity-input" value="${existingItem.quantity}" min="1" max="${stockQuantity}" readonly>
+                        <button class="btn btn-outline-primary" type="button" onclick="changeQuantity(${inventoryId}, 1, ${stockQuantity})"><i class="fas fa-plus"></i></button>
+                        <button class="btn btn-outline-danger ms-2" type="button" onclick="removeFromCartById(${inventoryId})"><i class="fas fa-trash"></i></button>
+                    </div>`;
+            } else {
+                controlsDiv.innerHTML = `
+                    <button class="btn btn-light text-primary fw-bold w-100" type="button" onclick="handleAddToCartClick(this)">
+                        Add +
+                    </button>
+                `;
+            }
+        }
+
+        function addToCart(inventoryId, medicineName, brandName, pharmacyName, price, pharmacyId, stockQuantity) {
+            if (currentSourceId && currentSourceId !== pharmacyId) {
+                if (!confirm(`You cannot order from different sources in the same order (${currentSourceName}). Do you want to clear the cart and start over?`)) {
                     return;
                 }
                 clearCart();
             }
-
-            currentSourceId = sourceId;
-            currentSourceName = sourceName;
-
+            currentSourceId = pharmacyId;
+            currentSourceName = pharmacyName;
             const existingItem = cart.find(item => item.inventoryId === inventoryId);
             if (existingItem) {
-                existingItem.quantity += quantity;
+                if (existingItem.quantity < stockQuantity) {
+                    existingItem.quantity += 1;
+                } else {
+                    showNotification(`The maximum available quantity for ${medicineName} is ${stockQuantity} units.`, 'warning');
+                    return;
+                }
             } else {
-                cart.push({
-                    inventoryId: inventoryId,
-                    medicineName: medicineName,
-                    brandName: brandName,
-                    price: price,
-                    quantity: quantity
-                });
+                cart.push({ inventoryId, medicineName, brandName, price, quantity: 1, pharmacyId, pharmacyName, stockQuantity });
             }
-
             updateCartDisplay();
+            updateCardControls(inventoryId);
             showNotification('Medicine added to cart', 'success');
+        }
+
+        function changeQuantity(inventoryId, change, stockQuantity) {
+            const itemIndex = cart.findIndex(item => item.inventoryId === inventoryId);
+            if (itemIndex > -1) {
+                const item = cart[itemIndex];
+                const newQuantity = item.quantity + change;
+                if (newQuantity <= 0) {
+                    removeFromCartById(inventoryId);
+                    return;
+                }
+                if (newQuantity > stockQuantity) {
+                    showNotification(`The maximum available quantity for ${item.medicineName} is ${stockQuantity} units.`, 'warning');
+                    return;
+                }
+                item.quantity = newQuantity;
+                updateCartDisplay();
+                updateCardControls(inventoryId);
+            }
+        }
+
+        function removeFromCartById(inventoryId) {
+            const itemIndex = cart.findIndex(item => item.inventoryId === inventoryId);
+            if (itemIndex > -1) {
+                const removedItem = cart.splice(itemIndex, 1)[0];
+                showNotification(`${removedItem.medicineName} has been removed from the cart.`, 'info');
+            }
+            if (cart.length === 0) {
+                currentSourceId = null;
+                currentSourceName = null;
+            }
+            updateCartDisplay();
+            updateCardControls(inventoryId);
         }
 
         function updateCartDisplay() {
             const cartDiv = document.getElementById('cart');
             const cartItemsDiv = document.getElementById('cart-items');
             const cartTotalSpan = document.getElementById('cart-total');
+            if (!cartDiv || !cartItemsDiv || !cartTotalSpan) return;
 
             if (cart.length === 0) {
                 cartDiv.style.display = 'none';
@@ -323,14 +388,11 @@
             }
 
             cartDiv.style.display = 'block';
-
             let html = `<div class="mb-3 alert alert-secondary p-2 rounded"><strong>Source: ${currentSourceName}</strong></div>`;
             let total = 0;
-
-            cart.forEach((item, index) => {
+            cart.forEach((item) => {
                 const itemTotal = item.price * item.quantity;
                 total += itemTotal;
-
                 html += `
                     <div class="d-flex align-items-center justify-content-between p-3 mb-2 bg-light rounded-3">
                         <div class="flex-grow-1">
@@ -341,33 +403,22 @@
                             <div class="fw-bold">${item.quantity} × ${item.price.toFixed(2)} EGP</div>
                             <div class="text-muted small">Subtotal: ${itemTotal.toFixed(2)} EGP</div>
                         </div>
-                        <div>
-                            <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeFromCart(${index})">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                    </div>
-                `;
+                        <div><button type="button" class="btn btn-sm btn-outline-danger" onclick="removeFromCartById(${item.inventoryId})"><i class="fas fa-times"></i></button></div>
+                    </div>`;
             });
-
             cartItemsDiv.innerHTML = html;
             cartTotalSpan.textContent = total.toFixed(2);
         }
 
-        function removeFromCart(index) {
-            cart.splice(index, 1);
-            if (cart.length === 0) {
-                currentSourceId = null;
-                currentSourceName = null;
-            }
-            updateCartDisplay();
-        }
-
         function clearCart() {
+            cart.forEach(item => {
+                updateCardControls(item.inventoryId);
+            });
             cart = [];
             currentSourceId = null;
             currentSourceName = null;
             updateCartDisplay();
+            showNotification('Shopping cart cleared', 'info');
         }
 
         function proceedToOrder() {
@@ -375,90 +426,49 @@
                 showNotification('Cart is empty', 'warning');
                 return;
             }
-
             document.getElementById('pharmacy-id').value = currentSourceId;
             document.querySelector('#pharmacy-name').value = currentSourceName;
-
-            let summaryHtml = `
-                <div class="alert alert-primary">
-                    <strong>Source:</strong> ${currentSourceName}<br>
-                    <strong>Number of Items:</strong> ${cart.length}
-                </div>
-                <ul class="list-group list-group-flush">
-            `;
-
+            let summaryHtml = `<div class="alert alert-primary"><strong>Source:</strong> ${currentSourceName}<br><strong>Number of Items:</strong> ${cart.length}</div><ul class="list-group list-group-flush">`;
             let total = 0;
-            cart.forEach((item, index) => {
+            cart.forEach((item) => {
                 const itemTotal = item.price * item.quantity;
                 total += itemTotal;
-                summaryHtml += `
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <div>
-                            <div class="fw-bold">${item.medicineName}</div>
-                            <div class="text-muted small">${item.quantity} x ${item.price.toFixed(2)} EGP</div>
-                        </div>
-                        <span class="fw-bold text-primary">${itemTotal.toFixed(2)} EGP</span>
-                    </li>
-                `;
+                summaryHtml += `<li class="list-group-item d-flex justify-content-between align-items-center"><div><div class="fw-bold">${item.medicineName}</div><div class="text-muted small">${item.quantity} x ${item.price.toFixed(2)} EGP</div></div><span class="fw-bold text-primary">${itemTotal.toFixed(2)} EGP</span></li>`;
             });
-
-            summaryHtml += `
-                <li class="list-group-item d-flex justify-content-between align-items-center bg-light">
-                    <strong class="fs-5">Total:</strong>
-                    <strong class="fs-5 text-success">${total.toFixed(2)} EGP</strong>
-                </li>
-            </ul>
-            `;
-
+            summaryHtml += `<li class="list-group-item d-flex justify-content-between align-items-center bg-light"><strong class="fs-5">Total:</strong><strong class="fs-5 text-success">${total.toFixed(2)} EGP</strong></li></ul>`;
             document.getElementById('order-summary').innerHTML = summaryHtml;
-
             let hiddenItemsHtml = '';
             cart.forEach((item, index) => {
-                hiddenItemsHtml += `
-                    <input type="hidden" name="OrderItems[${index}].InventoryId" value="${item.inventoryId}">
-                    <input type="hidden" name="OrderItems[${index}].MedicineName" value="${item.medicineName}">
-                    <input type="hidden" name="OrderItems[${index}].BrandName" value="${item.brandName || ''}">
-                    <input type="hidden" name="OrderItems[${index}].UnitPrice" value="${item.price}">
-                    <input type="hidden" name="OrderItems[${index}].Quantity" value="${item.quantity}">
-                `;
+                hiddenItemsHtml += `<input type="hidden" name="OrderItems[${index}].InventoryId" value="${item.inventoryId}"><input type="hidden" name="OrderItems[${index}].MedicineName" value="${item.medicineName}"><input type="hidden" name="OrderItems[${index}].BrandName" value="${item.brandName || ''}"><input type="hidden" name="OrderItems[${index}].UnitPrice" value="${item.price}"><input type="hidden" name="OrderItems[${index}].Quantity" value="${item.quantity}">`;
             });
             document.getElementById('hidden-items').innerHTML = hiddenItemsHtml;
-
             new bootstrap.Modal(document.getElementById('orderModal')).show();
         }
 
         function showNotification(message, type) {
-            const alertPlaceholder = document.querySelector('.container');
             const wrapper = document.createElement('div');
             wrapper.innerHTML = [
-                `<div class="alert alert-${type} alert-dismissible fade show" role="alert">`,
+                `<div class="alert alert-${type} alert-dismissible fade show" role="alert" style="position: fixed; top: 20px; right: 20px; z-index: 2000; min-width: 250px;">`,
                 `   <div>${message}</div>`,
                 '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
                 '</div>'
-            ].join('')
-
-            alertPlaceholder.prepend(wrapper);
-
+            ].join('');
+            document.body.append(wrapper);
             setTimeout(() => {
-                const alert = new bootstrap.Alert(wrapper.querySelector('.alert'));
-                alert.close();
+                const alertElement = wrapper.querySelector('.alert');
+                if (alertElement) {
+                    const bsAlert = bootstrap.Alert.getInstance(alertElement) || new bootstrap.Alert(alertElement);
+                    if (bsAlert) bsAlert.close();
+                }
+                if (wrapper) wrapper.remove();
             }, 3000);
         }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const quantityInputs = document.querySelectorAll('input[type="number"]');
-            quantityInputs.forEach(input => {
-                input.addEventListener('change', function() {
-                    if (this.value < 1) this.value = 1;
-                    if (this.value > this.max) this.value = this.max;
-                });
-            });
-        });
     </script>
 
     <style>
         .card {
             border: none;
+            overflow: hidden;
         }
 
         .rounded-4 {
@@ -503,31 +513,109 @@
             border-radius: .75rem 0 0 .75rem !important;
         }
 
-        .form-control {
+        .input-group-lg .form-control {
             border-radius: 0 .75rem .75rem 0 !important;
         }
 
-            .form-control:focus {
-                box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25) !important;
-            }
+        .form-control:focus {
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25) !important;
+        }
 
         .btn {
             border-radius: .75rem;
         }
 
-        .table-responsive {
-            border-radius: 1rem;
-            overflow: hidden;
+        .medicine-card {
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            border: 1px solid #e9ecef;
+            border-radius: 0.75rem;
+            position: relative;
+            min-width: 208px;
+            min-height: 268px;
         }
 
-        .table-hover tbody tr:hover {
-            background-color: #f1f7fe;
+            .medicine-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 .5rem 1rem rgba(0,0,0,.15) !important;
+            }
+
+        .card-img-top-wrapper {
+            background-color: #f8f9fa;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.5rem !important;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100px;
         }
 
-        .table thead th {
+            .card-img-top-wrapper img {
+                max-height: 100px;
+                width: auto;
+                object-fit: contain;
+                border-radius: 0.5rem;
+            }
+
+        .medicine-card .card-body {
+            padding-top: 0.75rem;
+            padding-bottom: 0.75rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .medicine-card .card-title {
+            font-size: 1rem;
+            line-height: 1.3;
+        }
+
+        .medicine-card .card-subtitle,
+        .medicine-card .text-info.small {
+            font-size: 0.8rem;
+        }
+
+        .quantity-control .btn {
+            border-radius: 0.5rem;
+            font-size: 0.9rem;
+            padding: 0.375rem 0.75rem;
+        }
+
+        .quantity-control .quantity-input {
+            border-left: none;
+            border-right: none;
+            font-size: 0.9rem;
+            height: auto;
+            padding: 0.375rem 0.25rem;
+            background-color: #fff;
+            border-color: #ced4da;
+        }
+
+            .quantity-control .quantity-input:focus {
+                box-shadow: none;
+                border-color: #ced4da;
+            }
+
+        .quantity-control .btn-outline-danger {
+            border-radius: 0.5rem;
+        }
+
+        .medicine-item-col {
+            display: block;
+        }
+
+        .supplier-label {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: #6DD5B9;
+            color: white;
+            padding: 5px 15px;
+            font-size: 0.75rem;
             font-weight: 600;
-            color: #495057;
-            text-transform: uppercase;
+            border-radius: 0 0 0 8px;
+            z-index: 2;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
+
     </style>
 }
