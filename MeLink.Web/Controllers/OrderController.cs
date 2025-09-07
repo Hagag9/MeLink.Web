@@ -91,6 +91,82 @@ namespace MeLink.Web.Controllers
 
             return View(viewModel);
         }
+
+        public async Task<IActionResult> PharmacyAction(string supplierId)
+        {
+            var supplier = await _context.Users.FindAsync(supplierId);
+            if (supplier == null)
+            {
+                return NotFound();
+            }
+
+            var model = new PharmacyActionViewModel
+            {
+                SupplierId = supplier.Id,
+                SupplierName = supplier.DisplayName
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreatePrescriptionOrder(CreatePrescriptionOrderViewModel model)
+        {
+            // Repopulate SupplierName if model state is invalid
+            if (!ModelState.IsValid)
+            {
+                var supplier = await _context.Users.FindAsync(model.SupplierId);
+                model.SupplierName = supplier?.DisplayName;
+                return View(model);
+            }
+
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (currentUser == null)
+            {
+                return Challenge();
+            }
+
+            // 1. Create and save the order first to get an ID
+            var order = new Order
+            {
+                FromUserId = currentUser.Id,
+                ToUserId = model.SupplierId,
+                Status = OrderStatus.Pending,
+                OrderType = "Patient-Pharmacy-PrescriptionOnly"
+            };
+            _context.Orders.Add(order);
+            await _context.SaveChangesAsync(); // Order gets an ID here
+
+            // 2. Save the prescription file, linking it to the new order's ID
+            if (model.PrescriptionFile != null)
+            {
+                var prescription = await SavePrescriptionAsync(model.PrescriptionFile, order.Id, currentUser.Id);
+                _context.Prescriptions.Add(prescription);
+                await _context.SaveChangesAsync(); // Save the prescription
+            }
+
+            TempData["Success"] = "Your prescription has been sent successfully!";
+            return RedirectToAction("MyOrders");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> CreatePrescriptionOrder(string supplierId)
+        {
+            var supplier = await _context.Users.FindAsync(supplierId);
+            if (supplier == null)
+            {
+                return NotFound();
+            }
+
+            var model = new CreatePrescriptionOrderViewModel
+            {
+                SupplierId = supplier.Id,
+                SupplierName = supplier.DisplayName
+            };
+
+            return View(model);
+        }
         public async Task<IActionResult> NearbyPharmacies()
         {
             var currentUser = await _userManager.GetUserAsync(User);

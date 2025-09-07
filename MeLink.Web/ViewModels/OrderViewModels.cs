@@ -121,4 +121,20 @@ namespace MeLink.Web.ViewModels
         public List<OrderSummaryViewModel> IncomingOrders { get; set; } = new List<OrderSummaryViewModel>();
     }
 
+
+    public class PharmacyActionViewModel
+    {
+        public string SupplierId { get; set; }
+        public string SupplierName { get; set; }
+    }
+
+    public class CreatePrescriptionOrderViewModel
+    {
+        [Required]
+        public string SupplierId { get; set; }
+        public string SupplierName { get; set; }
+        [Required(ErrorMessage = "Please upload a prescription file.")]
+        [Display(Name = "Prescription File")]
+        public IFormFile PrescriptionFile { get; set; }
+    }
 }

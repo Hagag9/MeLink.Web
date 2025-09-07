@@ -1,0 +1,44 @@
+@model MeLink.Web.ViewModels.CreatePrescriptionOrderViewModel
+
+@{
+    ViewData["Title"] = "Order with Prescription";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white text-center">
+                    <h4>Order with Prescription from @Model.SupplierName</h4>
+                </div>
+                <div class="card-body">
+                    <p class="card-text text-center text-muted">
+                        Please upload your prescription file. The pharmacy will contact you to confirm the order details and payment.
+                    </p>
+                    <form asp-action="CreatePrescriptionOrder" method="post" enctype="multipart/form-data">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="SupplierId" />
+                        <input type="hidden" asp-for="SupplierName" />
+
+                        <div class="mb-3">
+                            <label asp-for="PrescriptionFile" class="form-label"></label>
+                            <input asp-for="PrescriptionFile" class="form-control" type="file" required />
+                            <span asp-validation-for="PrescriptionFile" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg">Submit Prescription</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="text-center mt-3">
+                <a asp-action="PharmacyAction" asp-route-supplierId="@Model.SupplierId">Back to options</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
