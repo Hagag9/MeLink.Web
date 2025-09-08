@@ -92,23 +92,7 @@ namespace MeLink.Web.Controllers
             return View(viewModel);
         }
 
-        public async Task<IActionResult> PharmacyAction(string supplierId)
-        {
-            var supplier = await _context.Users.FindAsync(supplierId);
-            if (supplier == null)
-            {
-                return NotFound();
-            }
-
-            var model = new PharmacyActionViewModel
-            {
-                SupplierId = supplier.Id,
-                SupplierName = supplier.DisplayName
-            };
-
-            return View(model);
-        }
-
+       
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreatePrescriptionOrder(CreatePrescriptionOrderViewModel model)
@@ -598,46 +582,7 @@ namespace MeLink.Web.Controllers
                     i.Medicine!.BrandName!.Contains(searchTerm) ||
                     i.Medicine!.ActiveIngredient!.Contains(searchTerm));
             }
-            //var allowedSupplierIds = Enumerable.Empty<string>();
-
-            //if (currentUser is Patient)
-            //{
-            //    // Patient can only order from Pharmacies
-            //    allowedSupplierIds = _context.Users.OfType<Pharmacy>().Select(p => p.Id);
-            //}
-            //else if (currentUser is Pharmacy)
-            //{
-            //    // Pharmacy orders from Companies, Warehouses, and Manufacturers
-            //    allowedSupplierIds = _context.UserRelations
-            //        .Where(r => r.FromUserId == currentUser.Id &&
-            //                    (r.RelationType == RelationType.PharmacyCompany ||
-            //                     r.RelationType == RelationType.PharmacyWarehouse ||
-            //                     r.RelationType == RelationType.PharmacyManufacturer))
-            //        .Select(r => r.ToUserId);
-            //}
-            //else if (currentUser is MedicineWarehouse)
-            //{
-            //    // Warehouse orders from Companies and Manufacturers
-            //    allowedSupplierIds = _context.UserRelations
-            //        .Where(r => r.FromUserId == currentUser.Id &&
-            //                    (r.RelationType == RelationType.CompanyManufacturer || // Note: this might need adjustment based on your full relation types
-            //                     r.RelationType == RelationType.WarehouseManufacturer))
-            //        .Select(r => r.ToUserId);
-            //}
-            //else if (currentUser is DistributionCompany)
-            //{
-            //    // Company orders from Manufacturers
-            //    allowedSupplierIds = _context.UserRelations
-            //        .Where(r => r.FromUserId == currentUser.Id &&
-            //                    r.RelationType == RelationType.CompanyManufacturer)
-            //        .Select(r => r.ToUserId);
-            //}
-            //else
-            //{
-            //    // Any other user type (e.g., Manufacturer) cannot search for medicines to order.
-            //    return Json(new List<MedicineSearchResult>());
-            //}
-            //query=query.Where(i => allowedSupplierIds.Contains(i.UserId));
+           
             var availableMedicines = await query.Select(i => new MedicineInventoryViewModel
             {
                 MedicineId = i.MedicineId,

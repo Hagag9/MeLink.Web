@@ -5,14 +5,7 @@
     // التحقق من نوع المستخدم بناءً على الـ Discriminator
     @if (Model is MeLink.Web.Models.Patient)
     {
-      @*       <ul class="dropdown-menu" aria-labelledby="ordersDropdown">
-                <li> <a class="dropdown-item" asp-controller="Order" asp-action="NearbyPharmacies"> Pharmacies</a> </li>
-                <li> <a class="dropdown-item" asp-controller="Order" asp-action="Create"> New Order</a></li>
-                <li> <a class="dropdown-item" asp-controller="Order" asp-action="Index"> Search Medicines</a> </li>
-                <li> <a class="dropdown-item" asp-controller="Order" asp-action="MyOrders"> My Orders</a> </li>
-            </ul> *@
-
-
+    
         <div id="mega-menu-full-dropdown" class="hidden mt-1 border-gray-200 shadow-xs bg-gray-50 md:bg-white border-y dark:bg-gray-800 dark:border-gray-600">
             <div class="grid max-w-screen-lg px-4 py-5 mx-auto text-gray-900 dark:text-white sm:grid-cols-2 md:px-6">
                 <ul>
@@ -48,13 +41,7 @@
     }
     else if (Model is MeLink.Web.Models.Pharmacy || Model is MeLink.Web.Models.MedicineWarehouse || Model is MeLink.Web.Models.DistributionCompany)
     {
-@* 
-        <ul class="dropdown-menu" aria-labelledby="ordersDropdown">
-            <li> <a class="dropdown-item" asp-controller="Supplier" asp-action="Index"> Suppliers</a> </li>
-            <li> <a class="dropdown-item" asp-controller="Order" asp-action="Create"> New Order</a></li>
-            <li> <a class="dropdown-item" asp-controller="Order" asp-action="Index"> Search Medicines</a> </li>
-            <li> <a class="dropdown-item" asp-controller="Order" asp-action="MyOrders"> My Orders</a> </li>
-        </ul> *@
+
 
         <div id="mega-menu-full-dropdown" class="hidden mt-1 border-gray-200 shadow-xs bg-gray-50 md:bg-white border-y dark:bg-gray-800 dark:border-gray-600">
             <div class="grid max-w-screen-lg px-4 py-5 mx-auto text-gray-900 dark:text-white sm:grid-cols-2 md:px-6">

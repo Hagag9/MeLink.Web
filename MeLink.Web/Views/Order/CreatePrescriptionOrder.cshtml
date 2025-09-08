@@ -7,38 +7,91 @@
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-8 col-lg-6">
-            <div class="card shadow-sm">
-                <div class="card-header bg-primary text-white text-center">
-                    <h4>Order with Prescription from @Model.SupplierName</h4>
-                </div>
-                <div class="card-body">
-                    <p class="card-text text-center text-muted">
+            <div class="card shadow-lg border-0 rounded-4">
+                <div class="card-body p-4 p-md-5">
+
+                    <div class="text-center mb-4">
+                        <div class="icon-circle bg-primary-subtle text-primary mx-auto mb-3">
+                            <i class="fas fa-file-prescription fa-2x"></i>
+                        </div>
+                        <h2 class="h3 fw-bold">Order with Prescription</h2>
+                        <p class="text-muted">From: <strong>@Model.SupplierName</strong></p>
+                    </div>
+
+                    <p class="card-text text-center text-muted small mb-4">
                         Please upload your prescription file. The pharmacy will contact you to confirm the order details and payment.
                     </p>
+
                     <form asp-action="CreatePrescriptionOrder" method="post" enctype="multipart/form-data">
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
                         <input type="hidden" asp-for="SupplierId" />
                         <input type="hidden" asp-for="SupplierName" />
 
                         <div class="mb-3">
-                            <label asp-for="PrescriptionFile" class="form-label"></label>
-                            <input asp-for="PrescriptionFile" class="form-control" type="file" required />
-                            <span asp-validation-for="PrescriptionFile" class="text-danger"></span>
+                            <label asp-for="PrescriptionFile" class="form-label fw-semibold"></label>
+                            <div class="input-group">
+                                <input asp-for="PrescriptionFile" class="form-control d-none" type="file" required id="prescription-file-input" accept="image/*,.pdf,.doc,.docx" />
+                                <label for="prescription-file-input" class="btn btn-outline-primary">
+                                    <i class="fas fa-upload me-2"></i> Choose File
+                                </label>
+                                <span id="file-chosen-text" class="form-control text-muted" style="border-left: 0;">No file chosen</span>
+                            </div>
+                            <span asp-validation-for="PrescriptionFile" class="text-danger small"></span>
                         </div>
 
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-primary btn-lg">Submit Prescription</button>
+                        <div class="mb-4">
+                            <label asp-for="Notes" class="form-label fw-semibold"></label>
+                            <textarea asp-for="Notes" class="form-control" rows="3" placeholder="Any special instructions or details for the pharmacy..."></textarea>
+                            <span asp-validation-for="Notes" class="text-danger small"></span>
+                        </div>
+
+                        <div class="d-grid mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg rounded-pill">
+                                <i class="fas fa-paper-plane me-2"></i> Submit Prescription
+                            </button>
                         </div>
                     </form>
                 </div>
             </div>
             <div class="text-center mt-3">
-                <a asp-action="PharmacyAction" asp-route-supplierId="@Model.SupplierId">Back to options</a>
+                <a asp-action="NearbyPharmacies"  class="text-primary text-decoration-none small">
+                    <i class="fas fa-arrow-left me-1"></i> Back to options
+                </a>
             </div>
         </div>
     </div>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        const actualFileInput = document.getElementById('prescription-file-input');
+        const fileChosenText = document.getElementById('file-chosen-text');
+
+        actualFileInput.addEventListener('change', function() {
+            fileChosenText.textContent = this.files.length > 0 ? this.files[0].name : 'No file chosen';
+        });
+    </script>
+
+    <style>
+        .icon-circle {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .bg-primary-subtle {
+            background-color: #e0f2fe !important;
+        }
+
+        .rounded-4 {
+            border-radius: 1.5rem !important;
+        }
+    </style>
 }

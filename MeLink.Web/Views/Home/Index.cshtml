@@ -3,7 +3,7 @@
 }
 
 <div class="container py-5">
-    <div class="p-5 text-center bg-primary-subtle rounded-4 mb-5 shadow-sm">
+    <div class="p-5 text-center hero-section-enhanced rounded-4 mb-5 shadow-sm">
         <div class="row align-items-center">
             <div class="col-md-7 text-md-start">
                 <h1 class="display-3 fw-bold text-primary mb-3">Your Health, Our Priority</h1>
@@ -11,8 +11,10 @@
                     Find and order your medicines from trusted pharmacies and suppliers with ease.
                     MeLink connects you directly to the care you need, fast.
                 </p>
-                <div class="d-flex justify-content-center justify-content-md-start mb-4">
-                   
+                <div class="d-grid gap-2 d-sm-flex justify-content-center justify-content-md-start mb-4">
+                    <a asp-controller="Order" asp-action="Index" class="btn btn-primary btn-lg rounded-pill px-5">
+                        <i class="fas fa-pills me-2"></i> Start Your Order
+                    </a>
                     <a asp-controller="Home" asp-action="About" class="btn btn-outline-primary btn-lg rounded-pill px-5">
                         <i class="fas fa-info-circle me-2"></i> Learn More
                     </a>
@@ -24,12 +26,12 @@
         </div>
     </div>
 
-    <div class="text-center mb-5">
+    <div class="text-center mb-5 fade-in-section">
         <h2 class="display-6 fw-bold mb-3">How It Works</h2>
         <p class="text-muted lead-sm">Simple steps to get your medicines delivered to your door.</p>
     </div>
-    <div class="row g-4 mb-5 text-center justify-content-center">
-        <div class="col-lg-3 col-md-6 col-sm-12">
+    <div class="row g-4 mb-5 text-center justify-content-center how-it-works-steps fade-in-section">
+        <div class="col-lg-3 col-md-6">
             <div class="feature-card h-100 p-4 rounded-4 shadow-sm">
                 <div class="icon-circle icon-circle-sm bg-info-subtle text-info mx-auto mb-3">
                     <i class="fas fa-search fa-2x"></i>
@@ -38,7 +40,7 @@
                 <p class="text-muted mb-0 small">Find the medicine you need by name or active ingredient.</p>
             </div>
         </div>
-        <div class="col-lg-3 col-md-6 col-sm-12">
+        <div class="col-lg-3 col-md-6">
             <div class="feature-card h-100 p-4 rounded-4 shadow-sm">
                 <div class="icon-circle icon-circle-sm bg-success-subtle text-success mx-auto mb-3">
                     <i class="fas fa-shopping-cart fa-2x"></i>
@@ -47,7 +49,7 @@
                 <p class="text-muted mb-0 small">Choose from a list of available suppliers and place your order.</p>
             </div>
         </div>
-        <div class="col-lg-3 col-md-6 col-sm-12">
+        <div class="col-lg-3 col-md-6">
             <div class="feature-card h-100 p-4 rounded-4 shadow-sm">
                 <div class="icon-circle icon-circle-sm bg-primary-subtle text-primary mx-auto mb-3">
                     <i class="fas fa-shipping-fast fa-2x"></i>
@@ -58,11 +60,11 @@
         </div>
     </div>
 
-    <div class="text-center mb-5">
+    <div class="text-center mb-5 fade-in-section">
         <h2 class="display-6 fw-bold mb-3">Our Partners</h2>
         <p class="text-muted lead-sm">Browse our network of trusted suppliers and pharmacies.</p>
-        <div class="row g-4 mt-4 justify-content-center">
-            <div class="col-lg-3 col-md-6 col-sm-12">
+        <div class="row g-4 mt-4 justify-content-center fade-in-section">
+            <div class="col-lg-3 col-md-6">
                 <div class="supplier-card h-100 p-4 rounded-4 shadow-sm bg-light">
                     <div class="d-flex align-items-center mb-3">
                         <div class="icon-circle icon-circle-sm bg-info-subtle text-info me-3">
@@ -71,10 +73,10 @@
                         <h5 class="fw-bold mb-0">Warehouses</h5>
                     </div>
                     <p class="text-muted small">A wide selection of medicines and bulk supplies.</p>
-                    <a href="#"  class="btn btn-outline-primary rounded-pill">View All</a>
+                    <a href="#" class="btn btn-outline-primary rounded-pill">View All</a>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="col-lg-3 col-md-6">
                 <div class="supplier-card h-100 p-4 rounded-4 shadow-sm bg-light">
                     <div class="d-flex align-items-center mb-3">
                         <div class="icon-circle icon-circle-sm bg-success-subtle text-success me-3">
@@ -83,10 +85,10 @@
                         <h5 class="fw-bold mb-0">Companies</h5>
                     </div>
                     <p class="text-muted small">Efficient and reliable distribution of medical goods.</p>
-                    <a href="#"  class="btn btn-outline-primary rounded-pill">View All</a>
+                    <a href="#" class="btn btn-outline-primary rounded-pill">View All</a>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="col-lg-3 col-md-6">
                 <div class="supplier-card h-100 p-4 rounded-4 shadow-sm bg-light">
                     <div class="d-flex align-items-center mb-3">
                         <div class="icon-circle icon-circle-sm bg-primary-subtle text-primary me-3">
@@ -98,7 +100,7 @@
                     <a href="#" class="btn btn-outline-primary rounded-pill">View All</a>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-6 col-sm-12">
+            <div class="col-lg-3 col-md-6">
                 <div class="supplier-card h-100 p-4 rounded-4 shadow-sm bg-light">
                     <div class="d-flex align-items-center mb-3">
                         <div class="icon-circle icon-circle-sm bg-secondary-subtle text-secondary me-3">
@@ -110,10 +112,8 @@
                     <a asp-controller="Order" asp-action="Index" class="btn btn-outline-primary rounded-pill">Find Now</a>
                 </div>
             </div>
-            
         </div>
     </div>
-
 </div>
 
 @section Scripts {
@@ -148,6 +148,13 @@
             height: 60px;
         }
 
+        /* === NEW: Style for the enhanced hero section background === */
+        .hero-section-enhanced {
+            /* A subtle, modern gradient from light blue to a light cyan */
+            background: linear-gradient(135deg, #e0f2fe 0%, #cff4fc 100%);
+        }
+
+        /* Keeping the old color classes for other elements */
         .bg-primary-subtle {
             background-color: #e0f2fe !important;
         }
@@ -160,10 +167,6 @@
             background-color: #d1e7dd !important;
         }
 
-        .bg-warning-subtle {
-            background-color: #fff3cd !important;
-        }
-
         .bg-secondary-subtle {
             background-color: #e2e3e5 !important;
         }
@@ -172,15 +175,82 @@
             font-size: 1.15rem;
         }
 
-        .feature-card:hover, .supplier-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 0.5rem 1rem rgba(0,0,0,.15) !important;
+        .feature-card, .supplier-card {
             transition: all 0.3s ease;
         }
 
-        .supplier-card .btn {
-            width: 100%;
-            margin-top: auto;
+            .feature-card:hover, .supplier-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 0.5rem 1rem rgba(0,0,0,.15) !important;
+            }
+
+            .supplier-card .btn {
+                width: 100%;
+                margin-top: auto;
+            }
+
+        .feature-card {
+            position: relative;
         }
+
+        .how-it-works-steps .col-lg-3:not(:last-of-type) .feature-card::after {
+            content: '';
+            position: absolute;
+            top: 30px;
+            left: 100%;
+            width: calc(1.5rem + 2px);
+            height: 2px;
+            background-image: linear-gradient(to right, #dee2e6 50%, transparent 50%);
+            background-size: 10px 2px;
+        }
+
+        .icon-circle {
+            position: relative;
+            z-index: 1;
+        }
+
+
+        @@media (max-width: 991.98px) {
+            .how-it-works-steps .col-lg-3:not(:last-of-type) .feature-card::after {
+                display: none;
+            }
+        }
+
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+            .fade-in-section.is-visible {
+                opacity: 1;
+                transform: translateY(0);
+            }
     </style>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const sections = document.querySelectorAll('.fade-in-section');
+
+            const observerCallback = (entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            };
+
+            const observerOptions = {
+                root: null,
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
 }

@@ -136,5 +136,6 @@ namespace MeLink.Web.ViewModels
         [Required(ErrorMessage = "Please upload a prescription file.")]
         [Display(Name = "Prescription File")]
         public IFormFile PrescriptionFile { get; set; }
+        public string? Notes { get; set; }
     }
 }

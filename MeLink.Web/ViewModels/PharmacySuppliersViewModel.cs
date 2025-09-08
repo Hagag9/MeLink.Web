@@ -40,5 +40,6 @@
         public string? Address { get; set; }
         public string? City { get; set; }
         public double? DistanceInKm { get; set; } // New property to store the calculated distance
+        public bool IsOpen { get; set; } = true;
     }
 }

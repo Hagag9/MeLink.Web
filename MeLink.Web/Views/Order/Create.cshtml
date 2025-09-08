@@ -1,10 +1,45 @@
 ﻿@model MeLink.Web.ViewModels.CreateOrderViewModel
 
 @{
-    ViewData["Title"] = "Create Order";
+    ViewData["Title"] = "Create New Order";
 }
 
+<div class="modal fade" id="sourceChangeModal" tabindex="-1" aria-labelledby="sourceChangeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg rounded-4">
+            <div class="modal-header border-0">
+                <h5 class="modal-title fw-bold" id="sourceChangeModalLabel"><i class="fas fa-exclamation-triangle text-warning me-2"></i> Change Order Source?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>You can only order from one source at a time. Do you want to clear your current selection and start a new order with this item?</p>
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="confirm-source-change">Yes, Start New Order</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <div class="container py-5">
+
+    <div class="stepper-wrapper mb-5">
+        <div class="stepper-item active">
+            <div class="step-counter">1</div>
+            <div class="step-name">Select Medicines</div>
+        </div>
+        <div class="stepper-item">
+            <div class="step-counter">2</div>
+            <div class="step-name">Add Details</div>
+        </div>
+        <div class="stepper-item">
+            <div class="step-counter">3</div>
+            <div class="step-name">Confirm</div>
+        </div>
+    </div>
+
     <div class="card shadow-lg border-0 rounded-4">
         <div class="card-body p-md-5">
             <div class="text-center mb-5">
@@ -20,12 +55,12 @@
 
                 <div class="row g-4 mb-5">
                     <div class="col-md-6">
-                        <div class="card h-100 border-primary rounded-4">
-                            <div class="card-header bg-primary-subtle border-0 rounded-top-4">
+                        <div class="card h-100 border-0 shadow-sm rounded-4">
+                            <div class="card-header bg-light border-0 rounded-top-4 py-3">
                                 <h6 class="mb-0 fw-bold"><i class="fas fa-user text-primary me-2"></i> Your Information</h6>
                             </div>
-                            <div class="card-body">
-                                <p class="mb-0">
+                            <div class="card-body d-flex align-items-center">
+                                <p class="mb-0 fs-5">
                                     <strong class="text-dark">Name:</strong> @Model.FromUserName
                                 </p>
                                 <input type="hidden" asp-for="FromUserId" />
@@ -34,13 +69,13 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="card h-100 border-info rounded-4">
-                            <div class="card-header bg-info-subtle border-0 rounded-top-4">
+                        <div class="card h-100 border-0 shadow-sm rounded-4" id="source-card">
+                            <div class="card-header bg-light border-0 rounded-top-4 py-3">
                                 <h6 class="mb-0 fw-bold"><i class="fas fa-truck text-info me-2"></i> Source Information</h6>
                             </div>
-                            <div class="card-body">
-                                <p class="mb-0">
-                                    <strong class="text-dark">Source:</strong> <span id="selected-source" class="fw-semibold">Not Selected</span>
+                            <div class="card-body d-flex align-items-center">
+                                <p class="mb-0 fs-5">
+                                    <strong class="text-dark">Source:</strong> <span id="selected-source" class="fw-semibold text-muted">Not Selected</span>
                                 </p>
                                 <input type="hidden" asp-for="PharmacyId" id="source-id" />
                                 <input type="hidden" asp-for="PharmacyName" id="source-name" />
@@ -49,57 +84,82 @@
                     </div>
                 </div>
 
-                <div class="card mb-5 border-0 rounded-4 shadow-sm">
-                    <div class="card-header bg-success text-white border-0 rounded-top-4">
-                        <h5 class="mb-0"><i class="fas fa-search me-2"></i> Search & Add Medicines</h5>
-                    </div>
-                    <div class="card-body p-4">
-                        <div class="input-group input-group-lg">
-                            <span class="input-group-text bg-light border-end-0 text-muted rounded-start-3"><i class="fas fa-search"></i></span>
-                            <input type="text" class="form-control border-start-0" id="medicine-search" placeholder="Search for medicines by name or ingredient...">
-                            <button type="button" class="btn btn-success px-4" onclick="searchMedicines()">Search</button>
-                        </div>
-                        <div id="search-results-container" class="mt-4">
-                        </div>
-                    </div>
-                </div>
+                <hr class="my-5" />
+                <h4 class="text-center fw-bold mb-4" id="step1-title">Step 1: Search & Add Medicines</h4>
 
-                <div class="card mb-5 border-0 rounded-4 shadow-sm">
-                    <div class="card-header bg-primary text-white border-0 rounded-top-4">
-                        <h5 class="mb-0"><i class="fas fa-list-ul me-2"></i> Selected Medicines</h5>
-                    </div>
-                    <div class="card-body p-4" id="selected-items-container">
-                        <div class="alert alert-info text-center rounded-3 p-4">
-                            <h5 class="alert-heading"><i class="fas fa-info-circle me-2"></i> No medicines selected yet.</h5>
-                            <p class="mb-0">Use the search bar above to find and add medicines to your order.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card mb-5 border-0 rounded-4 shadow-sm">
-                    <div class="card-header bg-secondary text-white border-0 rounded-top-4">
-                        <h5 class="mb-0"><i class="fas fa-file-medical me-2"></i> Additional Details</h5>
-                    </div>
-                    <div class="card-body p-4">
-                        @if (Model.IsPatient)
-                        {
-                            <div class="mb-4">
-                                <label for="PrescriptionFile" class="form-label fw-semibold">Upload Prescription (Optional)</label>
-                                <input asp-for="PrescriptionFile" class="form-control" type="file" accept="image/*,.pdf" />
-                                <div class="form-text text-muted">You can upload an image or PDF file of your prescription.</div>
+                <div class="row g-5 mb-5">
+                    <div class="col-lg-7">
+                        <div class="card border-0 rounded-4 shadow-sm h-100">
+                            <div class="card-header bg-success-subtle text-success-emphasis border-bottom border-success-subtle rounded-top-4 py-3">
+                                <h5 class="mb-0 fw-bold"><i class="fas fa-pills me-2"></i> Find Your Medicine</h5>
                             </div>
-                        }
-                        <div>
-                            <label for="Notes" class="form-label fw-semibold">Additional Notes</label>
-                            <textarea asp-for="Notes" class="form-control" rows="4" placeholder="Any special instructions or delivery details..."></textarea>
+                            <div class="card-body p-4">
+                                <div class="input-group input-group-lg">
+                                    <span class="input-group-text bg-light border-end-0 text-muted rounded-start-3"><i class="fas fa-search"></i></span>
+                                    <input type="text" class="form-control border-start-0" id="medicine-search" placeholder="Start typing to search...">
+                                </div>
+                                <div id="search-results-skeleton" class="mt-4" style="display: none;">
+                                    <div class="skeleton-item">
+                                        <div class="skeleton-text skeleton-line"></div>
+                                        <div class="skeleton-text skeleton-line-short"></div>
+                                    </div>
+                                    <div class="skeleton-item">
+                                        <div class="skeleton-text skeleton-line"></div>
+                                        <div class="skeleton-text skeleton-line-short"></div>
+                                    </div>
+                                </div>
+                                <div id="search-results-container" class="mt-4"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-5">
+                        <div class="card border-0 rounded-4 shadow-sm h-100 order-summary-card">
+                            <div class="card-header bg-primary text-white border-0 rounded-top-4 py-3 d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0"><i class="fas fa-list-ul me-2"></i> Your Order</h5>
+                                <button type="button" class="btn btn-sm btn-outline-light" id="clear-cart-btn" style="display: none;">
+                                    <i class="fas fa-times me-1"></i> Clear All
+                                </button>
+                            </div>
+                            <div class="card-body p-4" id="selected-items-container">
+                            </div>
                         </div>
                     </div>
                 </div>
+
+                <hr class="my-5" />
+                <h4 class="text-center fw-bold mb-4" id="step2-title">Step 2: Additional Details</h4>
+
+                <div class="details-section-wrapper p-4 rounded-4 shadow-sm mb-5">
+                    @if (Model.IsPatient)
+                    {
+                        <div class="mb-4">
+                            <label for="PrescriptionFile" class="form-label fw-semibold fs-5 text-dark-emphasis">
+                                <i class="fas fa-file-prescription me-2 text-primary"></i>Upload Prescription (Optional)
+                            </label>
+                            <div class="input-group">
+                                <input asp-for="PrescriptionFile" class="form-control d-none" type="file" id="actual-file-input" accept="image/*,.pdf" />
+                                <label for="actual-file-input" class="btn btn-outline-secondary">
+                                    <i class="fas fa-upload me-2"></i> Choose File
+                                </label>
+                                <span id="file-chosen" class="form-control text-muted" style="border-left: 0;">No file chosen</span>
+                            </div>
+                            <div class="form-text text-muted mt-2">You can upload an image or PDF file of your prescription.</div>
+                        </div>
+                    }
+                    <div>
+                        <label for="Notes" class="form-label fw-semibold fs-5 text-dark-emphasis">
+                            <i class="fas fa-sticky-note me-2 text-primary"></i>Additional Notes
+                        </label>
+                        <textarea asp-for="Notes" class="form-control" rows="4" placeholder="Any special instructions or delivery details..."></textarea>
+                    </div>
+                </div>
+
 
                 <div id="hidden-order-items"></div>
 
                 <div class="text-center mt-5">
-                    <button type="submit" class="btn btn-success btn-lg px-5 py-3 rounded-pill" id="submit-btn" disabled>
+                    <button type="submit" class="btn btn-success btn-lg px-5 py-3 rounded-pill cta-button" id="submit-btn" disabled>
                         <i class="fas fa-check me-2"></i> Confirm Order
                     </button>
                 </div>
@@ -118,142 +178,191 @@
         let currentSourceId = null;
         let currentSourceName = null;
         let currentUserId = '@Model.CurrentUserId';
+        let pendingItem = null;
+
+        const searchInput = document.getElementById('medicine-search');
+        const resultsContainer = document.getElementById('search-results-container');
+        const skeletonLoader = document.getElementById('search-results-skeleton');
+        const selectedContainer = document.getElementById('selected-items-container');
+        const hiddenContainer = document.getElementById('hidden-order-items');
+        const submitBtn = document.getElementById('submit-btn');
+        const sourceChangeModal = new bootstrap.Modal(document.getElementById('sourceChangeModal'));
+        const confirmSourceChangeBtn = document.getElementById('confirm-source-change');
+        const actualFileInput = document.getElementById('actual-file-input');
+        const fileChosenSpan = document.getElementById('file-chosen');
+        // === NEW: Clear Cart Button Element ===
+        const clearCartBtn = document.getElementById('clear-cart-btn');
+
+        function debounce(func, delay = 400) {
+            let timeout;
+            return (...args) => {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => {
+                    func.apply(this, args);
+                }, delay);
+            };
+        }
+
+        function displayMessage(message, type) {
+            const toastContainer = document.getElementById('toast-container') || createToastContainer();
+            const toastId = 'toast-' + Date.now();
+            const toastHTML = `
+                <div id="${toastId}" class="toast align-items-center text-bg-${type} border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="d-flex">
+                        <div class="toast-body">${message}</div>
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                </div>`;
+            toastContainer.insertAdjacentHTML('beforeend', toastHTML);
+            const toastEl = document.getElementById(toastId);
+            const toast = new bootstrap.Toast(toastEl, { delay: 3000 });
+            toast.show();
+            toastEl.addEventListener('hidden.bs.toast', () => toastEl.remove());
+        }
+
+        function createToastContainer() {
+            let container = document.createElement('div');
+            container.id = 'toast-container';
+            container.className = 'toast-container position-fixed top-0 end-0 p-3';
+            container.style.zIndex = 1100;
+            document.body.appendChild(container);
+            return container;
+        }
 
         async function searchMedicines() {
-            const searchTerm = document.getElementById('medicine-search').value.trim();
-            if (!searchTerm) {
-                displayMessage('Please enter a search term', 'warning');
+            const searchTerm = searchInput.value.trim();
+            resultsContainer.innerHTML = '';
+            if (searchTerm.length < 2) {
+                skeletonLoader.style.display = 'none';
                 return;
             }
-
+            skeletonLoader.style.display = 'block';
             try {
                 const response = await fetch(`/Order/SearchMedicines?term=${encodeURIComponent(searchTerm)}&forUserId=${currentUserId}`);
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
+                if (!response.ok) throw new Error('Network error');
                 const medicines = await response.json();
                 displaySearchResults(medicines);
             } catch (error) {
                 displayMessage('Error searching for medicines', 'danger');
                 console.error('Search error:', error);
+            } finally {
+                skeletonLoader.style.display = 'none';
             }
         }
 
         function displaySearchResults(medicines) {
-            const container = document.getElementById('search-results-container');
             if (medicines.length === 0) {
-                container.innerHTML = `<div class="alert alert-warning text-center rounded-3 p-3">No medicines found.</div>`;
+                resultsContainer.innerHTML = `<div class="alert alert-warning text-center rounded-3 p-3">No medicines found.</div>`;
                 return;
             }
-
-            let html = `
-                <div class="table-responsive rounded-3 border">
-                    <table class="table table-hover align-middle mb-0">
-                        <thead class="bg-light">
-                            <tr>
-                                <th scope="col">Medicine</th>
-                                <th scope="col">Source</th>
-                                <th scope="col">Price</th>
-                                <th scope="col">Stock</th>
-                                <th scope="col">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-            `;
+            let html = '<div class="list-group list-group-flush">';
             medicines.forEach(med => {
+                // === CHANGED: Display Brand Name as main, Medicine Name as subtext ===
+                const brandName = med.brandName || med.medicineName; // Fallback to medicineName if brandName is null
+                const genericName = med.medicineName;
+
                 html += `
-                    <tr>
-                        <td>
-                            <div class="fw-bold">${med.medicineName}</div>
-                            ${med.brandName ? `<div class="text-muted small">(${med.brandName})</div>` : ''}
-                        </td>
-                        <td>${med.sourceName}</td>
-                        <td><span class="badge bg-success-subtle text-success fs-6 fw-normal">EGP ${med.price.toFixed(2)}</span></td>
-                        <td><span class="badge bg-info-subtle text-info fs-6 fw-normal">${med.stock} units</span></td>
-                        <td>
-                            <div class="input-group input-group-sm">
+                    <div class="list-group-item p-0">
+                        <div class="search-result-card">
+                            <div class="flex-grow-1">
+                                <div class="fw-bold">${brandName}</div>
+                                <small class="text-muted d-block">Generic: ${genericName}</small>
+                                <small class="text-muted d-block mt-1">From: ${med.sourceName}</small>
+                            </div>
+                            <div class="d-flex align-items-center gap-3">
+                                 <span class="badge bg-success-subtle text-success fs-6 fw-normal">EGP ${med.price.toFixed(2)}</span>
+                                 <span class="badge bg-info-subtle text-info fs-6 fw-normal">${med.stock} units</span>
+                            </div>
+                            <div class="input-group input-group-sm add-to-cart-group">
                                 <input type="number" class="form-control text-center" value="1" min="1" max="${med.stock}" id="qty-${med.inventoryId}">
                                 <button class="btn btn-primary" type="button"
-                                        onclick="addMedicineToCart(${med.inventoryId}, '${med.medicineName}', '${med.brandName || ''}', '${med.sourceId}', '${med.sourceName}', ${med.price})">
+                                        onclick="handleAddToCart(${med.inventoryId}, '${genericName}', '${brandName}', '${med.sourceId}', '${med.sourceName}', ${med.price})">
                                     <i class="fas fa-plus"></i>
                                 </button>
                             </div>
-                        </td>
-                    </tr>
+                        </div>
+                    </div>
                 `;
             });
-            html += `</tbody></table></div>`;
-            container.innerHTML = html;
+            html += '</div>';
+            resultsContainer.innerHTML = html;
         }
 
-        function addMedicineToCart(inventoryId, medicineName, brandName, sourceId, sourceName, price) {
-            const quantity = parseInt(document.getElementById(`qty-${inventoryId}`).value);
+        function handleAddToCart(inventoryId, medicineName, brandName, sourceId, sourceName, price) {
+            const quantityInput = document.getElementById(`qty-${inventoryId}`);
+            const quantity = parseInt(quantityInput.value);
+
+            if (quantity > parseInt(quantityInput.max)) {
+                displayMessage('Quantity exceeds available stock.', 'warning');
+                return;
+            }
+
+            const itemData = { inventoryId, medicineName, brandName, sourceId, sourceName, price, quantity };
 
             if (currentSourceId && currentSourceId !== sourceId) {
-                if (!confirm('You can only order from one source at a time. Do you want to clear your current selection?')) {
-                    return;
-                }
-                clearSelectedItems();
-            }
-
-            if (!currentSourceId) {
-                currentSourceId = sourceId;
-                currentSourceName = sourceName;
-                document.getElementById('selected-source').textContent = currentSourceName;
-                document.getElementById('source-id').value = currentSourceId;
-                document.getElementById('source-name').value = currentSourceName;
-            }
-
-            const existingItem = selectedItems.find(item => item.inventoryId === inventoryId);
-            if (existingItem) {
-                existingItem.quantity += quantity;
+                pendingItem = itemData;
+                sourceChangeModal.show();
             } else {
-                selectedItems.push({ inventoryId, medicineName, brandName, price, quantity });
+                addMedicineToCart(itemData);
+            }
+        }
+
+        function addMedicineToCart(itemData) {
+            if (!currentSourceId) {
+                updateSourceInfo(itemData.sourceId, itemData.sourceName);
             }
 
+            const existingItem = selectedItems.find(item => item.inventoryId === itemData.inventoryId);
+            if (existingItem) {
+                existingItem.quantity += itemData.quantity;
+            } else {
+                selectedItems.push({
+                    inventoryId: itemData.inventoryId,
+                    medicineName: itemData.medicineName,
+                    brandName: itemData.brandName, // Ensure brandName is stored
+                    price: itemData.price,
+                    quantity: itemData.quantity
+                });
+            }
             updateSelectedItemsDisplay();
             displayMessage('Medicine added successfully', 'success');
         }
 
         function updateSelectedItemsDisplay() {
-            const container = document.getElementById('selected-items-container');
-            const hiddenContainer = document.getElementById('hidden-order-items');
-            const submitBtn = document.getElementById('submit-btn');
-
             if (selectedItems.length === 0) {
-                container.innerHTML = `
-                    <div class="alert alert-info text-center rounded-3 p-4">
-                        <h5 class="alert-heading"><i class="fas fa-info-circle me-2"></i> No medicines selected yet.</h5>
-                        <p class="mb-0">Use the search bar above to find and add medicines to your order.</p>
+                selectedContainer.innerHTML = `
+                    <div class="empty-cart-message">
+                        <i class="fas fa-shopping-cart fa-3x text-light-emphasis"></i>
+                        <h5 class="mt-3">Your order is empty</h5>
+                        <p class="text-muted small">Use the search bar to add medicines.</p>
                     </div>
                 `;
                 hiddenContainer.innerHTML = '';
                 submitBtn.disabled = true;
+                clearCartBtn.style.display = 'none'; // === NEW: Hide clear button when empty ===
                 return;
             }
 
             let total = 0;
-            let html = '<div class="table-responsive rounded-3 border"><table class="table table-hover align-middle mb-0"><thead class="bg-light"><tr><th scope="col">Medicine</th><th scope="col">Quantity</th><th scope="col">Unit Price</th><th scope="col">Total</th><th scope="col">Action</th></tr></thead><tbody>';
+            let listHtml = '<ul class="list-group list-group-flush selected-items-list">';
             let hiddenHtml = '';
 
             selectedItems.forEach((item, index) => {
                 const itemTotal = item.price * item.quantity;
                 total += itemTotal;
-                html += `
-                    <tr>
-                        <td>
-                            <div class="fw-bold">${item.medicineName}</div>
-                            ${item.brandName ? `<div class="text-muted small">(${item.brandName})</div>` : ''}
-                        </td>
-                        <td style="width: 15%;">
-                            <input type="number" class="form-control form-control-sm text-center" value="${item.quantity}" min="1" onchange="updateItemQuantity(${index}, this.value)">
-                        </td>
-                        <td><span class="badge bg-success-subtle text-success fs-6 fw-normal">EGP ${item.price.toFixed(2)}</span></td>
-                        <td><span class="fw-bold">EGP ${itemTotal.toFixed(2)}</span></td>
-                        <td>
-                            <button type="button" class="btn btn-sm btn-danger" onclick="removeItem(${index})"><i class="fas fa-trash-alt"></i></button>
-                        </td>
-                    </tr>
+                // === CHANGED: Display Brand Name in cart as well ===
+                const displayName = item.brandName || item.medicineName;
+                listHtml += `
+                    <li class="list-group-item d-flex justify-content-between align-items-center animated-item">
+                        <div class="flex-grow-1 me-3">
+                            <div class="fw-bold">${displayName}</div>
+                            <small class="text-muted">EGP ${item.price.toFixed(2)} each</small>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <input type="number" class="form-control form-control-sm text-center" value="${item.quantity}" min="1" onchange="updateItemQuantity(${index}, this.value)" style="width: 60px;">
+                            <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeItem(${index})"><i class="fas fa-trash-alt"></i></button>
+                        </div>
+                    </li>
                 `;
                 hiddenHtml += `
                     <input type="hidden" name="OrderItems[${index}].InventoryId" value="${item.inventoryId}">
@@ -263,73 +372,85 @@
                     <input type="hidden" name="OrderItems[${index}].Quantity" value="${item.quantity}">
                 `;
             });
-            html += `
-                        </tbody>
-                        <tfoot>
-                            <tr class="table-success">
-                                <th colspan="3" class="text-end">Total Amount:</th>
-                                <th colspan="2" class="fs-5 text-success">EGP ${total.toFixed(2)}</th>
-                            </tr>
-                        </tfoot>
-                    </table>
+            listHtml += '</ul>';
+
+            const totalHtml = `
+                <div class="order-total-summary mt-4 p-3 rounded-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h6 class="text-dark fw-bold mb-0">Total Amount:</h6>
+                        <span class="fs-4 fw-bolder text-success">EGP ${total.toFixed(2)}</span>
+                    </div>
                 </div>
             `;
-            container.innerHTML = html;
+
+            selectedContainer.innerHTML = listHtml + totalHtml;
             hiddenContainer.innerHTML = hiddenHtml;
             submitBtn.disabled = false;
+            clearCartBtn.style.display = 'block'; // === NEW: Show clear button when not empty ===
         }
 
         function updateItemQuantity(index, newQuantity) {
-            selectedItems[index].quantity = parseInt(newQuantity);
+            const qty = parseInt(newQuantity);
+            selectedItems[index].quantity = qty > 0 ? qty : 1;
             updateSelectedItemsDisplay();
         }
 
         function removeItem(index) {
             selectedItems.splice(index, 1);
             if (selectedItems.length === 0) {
-                currentSourceId = null;
-                currentSourceName = null;
-                document.getElementById('selected-source').textContent = 'Not Selected';
-                document.getElementById('source-id').value = '';
-                document.getElementById('source-name').value = '';
+                clearSourceInfo();
             }
             updateSelectedItemsDisplay();
         }
 
         function clearSelectedItems() {
             selectedItems = [];
-            currentSourceId = null;
-            currentSourceName = null;
-            document.getElementById('selected-source').textContent = 'Not Selected';
-            document.getElementById('source-id').value = '';
-            document.getElementById('source-name').value = '';
+            clearSourceInfo();
             updateSelectedItemsDisplay();
         }
 
-        function displayMessage(message, type) {
-            const alertPlaceholder = document.querySelector('.container');
-            const wrapper = document.createElement('div');
-            wrapper.innerHTML = [
-                `<div class="alert alert-${type} alert-dismissible fade show" role="alert">`,
-                `   <div>${message}</div>`,
-                '   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>',
-                '</div>'
-            ].join('');
-
-            alertPlaceholder.prepend(wrapper);
-
-            setTimeout(() => {
-                const alert = new bootstrap.Alert(wrapper.querySelector('.alert'));
-                alert.close();
-            }, 3000);
+        function updateSourceInfo(sourceId, sourceName) {
+            currentSourceId = sourceId;
+            currentSourceName = sourceName;
+            document.getElementById('selected-source').textContent = currentSourceName;
+            document.getElementById('selected-source').classList.remove('text-muted');
+            document.getElementById('selected-source').classList.add('text-info');
+            document.getElementById('source-card').classList.add('source-selected-glow');
+            document.getElementById('source-id').value = currentSourceId;
+            document.getElementById('source-name').value = currentSourceName;
         }
 
-        document.getElementById('medicine-search').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                searchMedicines();
+        function clearSourceInfo() {
+             currentSourceId = null;
+             currentSourceName = null;
+             document.getElementById('selected-source').textContent = 'Not Selected';
+             document.getElementById('selected-source').classList.add('text-muted');
+             document.getElementById('selected-source').classList.remove('text-info');
+             document.getElementById('source-card').classList.remove('source-selected-glow');
+             document.getElementById('source-id').value = '';
+             document.getElementById('source-name').value = '';
+        }
+
+        const debouncedSearch = debounce(searchMedicines);
+        searchInput.addEventListener('input', debouncedSearch);
+
+        confirmSourceChangeBtn.addEventListener('click', () => {
+            clearSelectedItems();
+            if (pendingItem) {
+                addMedicineToCart(pendingItem);
+                pendingItem = null;
             }
+            sourceChangeModal.hide();
         });
+
+        if (actualFileInput) {
+            actualFileInput.addEventListener('change', () => {
+                fileChosenSpan.textContent = actualFileInput.files.length > 0 ? actualFileInput.files[0].name : 'No file chosen';
+            });
+        }
+
+        // === NEW: Event listener for Clear Cart Button ===
+        clearCartBtn.addEventListener('click', clearSelectedItems);
 
         document.addEventListener('DOMContentLoaded', updateSelectedItemsDisplay);
     </script>
@@ -343,17 +464,8 @@
             border-radius: 1.5rem !important;
         }
 
-        .rounded-top-4 {
-            border-top-left-radius: 1.5rem !important;
-            border-top-right-radius: 1.5rem !important;
-        }
-
         .shadow-lg {
-            box-shadow: 0 1rem 3rem rgba(0,0,0,.175) !important;
-        }
-
-        .shadow-sm {
-            box-shadow: 0 .125rem .25rem rgba(0,0,0,.075) !important;
+            box-shadow: 0 1rem 3rem rgba(0,0,0,.1) !important;
         }
 
         .icon-circle {
@@ -365,63 +477,175 @@
             justify-content: center;
         }
 
-        .lead-sm {
-            font-size: 1.15rem;
-        }
-
-        .bg-primary-subtle {
-            background-color: #e0f2fe !important;
-        }
-
-        .bg-info-subtle {
-            background-color: #cff4fc !important;
-        }
-
-        .bg-success-subtle {
-            background-color: #d1e7dd !important;
-        }
-
-        .bg-danger-subtle {
-            background-color: #f8d7da !important;
-        }
-
-        .input-group-text {
-            border-radius: .75rem 0 0 .75rem !important;
-        }
-
-        .form-control {
-            border-radius: 0 .75rem .75rem 0 !important;
-        }
-
-            .form-control:focus {
-                box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25) !important;
-            }
-
-            .form-control.rounded-3, textarea.form-control {
-                border-radius: .75rem !important;
-            }
-
-        .btn {
-            border-radius: .75rem;
+        .form-control:focus {
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25) !important;
         }
 
         .rounded-pill {
             border-radius: 50rem !important;
         }
 
-        .table-responsive {
-            border-radius: 1rem;
-            overflow: hidden;
+        .cta-button {
+            transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
         }
 
-        .table-hover tbody tr:hover {
-            background-color: #f1f7fe;
+            .cta-button:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            }
+
+        .stepper-wrapper {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
         }
 
-        .table thead th {
-            font-weight: 600;
-            color: #495057;
-            text-transform: uppercase;
+        .stepper-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 33.33%;
+            position: relative;
         }
+
+        .step-counter {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #e9ecef;
+            color: #6c757d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .step-name {
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+
+        .stepper-item.active .step-counter {
+            background-color: #0d6efd;
+            color: white;
+        }
+
+        .stepper-item.active .step-name {
+            color: #0d6efd;
+            font-weight: bold;
+        }
+
+        .stepper-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 16.6%;
+            right: 16.6%;
+            height: 2px;
+            background-color: #e9ecef;
+            z-index: -1;
+        }
+
+        #source-card.source-selected-glow {
+            box-shadow: 0 0 0 0.25rem rgba(13, 202, 240, 0.5) !important;
+        }
+
+        .search-result-card {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+            transition: background-color 0.2s ease;
+        }
+
+            .search-result-card:hover {
+                background-color: #f8f9fa;
+            }
+
+        .add-to-cart-group {
+            max-width: 120px;
+        }
+
+        .skeleton-item {
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            background-color: #f0f0f0;
+            border-radius: 0.5rem;
+        }
+
+        .skeleton-text {
+            height: 1.2rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s infinite;
+            border-radius: 0.25rem;
+        }
+
+        .skeleton-line {
+            width: 80%;
+        }
+
+        .skeleton-line-short {
+            width: 50%;
+        }
+        @@keyframes skeleton-loading {
+            0%
+
+        {
+            background-position: 200% 0;
+        }
+
+        100% {
+            background-position: -200% 0;
+        }
+
+        }
+
+        @@keyframes fadeIn {
+            from
+
+        {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        }
+
+        .selected-items-list .animated-item {
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .empty-cart-message {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            min-height: 200px;
+            color: #6c757d;
+        }
+
+        .order-total-summary {
+            background-color: #e0f2fe;
+            border-top: 2px solid #0d6efd;
+        }
+
+        /* === NEW: Style for Additional Details Section === */
+        .details-section-wrapper {
+            background-color: #f8f9fa; /* Lighter grey background */
+            border: 1px solid #dee2e6; /* Subtle border */
+        }
+
     </style>
 }
