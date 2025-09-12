@@ -26,7 +26,9 @@ namespace MeLink.Web.Controllers
         // صفحة البحث عن الأدوية والصيدليات
         public async Task<IActionResult> Index(string? searchTerm, string? supplierId)
         {
-            var currentUser = await _userManager.GetUserAsync(User);
+           
+
+                var currentUser = await _userManager.GetUserAsync(User);
             // التحقق من أن المستخدم مريض وتخزين النتيجة في ViewBag
             ViewBag.IsPatient = currentUser is Patient;
             // تأكد إن المستخدم مريض
@@ -352,7 +354,7 @@ namespace MeLink.Web.Controllers
                 .Include(o => o.ToUser)
                 .Include(o => o.Items)
                     .ThenInclude(i => i.Medicine)
-                .FirstOrDefaultAsync(o => o.Id == orderId && o.FromUserId == currentUser!.Id);
+                .FirstOrDefaultAsync(o => o.Id == orderId && (o.FromUserId == currentUser!.Id||o.ToUserId==currentUser!.Id));
 
             if (order == null)
             {
@@ -530,10 +532,38 @@ namespace MeLink.Web.Controllers
             return Json(medicines);
         }
         [HttpPost]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> CancelOrder(int orderId)
         {
-            // Logic to cancel order
-            return Json(new { success = true });
+            // ملاحظة: تأكد من أن اسم الـ DbContext (هنا _context) يطابق الاسم في مشروعك
+            var order = await _context.Orders.FindAsync(orderId);
+
+            if (order == null)
+            {
+                TempData["ErrorMessage"] = "Order not found.";
+                return RedirectToAction(nameof(MyOrders));
+            }
+
+            if (order.Status != OrderStatus.Pending)
+            {
+                TempData["ErrorMessage"] = "This order can no longer be cancelled.";
+                return RedirectToAction(nameof(MyOrders));
+            }
+
+            order.Status = OrderStatus.Cancelled;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+                TempData["SuccessMessage"] = $"Order #{orderId} has been successfully cancelled.";
+            }
+            catch (Exception)
+            {
+                TempData["ErrorMessage"] = "An error occurred while cancelling the order.";
+            }
+
+            return RedirectToAction(nameof(MyOrders));
         }
 
         public async Task<IActionResult> Reorder(int orderId)
@@ -572,6 +602,15 @@ namespace MeLink.Web.Controllers
             {
 
                 query = query.Where(i => i.UserId == supplierId && i.IsAvailable && i.StockQuantity > 0);
+            }
+            else
+            {
+                if(currentUser is Pharmacy)
+                    query = query.Where(i=>i.User is MedicineWarehouse ||i.User is DistributionCompany ||i.User is Manufacturer);
+                else if (currentUser is MedicineWarehouse)
+                    query = query.Where(i => i.User is DistributionCompany || i.User is Manufacturer);
+                else if (currentUser is DistributionCompany)
+                    query = query.Where(i => i.User is Manufacturer);
             }
            
 

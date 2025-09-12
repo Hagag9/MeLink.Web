@@ -5,91 +5,55 @@
     // التحقق من نوع المستخدم بناءً على الـ Discriminator
     @if (Model is MeLink.Web.Models.Patient)
     {
-    
-        <div id="mega-menu-full-dropdown" class="hidden mt-1 border-gray-200 shadow-xs bg-gray-50 md:bg-white border-y dark:bg-gray-800 dark:border-gray-600">
-            <div class="grid max-w-screen-lg px-4 py-5 mx-auto text-gray-900 dark:text-white sm:grid-cols-2 md:px-6">
-                <ul>
-                    <li>
-                        <a asp-controller="Order" asp-action="NearbyPharmacies" class="block p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
-                            <div class="font-semibold">Pharmacies</div>
-                            <span class="text-sm text-gray-500 dark:text-gray-400">Connect with near Pharmacies.</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-controller="Order" asp-action="Create" class="block p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
-                            <div class="font-semibold">New Order</div>
-                            <span class="text-sm text-gray-500 dark:text-gray-400">Make order from your near Pharamacy.</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-controller ="Order" asp-action="Index" class="block p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
-                            <div class="font-semibold">Search Medicines</div>
-                            <span class="text-sm text-gray-500 dark:text-gray-400">Find medecine.</span>
-                        </a>
-                    </li>
-                </ul>
-                <ul>
-                    <li>
-                        <a asp-controller="Order" asp-action="MyOrders" class="block p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
-                            <div class="font-semibold">My Orders</div>
-                            <span class="text-sm text-gray-500 dark:text-gray-400">Your Order history.</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
+        <a asp-controller="Order" asp-action="NearbyPharmacies" class="sidebar-link flex items-center gap-4 rounded-md p-3 transition-colors" >
+            <span class="material-symbols-outlined">local_pharmacy</span>
+            <span class="sidebar-text-label text-base font-medium sr-only">Pharmacies</span>
+        </a>
+        <a asp-controller="Order" asp-action="Create" class="sidebar-link flex items-center gap-4 rounded-md p-3 transition-colors" >
+            <span class="material-symbols-outlined">assignment_add</span>
+            <span class="sidebar-text-label text-base font-medium sr-only">New order</span>
+        </a>
+        <a asp-controller="Order" asp-action="Index" class="sidebar-link flex items-center gap-4 rounded-md p-3 transition-colors">
+            <span class="material-symbols-outlined">pill</span>
+            <span class="sidebar-text-label text-base font-medium sr-only">Find Medicine</span>
+        </a>
+        <a asp-controller="Order" asp-action="MyOrders" class="sidebar-link flex items-center gap-4 rounded-md p-3 transition-colors" >
+            <span class="material-symbols-outlined">orders</span>
+            <span class="sidebar-text-label text-base font-medium sr-only">My Orders</span>
+        </a>
+
     }
     else if (Model is MeLink.Web.Models.Pharmacy || Model is MeLink.Web.Models.MedicineWarehouse || Model is MeLink.Web.Models.DistributionCompany)
     {
+        <a asp-controller="Supplier" asp-action="Index" class="sidebar-link flex items-center gap-4 rounded-md p-3 transition-colors">
+            <span class="material-symbols-outlined">local_pharmacy</span>
+            <span class="sidebar-text-label text-base font-medium sr-only">Suppliers</span>
+        </a>
+        <a asp-controller="Order" asp-action="Create" class="sidebar-link flex items-center gap-4 rounded-md p-3 transition-colors">
+            <span class="material-symbols-outlined">assignment_add</span>
+            <span class="sidebar-text-label text-base font-medium sr-only">New order</span>
+        </a>
+       
+        <a asp-controller="Order" asp-action="MyOrders" class="sidebar-link flex items-center gap-4 rounded-md p-3 transition-colors">
+            <span class="material-symbols-outlined">orders</span>
+            <span class="sidebar-text-label text-base font-medium sr-only">My Orders</span>
+        </a>
+        <a asp-controller="Order" asp-action="IncomingOrders" class="sidebar-link flex items-center gap-4 rounded-md p-3 transition-colors">
+            <span class="material-symbols-outlined">call_received</span>
+            <span class="sidebar-text-label text-base font-medium sr-only">Incoming orders</span>
+        </a>
+        <a asp-controller="Order" asp-action="BrowseMedicines" class="sidebar-link flex items-center gap-4 rounded-md p-3 transition-colors">
+            <span class="material-symbols-outlined">pill</span>
+            <span class="sidebar-text-label text-base font-medium sr-only">Find Medicine</span>
+        </a>
 
-
-        <div id="mega-menu-full-dropdown" class="hidden mt-1 border-gray-200 shadow-xs bg-gray-50 md:bg-white border-y dark:bg-gray-800 dark:border-gray-600">
-            <div class="grid max-w-screen-lg px-4 py-5 mx-auto text-gray-900 dark:text-white sm:grid-cols-2 md:px-6">
-                <ul>
-                    <li>
-                        <a asp-controller="Supplier" asp-action="Index" class="block p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
-                            <div class="font-semibold">Suppliers</div>
-                            <span class="text-sm text-gray-500 dark:text-gray-400">Connect with Your Suppliers.</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-controller="Order" asp-action="Create" class="block p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
-                            <div class="font-semibold">New Order</div>
-                            <span class="text-sm text-gray-500 dark:text-gray-400">Make order from your your supplier.</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-controller="Order" asp-action="IncomingOrders" class="block p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
-                            <div class="font-semibold">Incoming Orders</div>
-                            <span class="text-sm text-gray-500 dark:text-gray-400">Follow your Incoming Orders.</span>
-                        </a>
-                    </li>
-                </ul>
-                <ul>
-                    <li>
-                        <a asp-controller="Order" asp-action="MyOrders" class="block p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
-                            <div class="font-semibold">My Orders</div>
-                            <span class="text-sm text-gray-500 dark:text-gray-400">Your Order history.</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
     }
     else if (Model is MeLink.Web.Models.Manufacturer)
     {
-        <div id="mega-menu-full-dropdown" class="hidden mt-1 border-gray-200 shadow-xs bg-gray-50 md:bg-white border-y dark:bg-gray-800 dark:border-gray-600">
-            <div class="grid max-w-screen-lg px-4 py-5 mx-auto text-gray-900 dark:text-white sm:grid-cols-2 md:px-6">
-                <ul>
-                    <li>
-                        <a asp-controller="Order" asp-action="IncomingOrders" class="block p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
-                            <div class="font-semibold">Incoming Orders</div>
-                            <span class="text-sm text-gray-500 dark:text-gray-400">Follow your Incoming Orders.</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
+        <a asp-controller="Order" asp-action="IncomingOrders" class="sidebar-link flex items-center gap-4 rounded-md p-3 transition-colors">
+            <span class="material-symbols-outlined">call_received</span>
+            <span class="sidebar-text-label text-base font-medium sr-only">Incoming Orders</span>
+        </a>
     }
 }
 

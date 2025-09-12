@@ -88,6 +88,7 @@ namespace MeLink.Web.ViewModels
         public decimal Total { get; set; }
     }
 
+
     // ملخص الطلبات
     public class OrderSummaryViewModel
     {

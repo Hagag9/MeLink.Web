@@ -8,146 +8,192 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/MeLink.Web.styles.css" asp-append-version="true" />
 
-    <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Flowbite CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+
+    <link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect" />
+    <link as="style" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter%3Awght%40400%3B500%3B700%3B900&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900" onload="this.rel='stylesheet'" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <link href="data:image/x-icon;base64," rel="icon" type="image/x-icon" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <style type="text/tailwindcss">
+        :root {
+            --primary-color: #137fec;
+        }
+
+        .sidebar-link:hover {
+            background-color: #283039;
+        }
+
+        .sidebar-link span:first-child {
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .sidebar-link:hover span:first-child {
+            transform: translateX(4px);
+        }
+    </style>
+    <script type="text/tailwindcss">
+        tailwind.config = {
+          theme: {
+            extend: {
+              fontFamily: {
+                sans: ['Inter', 'Noto Sans', ...tailwind.defaultTheme.fontFamily.sans],
+              }
+            }
+          }
+        }
+    </script>
 </head>
 <body>
-
-    <nav class="bg-white border-gray-200 dark:bg-gray-900">
-        <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl p-4">
-            <a asp-controller="Home" asp-action="Index" class="flex items-center space-x-3 rtl:space-x-reverse">
-                <img src="https://flowbite.com/docs/images/logo.svg" class="h-8" alt="Flowbite Logo" />
-                <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Pharma</span>
-            </a>
-            <div class="flex items-center space-x-6 rtl:space-x-reverse">
-                <partial name="_LoginPartial" />
-            </div>
-        </div>
-    </nav>
-    <nav class="bg-gray-50 dark:bg-gray-700">
-        <div class="max-w-screen-xl px-4 py-3 mx-auto">
-            <button data-collapse-toggle="mega-menu-full" type="button" class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="mega-menu-full" aria-expanded="false">
-                <span class="sr-only">Open main menu</span>
-                <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15" />
-                </svg>
-            </button>
-            <div id="mega-menu-full" class="items-center justify-between font-medium hidden w-full md:flex md:w-auto md:order-1">
-                <ul class="flex flex-row font-medium mt-0 space-x-8 rtl:space-x-reverse text-sm">
-                    <li>
-                        <a asp-controller="Home" asp-action="Index" class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-blue-500 md:dark:hover:bg-transparent dark:border-gray-700" aria-current="page">Home</a>
-                    </li>
-                    
-                    <li>
-                        <a href="#" class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-blue-500 md:dark:hover:bg-transparent dark:border-gray-700">Marketplace</a>
-                    </li>
-                    <li>
-                        <a href="#" class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-blue-500 md:dark:hover:bg-transparent dark:border-gray-700">Resources</a>
-                    </li>
-                    <li>
-                        <a href="#" class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-blue-500 md:dark:hover:bg-transparent dark:border-gray-700">Contact</a>
-                    </li>
-                    @if (User.Identity.IsAuthenticated)
-                    {
-                        <li>
-                            <button id="mega-menu-full-dropdown-button" data-collapse-toggle="mega-menu-full-dropdown" class="flex items-center justify-between w-full py-2 px-3 text-gray-900 rounded-sm md:w-auto hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-600 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-blue-500 md:dark:hover:bg-transparent dark:border-gray-700">
-                                Medicine Orders <svg class="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4" />
-                            </svg>
-                        </button>
-                    </li>}
-                </ul>
-            </div>
-        </div>
-        @if (User.Identity.IsAuthenticated)
-
-        {
-
-            @await Component.InvokeAsync("UserType")
-
-        }
-    </nav>
-
-    <div  class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-
-    </div>
-    <footer class="mt-auto footer-enhanced">
-        <div class="container py-4">
-            <div class="row g-4 text-center text-md-start justify-content-lg-between">
-
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <a href="#" class="d-inline-block mb-3">
-                        <i class="fas fa-pills fa-4x mb-2 text-primary"></i>
-                        @* <img src="~/images/logo-white.svg" alt="MeLink Logo" class="footer-logo" style="width: 120px;" /> *@
+    <div class="relative flex min-h-screen flex-col">
+        <div class="flex flex-1">
+             @if (User.Identity.IsAuthenticated)
+              { 
+            <aside id="sidebar" class="sticky top-0 h-full self-start flex w-20 flex-col items-center bg-gray-800 p-4 text-white transition-all duration-300">
+                <button id="sidebar-toggle" class="mb-8 rounded-md p-2 text-white transition-colors hover:bg-[#283039] focus:outline-none">
+                    <span class="material-symbols-outlined">menu</span>
+                </button>
+                <nav class="flex flex-col gap-y-6">
+                    <a class="sidebar-link flex items-center gap-4 rounded-md p-3 transition-colors bg-[var(--primary-color)]" href="~/Home/Index">
+                        <span class="material-symbols-outlined">home</span>
+                        <span class="sidebar-text-label text-base font-medium sr-only">Home</span>
                     </a>
-                    <p class="small text-muted mb-4">
-                        A modern platform connecting patients and medical suppliers, ensuring easy access to essential medicines.
-                    </p>
-                    <h6 class="text-white fw-bold mb-3">Stay Updated</h6>
-                    <form action="#" class="newsletter-form">
-                        <div class="input-group">
-                            <input type="email" class="form-control" placeholder="Enter your email" required>
-                            <button class="btn btn-primary" type="submit">Subscribe</button>
+                  
+                        @await Component.InvokeAsync("UserType")
+                    
+                </nav>
+                <div class="mt-auto flex flex-col gap-y-6">
+                    <a class="sidebar-link flex items-center gap-4 rounded-md p-3 transition-colors" href="#">
+                        <span class="material-symbols-outlined">person</span>
+                        <span class="sidebar-text-label text-base font-medium sr-only">Profile</span>
+                    </a>
+                    <a class="sidebar-link flex items-center gap-4 rounded-md p-3 transition-colors" href="#">
+                        <span class="material-symbols-outlined">more_horiz</span>
+                        <span class="sidebar-text-label text-base font-medium sr-only">More</span>
+                    </a>
+                </div>
+            </aside>
+            }
+            <div class="flex-1 flex flex-col">
+                <header class="sticky top-0 z-40 flex items-center justify-between whitespace-nowrap bg-white px-10 py-4">
+                    <nav class="flex items-center gap-x-12">
+                        <a class="flex items-center gap-3 text-black" href="#">
+                            <div class="size-8 text-[var(--primary-color)]">
+                                <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M36.7273 44C33.9891 44 31.6043 39.8386 30.3636 33.69C29.123 39.8386 26.7382 44 24 44C21.2618 44 18.877 39.8386 17.6364 33.69C16.3957 39.8386 14.0109 44 11.2727 44C7.25611 44 4 35.0457 4 24C4 12.9543 7.25611 4 11.2727 4C14.0109 4 16.3957 8.16144 17.6364 14.31C18.877 8.16144 21.2618 4 24 4C26.7382 4 29.123 8.16144 30.3636 14.31C31.6043 8.16144 33.9891 4 36.7273 4C40.7439 4 44 12.9543 44 24C44 35.0457 40.7439 44 36.7273 44Z" fill="currentColor"></path>
+                                </svg>
+                            </div>
+                            <h1 class="text-xl font-bold">Pharma</h1>
+                        </a>
+                        <div class="flex items-center gap-x-8">
+                            <a class="text-base font-medium text-slate-500 hover:text-[var(--primary-color)] transition-colors" href="~/Home/Index">Home</a>
+                            <a class="text-base font-medium text-slate-500 hover:text-[var(--primary-color)] transition-colors" href="#">Contact Us</a>
+                            <a class="text-base font-medium text-slate-500 hover:text-[var(--primary-color)] transition-colors" href="#">About</a>
                         </div>
-                    </form>
-                </div>
+                        <div class="relative">
+                            <input class="w-80 rounded-full border border-gray-300 bg-gray-50 py-2.5 pl-12 pr-4 text-gray-700 focus:border-[var(--primary-color)] focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]/50" placeholder="Search..." type="text" />
+                            <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">search</span>
+                        </div>
+                    </nav>
+                    <div class="flex items-center gap-4">
+                        <partial name="_LoginPartial" />
+                    </div>
+                </header>
+                <main class="bg-white">
+                    <div class="p-10">
+                        @RenderBody()
+                    </div>
+                </main>
+            </div>
+        </div>
 
-                <div class="col-lg-2 col-md-3 col-6 mb-4">
-                    <h6 class="text-white fw-bold mb-3">Quick Links</h6>
-                    <ul class="list-unstyled">
-                        <li class="mb-2"><a href="#">Home</a></li>
-                        <li class="mb-2"><a href="#">About Us</a></li>
-                        <li class="mb-2"><a href="#">Contact</a></li>
-                        <li class="mb-2"><a href="#">Privacy Policy</a></li>
-                    </ul>
-                </div>
+        <footer class="footer-enhanced">
+            <div class="container py-4">
+                <div class="row g-4 text-center text-md-start justify-content-lg-between">
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <a href="#" class="d-inline-block mb-3">
+                            <i class="fas fa-pills fa-4x mb-2 text-primary"></i>
+                        </a>
+                        <p class="small text-muted mb-4">
+                            A modern platform connecting patients and medical suppliers, ensuring easy access to essential medicines.
+                        </p>
+                        <h6 class="text-white fw-bold mb-3">Stay Updated</h6>
+                        <form action="#" class="newsletter-form">
+                            <div class="input-group">
+                                <input type="email" class="form-control" placeholder="Enter your email" required>
+                                <button class="btn btn-primary" type="submit">Subscribe</button>
+                            </div>
+                        </form>
+                    </div>
 
-                <div class="col-lg-2 col-md-3 col-6 mb-4">
-                    <h6 class="text-white fw-bold mb-3">Categories</h6>
-                    <ul class="list-unstyled">
-                        <li class="mb-2"><a href="#">Medicines</a></li>
-                        <li class="mb-2"><a href="#">Medical Supplies</a></li>
-                        <li class="mb-2"><a href="#">Cosmetics</a></li>
-                    </ul>
-                </div>
+                    <div class="col-lg-2 col-md-3 col-6 mb-4">
+                        <h6 class="text-white fw-bold mb-3">Quick Links</h6>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><a href="#">Home</a></li>
+                            <li class="mb-2"><a href="#">About Us</a></li>
+                            <li class="mb-2"><a href="#">Contact</a></li>
+                            <li class="mb-2"><a href="#">Privacy Policy</a></li>
+                        </ul>
+                    </div>
 
-                <div class="col-lg-3 col-md-12 mb-4 text-center text-lg-start">
-                    <h6 class="text-white fw-bold mb-3">Contact Info</h6>
-                    <ul class="list-unstyled small text-muted">
-                        <li class="mb-2"><i class="fas fa-map-marker-alt me-2 text-primary"></i> 123 Health St, Cairo, Egypt</li>
-                        <li class="mb-2"><i class="fas fa-envelope me-2 text-primary"></i> info@melink.com</li>
-                        <li class="mb-2"><i class="fas fa-phone me-2 text-primary"></i> +123 456 7890</li>
-                    </ul>
-                    <div class="social-icons mt-4">
-                        <a href="#" class="me-3" title="Facebook"><i class="fab fa-facebook-f fa-lg"></i></a>
-                        <a href="#" class="me-3" title="Twitter"><i class="fab fa-twitter fa-lg"></i></a>
-                        <a href="#" class="me-3" title="Instagram"><i class="fab fa-instagram fa-lg"></i></a>
-                        <a href="#" title="LinkedIn"><i class="fab fa-linkedin-in fa-lg"></i></a>
+                    <div class="col-lg-2 col-md-3 col-6 mb-4">
+                        <h6 class="text-white fw-bold mb-3">Categories</h6>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><a href="#">Medicines</a></li>
+                            <li class="mb-2"><a href="#">Medical Supplies</a></li>
+                            <li class="mb-2"><a href="#">Cosmetics</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col-lg-3 col-md-12 mb-4 text-center text-lg-start">
+                        <h6 class="text-white fw-bold mb-3">Contact Info</h6>
+                        <ul class="list-unstyled small text-muted">
+                            <li class="mb-2"><i class="fas fa-map-marker-alt me-2 text-primary"></i> 123 Health St, Cairo, Egypt</li>
+                            <li class="mb-2"><i class="fas fa-envelope me-2 text-primary"></i> info@melink.com</li>
+                            <li class="mb-2"><i class="fas fa-phone me-2 text-primary"></i> +123 456 7890</li>
+                        </ul>
+                        <div class="social-icons mt-4">
+                            <a href="#" class="me-3" title="Facebook"><i class="fab fa-facebook-f fa-lg"></i></a>
+                            <a href="#" class="me-3" title="Twitter"><i class="fab fa-twitter fa-lg"></i></a>
+                            <a href="#" class="me-3" title="Instagram"><i class="fab fa-instagram fa-lg"></i></a>
+                            <a href="#" title="LinkedIn"><i class="fab fa-linkedin-in fa-lg"></i></a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="footer-bottom text-center py-3">
-            <div class="container">
-                <p class="small text-muted mb-0">
-                    &copy; @DateTime.Now.Year MeLink. All Rights Reserved.
-                </p>
+            <div class="footer-bottom text-center py-3">
+                <div class="container">
+                    <p class="small text-muted mb-0">
+                        &copy; @DateTime.Now.Year MeLink. All Rights Reserved.
+                    </p>
+                </div>
             </div>
-        </div>
-    </footer>
+        </footer>
+    </div>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.5.1/flowbite.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
+
+    <script>
+        const sidebar = document.getElementById('sidebar');
+        const sidebarToggle = document.getElementById('sidebar-toggle');
+        const sidebarLabels = document.querySelectorAll('.sidebar-text-label');
+
+        sidebarToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('w-20');
+            sidebar.classList.toggle('w-64');
+            sidebar.classList.toggle('items-center');
+            sidebar.classList.toggle('items-start');
+            sidebarLabels.forEach(label => {
+                label.classList.toggle('sr-only');
+            });
+        });
+    </script>
 </body>
 </html>

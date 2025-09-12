@@ -23,98 +23,64 @@
             @foreach (var pharmacy in Model.Pharmacies)
             {
                 <div class="col-md-6 col-lg-4">
-                    <div class="card pharmacy-card shadow-sm h-100 rounded-4">
-                        <div class="card-body p-2 d-flex flex-column">
-                            
-                            <div class="text-center flex-grow-1">
-                                <div class="icon-circle-xs bg-primary-subtle text-primary mx-auto mb-2">
-                                    <i class="fas fa-clinic-medical"></i>
-                                </div>
-                                <h5 class="card-title text-dark fw-bold fs-6">@pharmacy.DisplayName</h5>
+                    <div class="max-w-md mx-auto bg-white dark:bg-[var(--bs-light-black)] rounded-lg shadow-lg overflow-hidden shadow-sm h-100 border-1 rounded-4">
+    <div class="p-6">
+    <div class="flex items-center justify-between mb-4">
+    <h2 class="text-2xl font-bold text-gray-800 dark:text-white">@pharmacy.DisplayName</h2>
+    <span class="inline-block px-3 py-1 text-sm font-semibold text-white bg-[var(--bs-green)] rounded-full">Open Now</span>
+    </div>
+    <div class="flex items-center text-gray-600 dark:text-gray-300 mb-2">
+    <span class="material-symbols-outlined mr-2 text-[var(--bs-blue)]">location_on</span>
+    <p>@pharmacy.Address</p>
+    </div>
+    <div class="flex items-center text-gray-600 dark:text-gray-300 mb-6">
+    <span class="material-symbols-outlined mr-2 text-[var(--bs-blue)]">directions_walk</span>
+    <p>@($"{pharmacy.DistanceInKm!.Value:F2} km away")</p>
+    </div>
+    <div class="flex flex-col sm:flex-row gap-4">
+    <a asp-controller="Order" asp-action="Index" asp-route-supplierId="@pharmacy.UserId" class="w-full sm:w-1/2 flex items-center justify-center px-4 py-2 bg-[var(--bs-blue)] text-white font-semibold rounded-md hover:bg-blue-700 transition-colors duration-300">
+    <span class="material-symbols-outlined mr-2">shopping_bag</span>
+                        Browse Medicine
+                    </a>
+    <a asp-controller="Order" asp-action="CreatePrescriptionOrder" asp-route-supplierId="@pharmacy.UserId" class="w-full sm:w-1/2 flex items-center justify-center px-4 py-2 border border-[var(--bs-blue)] text-[var(--bs-blue)] font-semibold rounded-md hover:bg-[var(--bs-blue)] hover:text-white transition-colors duration-300">
+    <span class="material-symbols-outlined mr-2">description</span>
+                        Order by Prescription
+                    </a>
+    </div>
+    </div>
+    </div>
+    </div>
 
-                                <p class="card-text text-muted small mb-1">
-                                    <i class="fas fa-map-marker-alt me-1"></i>
-                                    @(!string.IsNullOrEmpty(pharmacy.Address) ? pharmacy.Address : "Address not available")
-                                </p>
-                                
-                                <p class="card-text text-muted small">
-                                    <i class="fas fa-road me-1"></i>
-                                    @if (pharmacy.DistanceInKm.HasValue)
-                                    {
-                                        <span>@($"{pharmacy.DistanceInKm.Value:F2} km away")</span>
-                                    }
-                                </p>
-                                
-                                <div class="mt-2">
-                                    @if (pharmacy.IsOpen) 
-                                    {
-                                        <span class="badge rounded-pill @GetStatusBadgeClass(pharmacy.IsOpen)">
-                                            <i class="fas fa-check-circle me-1"></i> Open Now
-                                        </span>
-                                    }
-                                    else
-                                    {
-                                        <span class="badge rounded-pill @GetStatusBadgeClass(pharmacy.IsOpen)">
-                                            <i class="fas fa-times-circle me-1"></i> Closed
-                                        </span>
-                                    }
-                                </div>
-                            </div>
-                            
-                            <div class="mt-2 pt-2 border-top">
-                                <div class="d-grid gap-2">
-                                    <a asp-controller="Order" asp-action="Index" asp-route-supplierId="@pharmacy.UserId" class="btn btn-primary rounded-pill btn-sm">
-                                        <i class="fas fa-pills me-2"></i> Browse Medicines
-                                    </a>
-                                    <a asp-controller="Order" asp-action="CreatePrescriptionOrder" asp-route-supplierId="@pharmacy.UserId" class="btn btn-outline-secondary rounded-pill btn-sm">
-                                        <i class="fas fa-file-prescription me-2"></i> Order with Prescription
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+
+
+                
+
+               
             }
         </div>
     }
 </div>
 
-<style>
-    .pharmacy-card {
-        border: 1px solid transparent;
-        border-radius: 1rem !important;
-        transition: all 0.3s ease-in-out;
-        background-color: #f5f9ff; 
+<style type="text/tailwindcss">
+        :root {
+            --bs-blue: #0d6efd;
+            --bs-green: #198754;
+            --bs-dark: #212529;
+            --bs-light-black: #343a40;
+            --bs-gray: #6c757d;
+        }
+
+    .rounded-4 {
+        border-radius: 1.5rem !important;
     }
 
-    .pharmacy-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
-        border-color: var(--bs-primary);
-        background-color: #ffffff;
+    .shadow-sm {
+        box-shadow: 0 .125rem .25rem rgba(0,0,0,.075) !important;
     }
-
-    /* === UPDATED: A new, extra-small icon circle class === */
-    .icon-circle-xs {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .badge-status-open {
-        background-color: #d1e7dd !important;
-        color: #0a3622 !important;
-    }
-
-    .badge-status-closed {
-        background-color: #f8d7da !important;
-        color: #58151c !important;
-    }
-
-</style>
+   /*      body {
+            font-family: 'Inter', sans-serif;
+        } */
+    </style>
 
 @functions {
     string GetStatusBadgeClass(bool isOpen)

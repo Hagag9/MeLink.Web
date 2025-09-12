@@ -12,7 +12,7 @@
                     MeLink connects you directly to the care you need, fast.
                 </p>
                 <div class="d-grid gap-2 d-sm-flex justify-content-center justify-content-md-start mb-4">
-                    <a asp-controller="Order" asp-action="Index" class="btn btn-primary btn-lg rounded-pill px-5">
+                    <a asp-controller="Order" asp-action="@(ViewBag.IsPatient ? "Index" : "BrowseMedicines")" class="btn btn-primary btn-lg rounded-pill px-5">
                         <i class="fas fa-pills me-2"></i> Start Your Order
                     </a>
                     <a asp-controller="Home" asp-action="About" class="btn btn-outline-primary btn-lg rounded-pill px-5">
@@ -73,7 +73,7 @@
                         <h5 class="fw-bold mb-0">Warehouses</h5>
                     </div>
                     <p class="text-muted small">A wide selection of medicines and bulk supplies.</p>
-                    <a href="#" class="btn btn-outline-primary rounded-pill">View All</a>
+                  
                 </div>
             </div>
             <div class="col-lg-3 col-md-6">
@@ -85,7 +85,7 @@
                         <h5 class="fw-bold mb-0">Companies</h5>
                     </div>
                     <p class="text-muted small">Efficient and reliable distribution of medical goods.</p>
-                    <a href="#" class="btn btn-outline-primary rounded-pill">View All</a>
+                   
                 </div>
             </div>
             <div class="col-lg-3 col-md-6">
@@ -97,7 +97,7 @@
                         <h5 class="fw-bold mb-0">Manufacturers</h5>
                     </div>
                     <p class="text-muted small">Direct access to a wide range of products.</p>
-                    <a href="#" class="btn btn-outline-primary rounded-pill">View All</a>
+                   
                 </div>
             </div>
             <div class="col-lg-3 col-md-6">
@@ -109,7 +109,7 @@
                         <h5 class="fw-bold mb-0">Pharmacies</h5>
                     </div>
                     <p class="text-muted small">Get your prescribed medicines from local pharmacies.</p>
-                    <a asp-controller="Order" asp-action="Index" class="btn btn-outline-primary rounded-pill">Find Now</a>
+                  
                 </div>
             </div>
         </div>

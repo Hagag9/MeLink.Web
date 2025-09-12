@@ -46,9 +46,8 @@ button.accept-policy {
 
 /* Main footer container */
 .footer-enhanced {
-    background-color: #212529; /* A standard dark color */
+    background-color: #1f2937; /* A standard dark color */
     color: rgba(255, 255, 255, 0.7);
-    border-top: 4px solid var(--bs-primary); /* A solid top border for separation */
 }
 
 /* Make sure your white logo is visible on the dark background */

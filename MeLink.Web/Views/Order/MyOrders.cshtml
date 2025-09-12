@@ -1,211 +1,172 @@
-﻿@* Views/Order/MyOrders.cshtml *@
-@model List<MeLink.Web.ViewModels.OrderSummaryViewModel>
+﻿@model List<MeLink.Web.ViewModels.OrderSummaryViewModel>
 
 @{
     ViewData["Title"] = "My Orders";
 }
 
 <div class="container py-5">
-    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-5">
-        <div class="text-center text-md-start mb-3 mb-md-0">
-            <h1 class="display-6 fw-bold text-dark">
-                <i class="fas fa-clipboard-list text-primary me-3"></i>
-                My Orders
-            </h1>
-            <p class="text-muted lead-sm">Track and manage your medicine orders.</p>
-        </div>
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4">
         <div>
-            <a asp-action="Create" class="btn btn-primary btn-lg rounded-pill px-4 shadow-sm">
-                <i class="fas fa-plus me-2"></i>
-                Place New Order
+            <h1 class="h2 fw-bold text-dark">My Orders</h1>
+            <p class="text-muted">Keep track of orders and their information.</p>
+        </div>
+        <div class="d-flex gap-2">
+            <a asp-action="Index" class="btn btn-primary rounded-3">
+                <i class="fas fa-plus me-2"></i>Create Order
             </a>
         </div>
     </div>
 
     @if (Model.Any())
     {
-        <div class="row g-4 mb-5">
-            <div class="col-md-3">
-                <div class="card h-100 border-primary bg-primary-subtle text-primary rounded-4 shadow-sm">
+        <div class="row g-4 mb-4">
+            <div class="col-sm-6 col-md-3">
+                <div class="card h-100 bg-primary-subtle text-primary rounded-4 shadow-sm">
                     <div class="card-body text-center p-4">
-                        <i class="fas fa-shopping-cart fa-2x mb-2 opacity-50"></i>
-                        <h4 class="fw-bold mb-1">@Model.Count()</h4>
-                        <small class="text-muted fw-semibold">Total Orders</small>
+                        <p class="text-muted mb-1 small">Total Orders</p>
+                        <h3 class="fw-bold mb-0">@Model.Count()</h3>
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="card h-100 border-warning bg-warning-subtle text-warning rounded-4 shadow-sm">
+            <div class="col-sm-6 col-md-3">
+                <div class="card h-100 bg-warning-subtle text-primary rounded-4 shadow-sm">
                     <div class="card-body text-center p-4">
-                        <i class="fas fa-clock fa-2x mb-2 opacity-50"></i>
-                        <h4 class="fw-bold mb-1">@Model.Count(o => o.Status == "Pending")</h4>
-                        <small class="text-muted fw-semibold">Pending Orders</small>
+                        <p class="text-muted mb-1 small">Pending Orders</p>
+                        <h3 class="fw-bold mb-0">@Model.Count(o => o.Status == "Pending")</h3>
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="card h-100 border-success bg-success-subtle text-success rounded-4 shadow-sm">
+            <div class="col-sm-6 col-md-3">
+                <div class="card h-100 bg-success-subtle text-primary rounded-4 shadow-sm">
                     <div class="card-body text-center p-4">
-                        <i class="fas fa-check-circle fa-2x mb-2 opacity-50"></i>
-                        <h4 class="fw-bold mb-1">@Model.Count(o => o.Status == "Delivered")</h4>
-                        <small class="text-muted fw-semibold">Delivered Orders</small>
+                        <p class="text-muted mb-1 small">Delivered Orders</p>
+                        <h3 class="fw-bold mb-0">@Model.Count(o => o.Status == "Delivered")</h3>
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="card h-100 border-info bg-info-subtle text-info rounded-4 shadow-sm">
+            <div class="col-sm-6 col-md-3">
+                <div class="card h-100 bg-info-subtle text-primary rounded-4 shadow-sm">
                     <div class="card-body text-center p-4">
-                        <i class="fas fa-pills fa-2x mb-2 opacity-50"></i>
-                        <h4 class="fw-bold mb-1">@Model.Sum(o => o.TotalItems)</h4>
-                        <small class="text-muted fw-semibold">Total Items</small>
+                        <p class="text-muted mb-1 small">Total Items Ordered</p>
+                        <h3 class="fw-bold mb-0">@Model.Sum(o => o.TotalItems)</h3>
                     </div>
                 </div>
             </div>
         </div>
+    }
 
-        <div class="card shadow-sm mb-4 rounded-4">
-            <div class="card-body py-3">
-                <div class="row align-items-center g-3">
-                    <div class="col-md-6">
-                        <div class="btn-group w-100" role="group" aria-label="Status filter">
-                            <button type="button" class="btn btn-outline-secondary active" data-filter="all">All</button>
-                            <button type="button" class="btn btn-outline-warning" data-filter="pending">Pending</button>
-                            <button type="button" class="btn btn-outline-success" data-filter="delivered">Delivered</button>
-                            <button type="button" class="btn btn-outline-danger" data-filter="cancelled">Cancelled</button>
-                        </div>
+    <div class="card shadow-sm border-0 rounded-4">
+        <div class="card-header bg-white border-0 pt-4 pb-3 px-4">
+            <div class="row justify-content-between align-items-center g-2">
+                <div class="col-md-4">
+                    <h5 class="fw-bold mb-0">Orders List</h5>
+                </div>
+                <div class="col-md-8 d-flex justify-content-start justify-content-md-end gap-2">
+                    <div class="input-group" style="max-width: 300px;">
+                        <span class="input-group-text bg-light border-0"><i class="fas fa-search"></i></span>
+                        <input type="text" class="form-control bg-light border-0" id="search-orders" placeholder="Search orders...">
                     </div>
-                    <div class="col-md-6">
-                        <div class="input-group input-group-lg">
-                            <span class="input-group-text bg-white border-end-0 text-muted rounded-start-3"><i class="fas fa-search"></i></span>
-                            <input type="text" class="form-control border-start-0 rounded-end-3" id="search-orders"
-                                   placeholder="Search by pharmacy name...">
-                        </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-filter me-2"></i> Filters
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#" data-filter="all">All</a></li>
+                            <li><a class="dropdown-item" href="#" data-filter="pending">Pending</a></li>
+                            <li><a class="dropdown-item" href="#" data-filter="delivered">Delivered</a></li>
+                            <li><a class="dropdown-item" href="#" data-filter="cancelled">Cancelled</a></li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
-
-        <div class="row g-4" id="orders-container">
-            @foreach (var order in Model.OrderByDescending(o => o.OrderDate))
+        <div class="card-body p-0">
+            @if (Model.Any())
             {
-                <div class="col-lg-4 col-md-6 order-card"
-                     data-status="@order.Status.ToLower()"
-                     data-pharmacy="@order.PharmacyName.ToLower()">
-
-                    <div class="card h-100 shadow-sm border-0 rounded-4 order-item">
-                        <div class="card-header @GetStatusHeaderClass(order.Status) text-white border-0 rounded-top-4 py-3">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <h6 class="mb-0 fw-bold text-dark">Order #@order.OrderId</h6>
-                                <span class="badge bg-light text-dark px-3 py-2 rounded-pill">
-                                    @Html.Raw(GetStatusIcon(order.Status)) @GetStatusText(order.Status)
-                                </span>
-                            </div>
-                        </div>
-
-                        <div class="card-body p-4">
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <h6 class="mb-0 text-dark fw-bold">@order.PharmacyName</h6>
-                                <small class="text-muted">
-                                    <i class="fas fa-calendar-alt me-1"></i>
-                                    @order.OrderDate.ToString("MMM dd, yyyy")
-                                </small>
-                            </div>
-                            <small class="text-info fw-bold">
-                                <i class="fas fa-pills me-1"></i>
-                                @order.TotalItems item@(order.TotalItems > 1 ? "s" : "")
-                            </small>
-
-                            @if (order.Status == "Pending" || order.Status == "Approved" || order.Status == "Shipped")
+                <div class="table-responsive">
+                    <table class="table orders-table mb-0">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Source Name</th>
+                                <th>Order Date</th>
+                                <th>Quantity</th>
+                                <th>Order Status</th>
+                                <th class="text-end">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="orders-container">
+                            @foreach (var order in Model.OrderByDescending(o => o.OrderDate))
                             {
-                                <div class="mt-3">
-                                    <div class="progress rounded-pill" style="height: 8px;">
-                                        <div class="progress-bar @GetProgressBarClass(order.Status)"
-                                             role="progressbar"
-                                             style="width: @GetProgressPercentage(order.Status)%"
-                                             aria-valuenow="@GetProgressPercentage(order.Status)"
-                                             aria-valuemin="0" aria-valuemax="100">
+                                <tr data-status="@order.Status.ToLower()" data-pharmacy="@order.PharmacyName.ToLower()">
+                                    <td><span class="fw-bold">#@order.OrderId</span></td>
+                                    <td>@order.PharmacyName</td>
+                                    <td>
+                                        <small class="text-muted">
+                                            <i class="fas fa-calendar-alt me-1"></i>
+                                            @order.OrderDate.ToString("MMM dd, yyyy")
+                                        </small>
+                                    </td>
+                                    <td>
+                                        <small class="fw-bold">
+                                            <i class="fas fa-pills me-1"></i>
+                                            @order.TotalItems item@(order.TotalItems > 1 ? "s" : "")
+                                        </small>
+                                    </td>
+                                    <td>
+                                        <span class="badge @GetStatusBadgeClass(order.Status)">@GetStatusText(order.Status)</span>
+                                    </td>
+                                    <td class="text-end">
+                                        <div class="dropdown">
+                                            <button class="btn btn-sm btn-light" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="fas fa-ellipsis-v"></i>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-end">
+                                                <li>
+                                                    <a class="dropdown-item" asp-action="Invoice" asp-route-orderId="@order.OrderId">
+                                                        <i class="fas fa-eye fa-fw me-2"></i>View Details
+                                                    </a>
+                                                </li>
+                                                @if (order.Status == "Pending")
+                                                {
+                                                    <li>
+                                                        <a class="dropdown-item text-danger cancel-order-btn" href="#" data-order-id="@order.OrderId" data-pharmacy="@order.PharmacyName">
+                                                            <i class="fas fa-times fa-fw me-2"></i>Cancel Order
+                                                        </a>
+                                                    </li>
+                                                }
+                                            </ul>
                                         </div>
-                                    </div>
-                                    <div class="text-muted small mt-1">@GetProgressText(order.Status)</div>
-                                </div>
+                                    </td>
+                                </tr>
                             }
-                        </div>
-
-                        <div class="card-footer bg-transparent border-0 pt-0 pb-3">
-                            <div class="d-grid gap-2">
-                                <a asp-action="Invoice" asp-route-orderId="@order.OrderId"
-                                   class="btn btn-outline-primary rounded-pill">
-                                    <i class="fas fa-eye me-2"></i>
-                                    View Details
-                                </a>
-
-                                @if (order.Status == "Pending")
-                                {
-                                    <button type="button"
-                                            class="btn btn-outline-danger rounded-pill cancel-order-btn"
-                                            data-order-id="@order.OrderId"
-                                            data-pharmacy="@order.PharmacyName">
-                                        <i class="fas fa-times me-2"></i>
-                                        Cancel Order
-                                    </button>
-                                }
-                                else if (order.Status == "Delivered")
-                                {
-                                    <button type="button" class="btn btn-outline-success rounded-pill">
-                                        <i class="fas fa-star me-2"></i>
-                                        Rate Order
-                                    </button>
-                                }
-                            </div>
-                        </div>
-                    </div>
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="text-center py-5">
+                    <div class="mb-4"><i class="fas fa-clipboard-list text-muted opacity-25" style="font-size: 5rem;"></i></div>
+                    <h4 class="text-muted fw-bold mb-3">No Orders Yet</h4>
+                    <p class="text-muted mb-4 lead">Start by searching for the medicines you need.</p>
                 </div>
             }
         </div>
-
-        <div id="no-results" class="text-center py-5" style="display: none;">
-            <div class="mb-4">
-                <i class="fas fa-search text-muted opacity-25" style="font-size: 5rem;"></i>
-            </div>
-            <h4 class="text-muted fw-bold mb-2">No Orders Found</h4>
-            <p class="text-muted lead-sm">Try adjusting your search or filter criteria.</p>
-        </div>
-    }
-    else
-    {
-        <div class="text-center py-5">
-            <div class="mb-4">
-                <i class="fas fa-clipboard-list text-muted opacity-25" style="font-size: 5rem;"></i>
-            </div>
-            <h4 class="text-muted fw-bold mb-3">No Orders Yet</h4>
-            <p class="text-muted mb-4 lead">
-                You haven't placed any medicine orders yet.<br>
-                Start by searching for the medicines you need.
-            </p>
-            <a asp-action="Index" class="btn btn-primary btn-lg rounded-pill px-5 shadow-sm">
-                <i class="fas fa-plus me-2"></i>
-                Place Your First Order
-            </a>
-        </div>
-    }
+    </div>
 </div>
 
 <div class="modal fade" id="cancelOrderModal" tabindex="-1" aria-labelledby="cancelOrderModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content rounded-4 shadow-lg">
             <div class="modal-header bg-danger text-white border-0 rounded-top-4">
-                <h5 class="modal-title" id="cancelOrderModalLabel">
-                    <i class="fas fa-exclamation-triangle me-2"></i>
-                    Cancel Order
-                </h5>
+                <h5 class="modal-title" id="cancelOrderModalLabel"><i class="fas fa-exclamation-triangle me-2"></i>Cancel Order</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body p-4 text-center">
-                <div class="mb-3">
-                    <i class="fas fa-question-circle fa-4x text-warning"></i>
-                </div>
+                <div class="mb-3"><i class="fas fa-question-circle fa-4x text-warning"></i></div>
                 <h5 class="fw-bold mb-3">Are you sure you want to cancel this order?</h5>
-                <p class="text-muted lead-sm mb-4">This action cannot be undone and will release any reserved medicines back to inventory.</p>
+                <p class="text-muted lead-sm mb-4">This action cannot be undone.</p>
                 <div class="alert alert-info rounded-3 text-start">
                     <div class="d-flex align-items-center">
                         <i class="fas fa-info-circle me-2 fs-5"></i>
@@ -217,16 +178,10 @@
                 </div>
             </div>
             <div class="modal-footer d-flex justify-content-center border-0 p-4">
-                <button type="button" class="btn btn-secondary rounded-pill me-3" data-bs-dismiss="modal">
-                    <i class="fas fa-arrow-left me-2"></i>
-                    Keep Order
-                </button>
-                <form id="cancel-order-form" method="post" style="display: inline;">
+                <button type="button" class="btn btn-secondary rounded-pill me-3" data-bs-dismiss="modal"><i class="fas fa-arrow-left me-2"></i>Keep Order</button>
+                <form id="cancel-order-form" asp-action="CancelOrder" method="post" style="display: inline;">
                     <input type="hidden" name="orderId" id="cancel-order-id">
-                    <button type="submit" class="btn btn-danger rounded-pill">
-                        <i class="fas fa-times me-2"></i>
-                        Yes, Cancel Order
-                    </button>
+                    <button type="submit" class="btn btn-danger rounded-pill"><i class="fas fa-times me-2"></i>Yes, Cancel Order</button>
                 </form>
             </div>
         </div>
@@ -236,143 +191,42 @@
 @section Scripts {
     <script>
         $(document).ready(function () {
-
-            // Filter functionality
-            $('[data-filter]').on('click', function () {
-                const filter = $(this).data('filter');
-
-                // Update active button
-                $('[data-filter]').removeClass('active');
-                $(this).addClass('active');
-
-                // Filter orders
-                filterOrders(filter, $('#search-orders').val());
+            $('.dropdown-item[data-filter]').on('click', function (e) {
+                e.preventDefault();
+                filterOrders($(this).data('filter'), $('#search-orders').val());
             });
 
-            // Search functionality
             $('#search-orders').on('keyup', function () {
-                const searchTerm = $(this).val();
-                const activeFilter = $('[data-filter].active').data('filter');
-                filterOrders(activeFilter, searchTerm);
+                const activeFilter = $('.dropdown-item.active').data('filter') || 'all';
+                filterOrders(activeFilter, $(this).val());
             });
-
-            // Cancel order modal
-            $('.cancel-order-btn').on('click', function () {
-                const orderId = $(this).data('order-id');
-                const pharmacyName = $(this).data('pharmacy');
-
-                $('#cancel-order-id').val(orderId);
-                $('#cancel-order-details').text(`Order #${orderId} from ${pharmacyName}`);
-                $('#cancel-order-form').attr('action', '/Order/Cancel');
-
-                $('#cancelOrderModal').modal('show');
-            });
-
-            // Show success/error messages from TempData
-            @if (TempData["SuccessMessage"] != null)
-            {
-                    <text>showToast('@TempData["SuccessMessage"]', 'success');</text>
-            }
-
-            @if (TempData["ErrorMessage"] != null)
-            {
-                    <text>showToast('@TempData["ErrorMessage"]', 'danger');</text>
-            }
-
-            // Toast notification function
-            function showToast(message, type = 'info') {
-                const toastHtml = `
-                    <div class="toast align-items-center text-white bg-${type} border-0 position-fixed top-0 end-0 m-3" role="alert" aria-live="assertive" aria-atomic="true">
-                        <div class="d-flex">
-                            <div class="toast-body">
-                                ${message}
-                            </div>
-                            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-                        </div>
-                    </div>
-                `;
-
-                $('body').append(toastHtml);
-                const toast = $('.toast').last();
-                const bootstrapToast = new bootstrap.Toast(toast, { delay: 4000 });
-                bootstrapToast.show();
-
-                toast.on('hidden.bs.toast', function () {
-                    $(this).remove();
-                });
-            }
 
             function filterOrders(statusFilter, searchTerm) {
-                let visibleCount = 0;
-                let hasResults = false;
-
-                $('.order-card').each(function () {
+                $('#orders-container tr').each(function () {
                     const orderStatus = $(this).data('status');
                     const pharmacyName = $(this).data('pharmacy');
-
                     let showOrder = true;
-
-                    // Apply status filter
-                    if (statusFilter !== 'all' && orderStatus !== statusFilter) {
-                        showOrder = false;
-                    }
-
-                    // Apply search filter
-                    if (searchTerm && !pharmacyName.includes(searchTerm.toLowerCase())) {
-                        showOrder = false;
-                    }
-
-                    if (showOrder) {
-                        $(this).fadeIn(300);
-                        visibleCount++;
-                        hasResults = true;
-                    } else {
-                        $(this).fadeOut(300);
-                    }
+                    if (statusFilter !== 'all' && orderStatus !== statusFilter) { showOrder = false; }
+                    if (searchTerm && !pharmacyName.toLowerCase().includes(searchTerm.toLowerCase())) { showOrder = false; }
+                    if (showOrder) { $(this).show(); }
+                    else { $(this).hide(); }
                 });
-
-                if (hasResults) {
-                    $('#no-results').fadeOut(300);
-                } else {
-                    $('#no-results').fadeIn(300);
-                }
             }
 
+            $('#orders-container').on('click', '.cancel-order-btn', function (e) {
+                e.preventDefault();
+                const orderId = $(this).data('order-id');
+                const pharmacyName = $(this).data('pharmacy');
+                $('#cancel-order-id').val(orderId);
+                $('#cancel-order-details').text(`Order #${orderId} from ${pharmacyName}`);
+                $('#cancelOrderModal').modal('show');
+            });
         });
     </script>
 
     <style>
-        .order-item {
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-            .order-item:hover {
-                transform: translateY(-5px);
-                box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2) !important;
-            }
-
         .rounded-4 {
             border-radius: 1.5rem !important;
-        }
-
-        .rounded-top-4 {
-            border-top-left-radius: 1.5rem !important;
-            border-top-right-radius: 1.5rem !important;
-        }
-
-        .rounded-end-3 {
-            border-top-right-radius: 0.75rem !important;
-            border-bottom-right-radius: 0.75rem !important;
-        }
-
-        .rounded-start-3 {
-            border-top-left-radius: 0.75rem !important;
-            border-bottom-left-radius: 0.75rem !important;
-        }
-
-        .btn.rounded-pill {
-            border-radius: 50rem !important;
         }
 
         .bg-primary-subtle {
@@ -391,100 +245,83 @@
             background-color: #fff3cd !important;
         }
 
-        .progress.rounded-pill {
-            border-radius: 50rem !important;
+        .orders-table {
+            width: 100%;
+            border-collapse: collapse;
+            vertical-align: middle;
         }
 
-        .lead-sm {
-            font-size: 1.15rem;
+            .orders-table thead th {
+                text-transform: uppercase;
+                color: #6c757d;
+                font-size: 0.8rem;
+                font-weight: 600;
+                padding: 1rem 1.5rem;
+                border-bottom: 1px solid #e9ecef;
+                text-align: left;
+            }
+
+            .orders-table tbody td {
+                padding: 1rem 1.5rem;
+                border-top: 1px solid #e9ecef;
+                color: #212529;
+                text-align: left;
+            }
+
+            .orders-table .badge {
+                padding: 0.4em 0.8em;
+                border-radius: 6px;
+                font-weight: 500;
+                font-size: 0.8rem;
+            }
+
+        .badge.status-delivered {
+            background-color: #ecfdf3;
+            color: #027a48;
         }
 
-        .input-group-lg > .form-control {
-            border-radius: 0 .75rem .75rem 0 !important;
+        .badge.status-shipped, .badge.status-approved {
+            background-color: #eff8ff;
+            color: #175cd3;
         }
 
-        .input-group-lg > .input-group-text {
-            border-radius: .75rem 0 0 .75rem !important;
+        .badge.status-pending {
+            background-color: #e1c676;
+            color: #b54708;
         }
+
+        .badge.status-cancelled, .badge.status-rejected {
+            background-color: #c17878;
+            color: #b42318;
+        }
+
+        .badge.status-unknown {
+            background-color: #f8f9fc;
+            color: #364254;
+        }
+
+        /* === NEW: Hover effect for table rows === */
+        .orders-table tbody tr {
+            transition: background-color 0.2s ease-in-out;
+        }
+
+            .orders-table tbody tr:hover {
+                background-color: #f8f9fa; /* A subtle light grey */
+            }
     </style>
 }
 
 @functions {
-    string GetStatusHeaderClass(string status)
-    {
-        return status switch
-        {
-            "Pending" => "bg-warning-subtle text-dark",
-            "Approved" => "bg-info-subtle text-dark",
-            "Shipped" => "bg-primary-subtle text-dark",
-            "Delivered" => "bg-success",
-            "Cancelled" => "bg-secondary",
-            "Rejected" => "bg-danger",
-            _ => "bg-dark"
-        };
-    }
+    string GetStatusBadgeClass(string status) => "status-" + (status ?? "unknown").ToLower();
 
-    string GetStatusText(string status)
+    string GetStatusText(string status) => (status ?? "").ToLower() switch
     {
-        return status switch
-        {
-            "Pending" => "Pending Review",
-            "Approved" => "Approved",
-            "Shipped" => "In Transit",
-            "Delivered" => "Delivered",
-            "Cancelled" => "Cancelled",
-            "Rejected" => "Rejected",
-            _ => "Unknown"
-        };
-    }
-
-    string GetStatusIcon(string status)
-    {
-        return status switch
-        {
-            "Pending" => "<i class='fas fa-clock'></i>",
-            "Approved" => "<i class='fas fa-check'></i>",
-            "Shipped" => "<i class='fas fa-shipping-fast'></i>",
-            "Delivered" => "<i class='fas fa-check-circle'></i>",
-            "Cancelled" => "<i class='fas fa-times'></i>",
-            "Rejected" => "<i class='fas fa-times-circle'></i>",
-            _ => "<i class='fas fa-question'></i>"
-        };
-    }
-
-    string GetProgressBarClass(string status)
-    {
-        return status switch
-        {
-            "Pending" => "bg-warning",
-            "Approved" => "bg-info",
-            "Shipped" => "bg-primary",
-            "Delivered" => "bg-success",
-            _ => "bg-secondary"
-        };
-    }
-
-    int GetProgressPercentage(string status)
-    {
-        return status switch
-        {
-            "Pending" => 25,
-            "Approved" => 50,
-            "Shipped" => 75,
-            "Delivered" => 100,
-            _ => 0
-        };
-    }
-
-    string GetProgressText(string status)
-    {
-        return status switch
-        {
-            "Pending" => "Order received, waiting for pharmacy confirmation",
-            "Approved" => "Order confirmed, preparing medicines",
-            "Shipped" => "Order dispatched, on the way to you",
-            "Delivered" => "Order delivered successfully",
-            _ => "Status unknown"
-        };
-    }
+        "pending" => "Pending",
+        "approved" => "Approved",
+        "shipped" => "Shipped",
+        "delivered" => "Delivered",
+        "cancelled" => "Cancelled",
+        "rejected" => "Rejected",
+        _ => "Unknown"
+    };
 }
