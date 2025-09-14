@@ -81,7 +81,7 @@
     <div class="container mx-auto">
         <div class="flex justify-between items-center mb-6"><h1 class="text-4xl font-bold text-gray-800">Medicine</h1></div>
         <div class="mb-6">
-            <form asp-controller="Order" asp-action="@(string.IsNullOrEmpty(Model.SupplierId) || ViewBag.IsPatient ? "Index" : "BrowseMedicines")" method="get" class="flex items-center gap-4">
+            <form asp-controller="Order" asp-action="@(ViewBag.IsPatient ? "Index" : "BrowseMedicines")" method="get" class="flex items-center gap-4">
                 @if (!string.IsNullOrEmpty(Model.SupplierId))
                 {
                     <input type="hidden" name="supplierId" value="@Model.SupplierId" />
