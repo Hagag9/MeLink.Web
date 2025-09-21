@@ -19,7 +19,7 @@
                 <div class="card h-100 bg-danger-subtle text-danger rounded-4 shadow-sm">
                     <div class="card-body text-center p-4">
                         <p class="text-muted mb-1 small">Total Indebtedness</p>
-                        <h3 class="fw-bold mb-0">@Model.TotalIndebtedness.ToString("C")</h3>
+                        <h3 class="fw-bold mb-0">@Model.TotalIndebtedness.ToString("N2") EGP</h3>
                     </div>
                 </div>
             </div>
@@ -27,7 +27,7 @@
                 <div class="card h-100 bg-success-subtle text-success rounded-4 shadow-sm">
                     <div class="card-body text-center p-4">
                         <p class="text-muted mb-1 small">Total Paid</p>
-                        <h3 class="fw-bold mb-0">@Model.TotalPaid.ToString("C")</h3>
+                        <h3 class="fw-bold mb-0">@Model.TotalPaid.ToString("N2") EGP</h3>
                     </div>
                 </div>
             </div>
@@ -63,7 +63,7 @@
                             {
                                 <tr>
                                     <td><span class="fw-bold">@summary.CompanyName</span></td>
-                                    <td class="text-end">@summary.TotalAmount.ToString("C")</td>
+                                    <td class="text-end">@summary.TotalAmount.ToString("N2") EGP</td>
                                     <td class="text-end">
                                         <button class="btn btn-sm btn-success pay-btn" data-bs-toggle="modal" data-bs-target="#payModal" data-company-name="@summary.CompanyName" data-amount="@summary.TotalAmount.ToString("C")">
                                             <i class="fas fa-money-bill-wave me-2"></i>Pay
