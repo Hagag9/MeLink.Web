@@ -679,5 +679,69 @@ namespace MeLink.Web.Controllers
             return View(viewModel);
         }
 
+
+        public async Task<IActionResult> Indebtedness()
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+
+            // 1. Get all orders from the current user to suppliers that allow installments.
+            var orders = await _context.Orders
+                .Include(o => o.ToUser)
+                .Include(o => o.Items)
+                    .ThenInclude(i => i.Medicine)
+                .Where(o => o.FromUserId == currentUser.Id && o.ToUser.Installment == true)
+                .ToListAsync();
+
+            // 2. Group orders by the supplier (ToUser).
+            var groupedOrders = orders.GroupBy(o => o.ToUser);
+
+            var indebtednessSummaries = new List<IndebtednessSummaryViewModel>();
+            decimal totalIndebtedness = 0;
+
+            // 3. Process each group to calculate indebtedness.
+            foreach (var group in groupedOrders)
+            {
+                var company = group.Key;
+                decimal companyTotal = 0;
+
+                // Get all inventory items for this company at once to reduce DB calls.
+                var companyInventory = await _context.Inventories
+                    .Where(i => i.UserId == company.Id)
+                    .ToDictionaryAsync(i => i.MedicineId, i => i);
+
+                foreach (var order in group)
+                {
+                    decimal orderTotal = 0;
+                    foreach (var item in order.Items)
+                    {
+                        if (companyInventory.TryGetValue(item.MedicineId, out var inventoryItem))
+                        {
+                            orderTotal += inventoryItem.Price * item.Quantity;
+                        }
+                    }
+                    companyTotal += orderTotal;
+                }
+
+                indebtednessSummaries.Add(new IndebtednessSummaryViewModel
+                {
+                    CompanyId = company.Id,
+                    CompanyName = company.DisplayName,
+                    TotalAmount = companyTotal
+                });
+
+                totalIndebtedness += companyTotal;
+            }
+
+            // 4. Prepare the final view model.
+            var viewModel = new IndebtednessViewModel
+            {
+                IndebtednessSummaries = indebtednessSummaries.OrderByDescending(s => s.TotalAmount).ToList(),
+                TotalIndebtedness = totalIndebtedness,
+                TotalPaid = 0, // Placeholder for now.
+                CompaniesCount = indebtednessSummaries.Count
+            };
+
+            return View(viewModel);
+        }
     }
 }

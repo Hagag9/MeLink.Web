@@ -21,7 +21,10 @@
             <span class="material-symbols-outlined">orders</span>
             <span class="sidebar-text-label text-base font-medium sr-only">My Orders</span>
         </a>
-
+        <a asp-controller="Order" asp-action="Indebtedness" class="sidebar-link flex items-center gap-4 rounded-md p-3 transition-colors">
+            <span class="material-symbols-outlined">account_balance_wallet</span>
+            <span class="sidebar-text-label text-base font-medium sr-only">Indebtedness</span>
+        </a>
     }
     else if (Model is MeLink.Web.Models.Pharmacy || Model is MeLink.Web.Models.MedicineWarehouse || Model is MeLink.Web.Models.DistributionCompany)
     {
@@ -37,6 +40,10 @@
         <a asp-controller="Order" asp-action="MyOrders" class="sidebar-link flex items-center gap-4 rounded-md p-3 transition-colors">
             <span class="material-symbols-outlined">orders</span>
             <span class="sidebar-text-label text-base font-medium sr-only">My Orders</span>
+        </a>
+        <a asp-controller="Order" asp-action="Indebtedness" class="sidebar-link flex items-center gap-4 rounded-md p-3 transition-colors">
+            <span class="material-symbols-outlined">account_balance_wallet</span>
+            <span class="sidebar-text-label text-base font-medium sr-only">Indebtedness</span>
         </a>
         <a asp-controller="Order" asp-action="IncomingOrders" class="sidebar-link flex items-center gap-4 rounded-md p-3 transition-colors">
             <span class="material-symbols-outlined">call_received</span>

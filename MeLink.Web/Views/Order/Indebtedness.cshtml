@@ -1,0 +1,154 @@
+@model MeLink.Web.ViewModels.IndebtednessViewModel
+
+@{
+    ViewData["Title"] = "My Indebtedness";
+}
+
+<div class="container py-5">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h2 fw-bold text-dark">Indebtedness</h1>
+            <p class="text-muted">Track your indebtedness to companies.</p>
+        </div>
+    </div>
+
+    @if (Model.IndebtednessSummaries.Any())
+    {
+        <div class="row g-4 mb-4">
+            <div class="col-sm-6 col-md-4">
+                <div class="card h-100 bg-danger-subtle text-danger rounded-4 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <p class="text-muted mb-1 small">Total Indebtedness</p>
+                        <h3 class="fw-bold mb-0">@Model.TotalIndebtedness.ToString("C")</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-4">
+                <div class="card h-100 bg-success-subtle text-success rounded-4 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <p class="text-muted mb-1 small">Total Paid</p>
+                        <h3 class="fw-bold mb-0">@Model.TotalPaid.ToString("C")</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-4">
+                <div class="card h-100 bg-info-subtle text-info rounded-4 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <p class="text-muted mb-1 small">Number of Companies</p>
+                        <h3 class="fw-bold mb-0">@Model.CompaniesCount</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="card shadow-sm border-0 rounded-4">
+        <div class="card-header bg-white border-0 pt-4 pb-3 px-4">
+            <h5 class="fw-bold mb-0">Indebtedness List</h5>
+        </div>
+        <div class="card-body p-0">
+            @if (Model.IndebtednessSummaries.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table indebtedness-table mb-0">
+                        <thead>
+                            <tr>
+                                <th>Company Name</th>
+                                <th class="text-end">Total Amount</th>
+                                <th class="text-end">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var summary in Model.IndebtednessSummaries)
+                            {
+                                <tr>
+                                    <td><span class="fw-bold">@summary.CompanyName</span></td>
+                                    <td class="text-end">@summary.TotalAmount.ToString("C")</td>
+                                    <td class="text-end">
+                                        <button class="btn btn-sm btn-success pay-btn" data-bs-toggle="modal" data-bs-target="#payModal" data-company-name="@summary.CompanyName" data-amount="@summary.TotalAmount.ToString("C")">
+                                            <i class="fas fa-money-bill-wave me-2"></i>Pay
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="text-center py-5">
+                    <div class="mb-4"><i class="fas fa-file-invoice-dollar text-muted opacity-25" style="font-size: 5rem;"></i></div>
+                    <h4 class="text-muted fw-bold mb-3">No Indebtedness Found</h4>
+                    <p class="text-muted mb-4 lead">You have no outstanding debts with companies that offer installment plans.</p>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<!-- Pay Modal -->
+<div class="modal fade" id="payModal" tabindex="-1" aria-labelledby="payModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content rounded-4 shadow-lg">
+            <div class="modal-header bg-success text-white border-0 rounded-top-4">
+                <h5 class="modal-title" id="payModalLabel"><i class="fas fa-credit-card me-2"></i>Payment Confirmation</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <p>This is a placeholder for the payment process for <strong id="modalCompanyName"></strong>.</p>
+                <p>Amount: <strong id="modalAmount"></strong></p>
+                <p><em>(This is for display purposes only)</em></p>
+            </div>
+            <div class="modal-footer d-flex justify-content-end border-0 p-3">
+                <button type="button" class="btn btn-secondary rounded-pill" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success rounded-pill">Confirm Payment</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('.pay-btn').on('click', function () {
+                var companyName = $(this).data('company-name');
+                var amount = $(this).data('amount');
+                $('#modalCompanyName').text(companyName);
+                $('#modalAmount').text(amount);
+            });
+        });
+    </script>
+
+    <style>
+        .rounded-4 { border-radius: 1.5rem !important; }
+        .bg-danger-subtle { background-color: #f8d7da !important; }
+        .text-danger { color: #721c24 !important; }
+        .bg-success-subtle { background-color: #d1e7dd !important; }
+        .text-success { color: #0f5132 !important; }
+        .bg-info-subtle { background-color: #cff4fc !important; }
+        .text-info { color: #055160 !important; }
+
+        .indebtedness-table thead th {
+            text-transform: uppercase;
+            color: #6c757d;
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #e9ecef;
+            text-align: left;
+        }
+
+        .indebtedness-table tbody td {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid #e9ecef;
+            color: #212529;
+            vertical-align: middle;
+            text-align: left;
+        }
+
+        .indebtedness-table tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+    </style>
+}
