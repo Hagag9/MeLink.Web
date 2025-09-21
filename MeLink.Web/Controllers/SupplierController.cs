@@ -122,7 +122,8 @@ namespace MeLink.Web.Controllers
                     DisplayName = u.DisplayName!,
                     Address = u.Address,
                     City = u.City,
-                    UserType = u.GetType().Name
+                    UserType = u.GetType().Name,
+                    Installment =u.Installment
                 })
                 .ToListAsync();
 

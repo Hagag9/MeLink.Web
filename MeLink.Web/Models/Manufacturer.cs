@@ -6,5 +6,6 @@
         public string? ProductionCapacity { get; set; }
         public string? ContactPersonName { get; set; }
         public int? MaxPaymentPeriodInDays { get; set; }
+        
     }
 }

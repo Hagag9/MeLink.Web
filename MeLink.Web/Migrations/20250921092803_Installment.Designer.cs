@@ -4,6 +4,7 @@ using MeLink.Web.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MeLink.Web.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250921092803_Installment")]
+    partial class Installment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -53,9 +56,6 @@ namespace MeLink.Web.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("Installment")
                         .HasColumnType("bit");
 
                     b.Property<bool>("IsActive")
@@ -465,6 +465,9 @@ namespace MeLink.Web.Migrations
                     b.Property<string>("ContactPersonName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("Installment")
+                        .HasColumnType("bit");
+
                     b.Property<int?>("MaxPaymentPeriodInDays")
                         .HasColumnType("int");
 
@@ -481,6 +484,9 @@ namespace MeLink.Web.Migrations
                     b.Property<string>("FactoryRegistrationNo")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("Installment")
+                        .HasColumnType("bit");
+
                     b.Property<int?>("MaxPaymentPeriodInDays")
                         .HasColumnType("int");
 
@@ -491,6 +497,9 @@ namespace MeLink.Web.Migrations
                         {
                             t.Property("ContactPersonName")
                                 .HasColumnName("Manufacturer_ContactPersonName");
+
+                            t.Property("Installment")
+                                .HasColumnName("Manufacturer_Installment");
 
                             t.Property("MaxPaymentPeriodInDays")
                                 .HasColumnName("Manufacturer_MaxPaymentPeriodInDays");
@@ -506,6 +515,9 @@ namespace MeLink.Web.Migrations
                     b.Property<string>("Capacity")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("Installment")
+                        .HasColumnType("bit");
+
                     b.Property<int?>("MaxPaymentPeriodInDays")
                         .HasColumnType("int");
 
@@ -514,6 +526,9 @@ namespace MeLink.Web.Migrations
 
                     b.ToTable("AspNetUsers", t =>
                         {
+                            t.Property("Installment")
+                                .HasColumnName("MedicineWarehouse_Installment");
+
                             t.Property("MaxPaymentPeriodInDays")
                                 .HasColumnName("MedicineWarehouse_MaxPaymentPeriodInDays");
                         });
@@ -544,6 +559,9 @@ namespace MeLink.Web.Migrations
                 {
                     b.HasBaseType("MeLink.Web.Models.ApplicationUser");
 
+                    b.Property<bool>("Installment")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsDeliveryAvailable")
                         .HasColumnType("bit");
 
@@ -552,6 +570,12 @@ namespace MeLink.Web.Migrations
 
                     b.Property<string>("WorkingHours")
                         .HasColumnType("nvarchar(max)");
+
+                    b.ToTable("AspNetUsers", t =>
+                        {
+                            t.Property("Installment")
+                                .HasColumnName("Pharmacy_Installment");
+                        });
 
                     b.HasDiscriminator().HasValue("Pharmacy");
                 });

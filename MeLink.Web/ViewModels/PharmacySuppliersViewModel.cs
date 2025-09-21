@@ -15,6 +15,7 @@
         public string? Address { get; set; }
         public string? City { get; set; }
         public string UserType { get; set; } = default!;
+        public bool? Installment { get; set; }
     }
 
     // موديل جديد لعرض أنواع الموردين
