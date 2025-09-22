@@ -78,7 +78,6 @@ namespace MeLink.Web.ViewModels
         public List<InvoiceItemViewModel> Items { get; set; } = new();
         public decimal TotalAmount { get; set; }
         public string Status { get; set; } = default!;
-        public string DeliveryTime { get; set; }
     }
 
     public class InvoiceItemViewModel
@@ -141,6 +140,5 @@ namespace MeLink.Web.ViewModels
         [Display(Name = "Prescription File")]
         public IFormFile PrescriptionFile { get; set; }
         public string? Notes { get; set; }
-        public bool IsPatient { get; set; }
     }
 }

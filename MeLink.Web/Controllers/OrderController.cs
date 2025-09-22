@@ -145,12 +145,10 @@ namespace MeLink.Web.Controllers
                 return NotFound();
             }
 
-            var currentUser = await _userManager.GetUserAsync(User);
             var model = new CreatePrescriptionOrderViewModel
             {
                 SupplierId = supplier.Id,
-                SupplierName = supplier.DisplayName,
-                IsPatient = currentUser is Patient
+                SupplierName = supplier.DisplayName
             };
 
             return View(model);
@@ -398,8 +396,7 @@ namespace MeLink.Web.Controllers
                 PharmacyAddress = order.ToUser.Address,
                 Items = invoiceItems,
                 TotalAmount = totalAmount,
-                Status = order.Status.ToString(),
-                DeliveryTime = currentUser is Patient ? "60 minutes" : "Next day delivery"
+                Status = order.Status.ToString()
             };
 
             return View(viewModel);
@@ -518,7 +515,6 @@ namespace MeLink.Web.Controllers
             // Apply the user-specific filter to the main query
             inventoriesQuery = inventoriesQuery.Where(i => allowedSupplierIds.Contains(i.UserId));
 
-            // Perform projection and sorting
             var results = inventoriesQuery
                 .Select(i => new
                 {
@@ -526,17 +522,10 @@ namespace MeLink.Web.Controllers
                     DiscountPercentage = (i.DiscountPrice.HasValue && i.Price > 0) ? ((i.Price - i.DiscountPrice.Value) / i.Price) * 100 : (decimal?)null
                 });
 
-            // Sort based on user type
-            if (currentUser is Patient)
-            {
-                // Patients don't see discounts, so no need to sort by it.
-                // You might want to sort by something else here, like name or price.
-            }
-            else
+            if (currentUser is not Patient)
             {
                 results = results.OrderByDescending(r => r.DiscountPercentage);
             }
-
 
             var medicines = await results
                 .Select(r => new MedicineSearchResult
@@ -549,9 +538,9 @@ namespace MeLink.Web.Controllers
                     Price = r.Inventory.Price,
                     Stock = r.Inventory.StockQuantity,
                     DiscountPercentage = r.DiscountPercentage
-                }).Take(20)
+                })
+                .Take(20)
                 .ToListAsync();
-
 
             return Json(medicines);
         }
@@ -646,15 +635,13 @@ namespace MeLink.Web.Controllers
                     i.Medicine!.ActiveIngredient!.Contains(searchTerm));
             }
 
-            var projectedQuery = query
+            var availableMedicines = await query
                 .Select(i => new
                 {
                     Inventory = i,
                     DiscountPercentage = (i.DiscountPrice.HasValue && i.Price > 0) ? ((i.Price - i.DiscountPrice.Value) / i.Price) * 100 : (decimal?)null
                 })
-                .OrderByDescending(r => r.DiscountPercentage);
-
-            var availableMedicines = await projectedQuery
+                .OrderByDescending(r => r.DiscountPercentage)
                 .Select(r => new MedicineInventoryViewModel
                 {
                     MedicineId = r.Inventory.MedicineId,
