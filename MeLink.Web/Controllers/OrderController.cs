@@ -145,10 +145,12 @@ namespace MeLink.Web.Controllers
                 return NotFound();
             }
 
+            var currentUser = await _userManager.GetUserAsync(User);
             var model = new CreatePrescriptionOrderViewModel
             {
                 SupplierId = supplier.Id,
-                SupplierName = supplier.DisplayName
+                SupplierName = supplier.DisplayName,
+                IsPatient = currentUser is Patient
             };
 
             return View(model);

@@ -139,5 +139,6 @@ namespace MeLink.Web.ViewModels
         [Display(Name = "Prescription File")]
         public IFormFile PrescriptionFile { get; set; }
         public string? Notes { get; set; }
+        public bool IsPatient { get; set; }
     }
 }

@@ -60,7 +60,7 @@
 
                     <div>
                         <h6 class="fw-bold">Expected Delivery Time</h6>
-                        <p class="text-muted mb-0">60 minutes</p>
+                        <p class="text-muted mb-0">@(Model.IsPatient ? "60 minutes" : "Next day")</p>
                     </div>
                 </div>
                 <div class="modal-footer">
