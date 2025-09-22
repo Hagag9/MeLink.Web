@@ -481,30 +481,24 @@ namespace MeLink.Web.Controllers
             }
             else if (currentUser is Pharmacy)
             {
-                // Pharmacy orders from Companies, Warehouses, and Manufacturers
-                allowedSupplierIds = _context.UserRelations
-                    .Where(r => r.FromUserId == currentUser.Id &&
-                                (r.RelationType == RelationType.PharmacyCompany ||
-                                 r.RelationType == RelationType.PharmacyWarehouse ||
-                                 r.RelationType == RelationType.PharmacyManufacturer))
-                    .Select(r => r.ToUserId);
+                // Pharmacy can order from all Warehouses, Companies, and Manufacturers
+                var warehouseIds = _context.Users.OfType<MedicineWarehouse>().Select(w => w.Id);
+                var companyIds = _context.Users.OfType<DistributionCompany>().Select(c => c.Id);
+                var manufacturerIds = _context.Users.OfType<Manufacturer>().Select(m => m.Id);
+                allowedSupplierIds = warehouseIds.Concat(companyIds).Concat(manufacturerIds);
             }
             else if (currentUser is MedicineWarehouse)
             {
-                // Warehouse orders from Companies and Manufacturers
-                allowedSupplierIds = _context.UserRelations
-                    .Where(r => r.FromUserId == currentUser.Id &&
-                                (r.RelationType == RelationType.CompanyManufacturer || // Note: this might need adjustment based on your full relation types
-                                 r.RelationType == RelationType.WarehouseManufacturer))
-                    .Select(r => r.ToUserId);
+                // Warehouse can order from other Warehouses, Companies, and Manufacturers
+                var otherWarehouseIds = _context.Users.OfType<MedicineWarehouse>().Where(w => w.Id != currentUser.Id).Select(w => w.Id);
+                var companyIds = _context.Users.OfType<DistributionCompany>().Select(c => c.Id);
+                var manufacturerIds = _context.Users.OfType<Manufacturer>().Select(m => m.Id);
+                allowedSupplierIds = otherWarehouseIds.Concat(companyIds).Concat(manufacturerIds);
             }
             else if (currentUser is DistributionCompany)
             {
                 // Company orders from Manufacturers
-                allowedSupplierIds = _context.UserRelations
-                    .Where(r => r.FromUserId == currentUser.Id &&
-                                r.RelationType == RelationType.CompanyManufacturer)
-                    .Select(r => r.ToUserId);
+                allowedSupplierIds = _context.Users.OfType<Manufacturer>().Select(m => m.Id);
             }
             else
             {
@@ -684,17 +678,22 @@ namespace MeLink.Web.Controllers
 
             if (!string.IsNullOrEmpty(supplierId))
             {
-
                 query = query.Where(i => i.UserId == supplierId && i.IsAvailable && i.StockQuantity > 0);
             }
             else
             {
-                if(currentUser is Pharmacy)
-                    query = query.Where(i=>i.User is MedicineWarehouse ||i.User is DistributionCompany ||i.User is Manufacturer);
+                if (currentUser is Pharmacy)
+                {
+                    query = query.Where(i => i.User is MedicineWarehouse || i.User is DistributionCompany || i.User is Manufacturer);
+                }
                 else if (currentUser is MedicineWarehouse)
-                    query = query.Where(i => i.User is DistributionCompany || i.User is Manufacturer);
+                {
+                    query = query.Where(i => (i.User is DistributionCompany || i.User is Manufacturer) || (i.User is MedicineWarehouse && i.UserId != currentUser.Id));
+                }
                 else if (currentUser is DistributionCompany)
+                {
                     query = query.Where(i => i.User is Manufacturer);
+                }
             }
            
 
