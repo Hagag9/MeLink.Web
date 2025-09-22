@@ -579,6 +579,77 @@ namespace MeLink.Web.Controllers
             return RedirectToAction(nameof(MyOrders));
         }
 
+        public async Task<IActionResult> ApproveOrder(int orderId)
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+            var order = await _context.Orders
+                .Include(o => o.Items)
+                .FirstOrDefaultAsync(o => o.Id == orderId);
+
+            if (order == null)
+            {
+                TempData["ErrorMessage"] = "Order not found.";
+                return RedirectToAction(nameof(IncomingOrders));
+            }
+
+            if (order.ToUserId != currentUser.Id)
+            {
+                return Forbid();
+            }
+
+            if (order.Status != OrderStatus.Pending)
+            {
+                TempData["ErrorMessage"] = "This order has already been processed.";
+                return RedirectToAction(nameof(IncomingOrders));
+            }
+
+            using var transaction = await _context.Database.BeginTransactionAsync();
+            try
+            {
+                order.Status = OrderStatus.Approved;
+
+                var requesterId = order.FromUserId;
+                foreach (var item in order.Items)
+                {
+                    var requesterInventoryItem = await _context.Inventories
+                        .FirstOrDefaultAsync(i => i.UserId == requesterId && i.MedicineId == item.MedicineId);
+
+                    if (requesterInventoryItem != null)
+                    {
+                        requesterInventoryItem.StockQuantity += item.Quantity;
+                    }
+                    else
+                    {
+                        var supplierInventoryItem = await _context.Inventories
+                            .AsNoTracking()
+                            .FirstOrDefaultAsync(i => i.UserId == order.ToUserId && i.MedicineId == item.MedicineId);
+
+                        var newInventoryItem = new Inventory
+                        {
+                            UserId = requesterId,
+                            MedicineId = item.MedicineId,
+                            StockQuantity = item.Quantity,
+                            Price = supplierInventoryItem?.Price ?? 0,
+                            IsAvailable = true,
+                            LastUpdated = DateTime.UtcNow
+                        };
+                        _context.Inventories.Add(newInventoryItem);
+                    }
+                }
+
+                await _context.SaveChangesAsync();
+                await transaction.CommitAsync();
+                TempData["SuccessMessage"] = $"Order #{orderId} has been successfully approved.";
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync();
+                TempData["ErrorMessage"] = "An error occurred while approving the order: " + ex.Message;
+            }
+
+            return RedirectToAction(nameof(IncomingOrders));
+        }
+
         public async Task<IActionResult> Reorder(int orderId)
         {
             // Logic to recreate order with same items
