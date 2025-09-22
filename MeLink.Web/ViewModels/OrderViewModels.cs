@@ -31,6 +31,7 @@ namespace MeLink.Web.ViewModels
         public int StockQuantity { get; set; }
         public int InventoryId { get; set; }
         public double DistanceInKm { get; set; }
+        public decimal? DiscountPercentage { get; set; }
     }
 
     // إنشاء طلب جديد
@@ -110,6 +111,7 @@ namespace MeLink.Web.ViewModels
         public string SourceId { get; set; } = default!;
         public decimal Price { get; set; }
         public int Stock { get; set; }
+        public decimal? DiscountPercentage { get; set; }
     }
     // Request Models
     public class AddToCartRequest

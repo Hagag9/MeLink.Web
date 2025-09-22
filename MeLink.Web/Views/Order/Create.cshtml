@@ -305,11 +305,16 @@
                 resultsContainer.innerHTML = `<div class="alert alert-warning text-center rounded-3 p-3">No medicines found.</div>`;
                 return;
             }
+            const isPatient = @Html.Raw(Json.Serialize(Model.IsPatient));
             let html = '<div class="list-group list-group-flush">';
             medicines.forEach(med => {
-                // === CHANGED: Display Brand Name as main, Medicine Name as subtext ===
-                const brandName = med.brandName || med.medicineName; // Fallback to medicineName if brandName is null
+                const brandName = med.brandName || med.medicineName;
                 const genericName = med.medicineName;
+
+                let discountHtml = '';
+                if (!isPatient && med.discountPercentage > 0) {
+                    discountHtml = `<span class="badge bg-danger-subtle text-danger fs-6 fw-normal">${med.discountPercentage.toFixed(0)}% off</span>`;
+                }
 
                 html += `
                     <div class="list-group-item p-0">
@@ -320,6 +325,7 @@
                                 <small class="text-muted d-block mt-1">From: ${med.sourceName}</small>
                             </div>
                             <div class="d-flex align-items-center gap-3">
+                                 ${discountHtml}
                                  <span class="badge bg-success-subtle text-success fs-6 fw-normal">EGP ${med.price.toFixed(2)}</span>
                                  <span class="badge bg-info-subtle text-info fs-6 fw-normal">${med.stock} units</span>
                             </div>

@@ -126,7 +126,21 @@
             <div class="bg-white rounded-lg shadow-md overflow-hidden">
                 <div class="overflow-x-auto">
                     <table class="w-full">
-                       
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="p-4 w-12"><input class="form-checkbox h-5 w-5 text-blue-600 rounded" type="checkbox" id="selectAllCheckbox" /></th>
+                                <th class="p-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-20">Image</th>
+                                <th class="p-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Medicine</th>
+                                <th class="p-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Supplier</th>
+                                @if (!ViewBag.IsPatient)
+                                {
+                                    <th class="p-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Discount</th>
+                                }
+                                <th class="p-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                <th class="p-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
+                                <th class="p-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                            </tr>
+                        </thead>
                         <tbody class="divide-y divide-gray-200" id="medicines-table-body">
                         </tbody>
                     </table>
@@ -332,15 +346,29 @@
             const tableBody = document.getElementById('medicines-table-body');
             if (tableBody) {
                 const medicines = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.AvailableMedicines));
-                const tableBodyHtml = medicines.map(medicine => `
+                const isPatient = @Html.Raw(Json.Serialize(ViewBag.IsPatient));
+
+                const tableBodyHtml = medicines.map(medicine => {
+                    let discountCell = '';
+                    if (!isPatient && medicine.DiscountPercentage > 0) {
+                        discountCell = `<td class="p-4 text-sm text-red-600 font-bold">${medicine.DiscountPercentage.toFixed(0)}% <span class="text-xs text-gray-500 font-normal">per 100 item</span></td>`;
+                    } else if (!isPatient) {
+                        discountCell = `<td class="p-4 text-sm text-gray-400">-</td>`;
+                    }
+
+                    return `
                     <tr class="hover:bg-gray-50 medicine-item-row" data-inventory-id="${medicine.InventoryId}">
                         <td class="p-4"><input class="form-checkbox h-5 w-5 text-blue-600 rounded item-checkbox" type="checkbox"/></td>
                         <td class="p-4"><div class="w-16 h-16 bg-gray-200 rounded-md flex items-center justify-center"><img src="/images/icon_jar_can_box.png" class="w-12 h-12 object-contain" alt="${medicine.GenericName}"></div></td>
                         <td class="p-4"><div class="font-medium text-gray-800">${medicine.BrandName}</div><div class="text-sm text-gray-500">${medicine.GenericName}<br>${medicine.Strength}</div></td>
                         <td class="p-4"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">${medicine.PharmacyName}</span></td>
+                        ${discountCell}
                         <td class="p-4">${medicine.StockQuantity > 0 ? `<span class="flex items-center text-green-600"><i class="fas fa-check-circle mr-1"></i><span>In Stock (${medicine.StockQuantity})</span></span>` : `<span class="flex items-center text-red-600"><i class="fas fa-times-circle mr-1"></i><span>Out of Stock</span></span>`}</td>
                         <td class="p-4 text-gray-800 font-medium">${medicine.Price.toFixed(2)} EGP</td>
                         <td class="p-4">
+                    `;
+                }).join('');
+                tableBody.innerHTML = tableBodyHtml;
                             <div id="add-to-cart-controls-${medicine.InventoryId}" class="add-to-cart-controls flex items-center space-x-2"
                                  data-inventory-id="${medicine.InventoryId}" data-medicine-name="${medicine.GenericName}"
                                  data-brand-name="${medicine.BrandName || ''}" data-pharmacy-name="${medicine.PharmacyName}"

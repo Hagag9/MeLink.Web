@@ -518,19 +518,41 @@ namespace MeLink.Web.Controllers
             // Apply the user-specific filter to the main query
             inventoriesQuery = inventoriesQuery.Where(i => allowedSupplierIds.Contains(i.UserId));
 
-            var medicines = await inventoriesQuery
-                .Select(i => new MedicineSearchResult
+            // Perform projection and sorting
+            var results = inventoriesQuery
+                .Select(i => new
                 {
-                    InventoryId = i.Id,
-                    MedicineName = i.Medicine!.GenericName,
-                    BrandName = i.Medicine!.BrandName,
-                    SourceName = i.User!.DisplayName!,
-                    SourceId = i.User.Id,
-                    Price = i.Price,
-                    Stock = i.StockQuantity
+                    Inventory = i,
+                    DiscountPercentage = (i.DiscountPrice.HasValue && i.Price > 0) ? ((i.Price - i.DiscountPrice.Value) / i.Price) * 100 : (decimal?)null
+                });
+
+            // Sort based on user type
+            if (currentUser is Patient)
+            {
+                // Patients don't see discounts, so no need to sort by it.
+                // You might want to sort by something else here, like name or price.
+            }
+            else
+            {
+                results = results.OrderByDescending(r => r.DiscountPercentage);
+            }
+
+
+            var medicines = await results
+                .Select(r => new MedicineSearchResult
+                {
+                    InventoryId = r.Inventory.Id,
+                    MedicineName = r.Inventory.Medicine!.GenericName,
+                    BrandName = r.Inventory.Medicine!.BrandName,
+                    SourceName = r.Inventory.User!.DisplayName!,
+                    SourceId = r.Inventory.User.Id,
+                    Price = r.Inventory.Price,
+                    Stock = r.Inventory.StockQuantity,
+                    DiscountPercentage = r.DiscountPercentage
                 })
                 .Take(20)
                 .ToListAsync();
+
 
             return Json(medicines);
         }
@@ -624,21 +646,29 @@ namespace MeLink.Web.Controllers
                     i.Medicine!.BrandName!.Contains(searchTerm) ||
                     i.Medicine!.ActiveIngredient!.Contains(searchTerm));
             }
-           
-            var availableMedicines = await query.Select(i => new MedicineInventoryViewModel
-            {
-                MedicineId = i.MedicineId,
-                GenericName = i.Medicine!.GenericName,
-                BrandName = i.Medicine.BrandName,
-                DosageForm = i.Medicine.DosageForm,
-                Strength = i.Medicine.Strength,
-                PharmacyId = i.UserId, // هنا الـ UserId هيكون الـ supplierId
-                PharmacyName = i.User!.DisplayName!,
-                PharmacyAddress = i.User.Address,
-                Price = i.Price,
-                StockQuantity = i.StockQuantity,
-                InventoryId = i.Id
-            }).ToListAsync();
+
+            var availableMedicines = await query
+                .Select(i => new
+                {
+                    Inventory = i,
+                    DiscountPercentage = (i.DiscountPrice.HasValue && i.Price > 0) ? ((i.Price - i.DiscountPrice.Value) / i.Price) * 100 : (decimal?)null
+                })
+                .OrderByDescending(r => r.DiscountPercentage)
+                .Select(r => new MedicineInventoryViewModel
+                {
+                    MedicineId = r.Inventory.MedicineId,
+                    GenericName = r.Inventory.Medicine!.GenericName,
+                    BrandName = r.Inventory.Medicine.BrandName,
+                    DosageForm = r.Inventory.Medicine.DosageForm,
+                    Strength = r.Inventory.Medicine.Strength,
+                    PharmacyId = r.Inventory.UserId,
+                    PharmacyName = r.Inventory.User!.DisplayName!,
+                    PharmacyAddress = r.Inventory.User.Address,
+                    Price = r.Inventory.Price,
+                    StockQuantity = r.Inventory.StockQuantity,
+                    InventoryId = r.Inventory.Id,
+                    DiscountPercentage = r.DiscountPercentage
+                }).ToListAsync();
 
             var viewModel = new OrderSearchViewModel
             {
