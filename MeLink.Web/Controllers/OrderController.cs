@@ -396,7 +396,8 @@ namespace MeLink.Web.Controllers
                 PharmacyAddress = order.ToUser.Address,
                 Items = invoiceItems,
                 TotalAmount = totalAmount,
-                Status = order.Status.ToString()
+                Status = order.Status.ToString(),
+                DeliveryTime = currentUser is Patient ? "60 minutes" : "Next day delivery"
             };
 
             return View(viewModel);

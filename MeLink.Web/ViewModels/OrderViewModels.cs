@@ -77,6 +77,7 @@ namespace MeLink.Web.ViewModels
         public List<InvoiceItemViewModel> Items { get; set; } = new();
         public decimal TotalAmount { get; set; }
         public string Status { get; set; } = default!;
+        public string DeliveryTime { get; set; }
     }
 
     public class InvoiceItemViewModel
