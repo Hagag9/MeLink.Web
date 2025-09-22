@@ -549,8 +549,7 @@ namespace MeLink.Web.Controllers
                     Price = r.Inventory.Price,
                     Stock = r.Inventory.StockQuantity,
                     DiscountPercentage = r.DiscountPercentage
-                })
-                .Take(20)
+                }).Take(20)
                 .ToListAsync();
 
 
@@ -647,13 +646,15 @@ namespace MeLink.Web.Controllers
                     i.Medicine!.ActiveIngredient!.Contains(searchTerm));
             }
 
-            var availableMedicines = await query
+            var projectedQuery = query
                 .Select(i => new
                 {
                     Inventory = i,
                     DiscountPercentage = (i.DiscountPrice.HasValue && i.Price > 0) ? ((i.Price - i.DiscountPrice.Value) / i.Price) * 100 : (decimal?)null
                 })
-                .OrderByDescending(r => r.DiscountPercentage)
+                .OrderByDescending(r => r.DiscountPercentage);
+
+            var availableMedicines = await projectedQuery
                 .Select(r => new MedicineInventoryViewModel
                 {
                     MedicineId = r.Inventory.MedicineId,

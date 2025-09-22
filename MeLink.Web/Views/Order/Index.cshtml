@@ -366,9 +366,6 @@
                         <td class="p-4">${medicine.StockQuantity > 0 ? `<span class="flex items-center text-green-600"><i class="fas fa-check-circle mr-1"></i><span>In Stock (${medicine.StockQuantity})</span></span>` : `<span class="flex items-center text-red-600"><i class="fas fa-times-circle mr-1"></i><span>Out of Stock</span></span>`}</td>
                         <td class="p-4 text-gray-800 font-medium">${medicine.Price.toFixed(2)} EGP</td>
                         <td class="p-4">
-                    `;
-                }).join('');
-                tableBody.innerHTML = tableBodyHtml;
                             <div id="add-to-cart-controls-${medicine.InventoryId}" class="add-to-cart-controls flex items-center space-x-2"
                                  data-inventory-id="${medicine.InventoryId}" data-medicine-name="${medicine.GenericName}"
                                  data-brand-name="${medicine.BrandName || ''}" data-pharmacy-name="${medicine.PharmacyName}"
@@ -378,7 +375,8 @@
                             </div>
                         </td>
                     </tr>
-                `).join('');
+                    `;
+                }).join('');
                 tableBody.innerHTML = tableBodyHtml;
 
                 allMedicineItems = Array.from(tableBody.querySelectorAll('.medicine-item-row'));
