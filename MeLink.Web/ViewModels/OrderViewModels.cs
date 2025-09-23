@@ -43,6 +43,7 @@ namespace MeLink.Web.ViewModels
 
         // باقي الخصائص كما هي
         public bool IsPatient { get; set; }
+        public bool IsPharmacy { get; set; }
         public string CurrentUserId { get; set; } = default!;
         public string? PharmacyId { get; set; }
         public string? PharmacyName { get; set; }

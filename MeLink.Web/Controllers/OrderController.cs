@@ -208,7 +208,8 @@ namespace MeLink.Web.Controllers
             {
                 FromUserId = currentUser!.Id,
                 FromUserName = currentUser.DisplayName!,
-                IsPatient = currentUser is Patient
+                IsPatient = currentUser is Patient,
+                IsPharmacy = currentUser is Pharmacy
             };
 
             return View(viewModel);

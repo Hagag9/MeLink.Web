@@ -158,6 +158,55 @@
 
                 <div id="hidden-order-items"></div>
 
+                @if (Model.IsPharmacy)
+                {
+                    <hr class="my-5" />
+                    <h4 class="text-center fw-bold mb-4">Or Upload an Excel Sheet</h4>
+                    <div class="details-section-wrapper p-4 rounded-4 shadow-sm mb-5">
+                        <div class="mb-4">
+                            <label for="excel-file-input" class="form-label fw-semibold fs-5 text-dark-emphasis">
+                                <i class="fas fa-file-excel me-2 text-success"></i>Upload Excel Sheet
+                            </label>
+                            <div class="input-group">
+                                <input class="form-control" type="file" id="excel-file-input" accept=".xls,.xlsx" />
+                            </div>
+                            <div class="form-text text-muted mt-2">Upload a list of medicines in an Excel file.</div>
+                        </div>
+                    </div>
+
+                    <div id="excel-preview-section" class="mt-5" style="display: none;">
+                        <h4 class="text-center fw-bold mb-4">Order Preview from Excel</h4>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped table-hover">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Medicine</th>
+                                        <th>Supplier</th>
+                                        <th>Stock</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Panadol Extra</td>
+                                        <td>Supplier A</td>
+                                        <td>150</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Congestal</td>
+                                        <td>Supplier B</td>
+                                        <td>200</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Cataflam</td>
+                                        <td>Supplier A</td>
+                                        <td>75</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                }
+
                 <div class="text-center mt-5">
                     <button type="submit" class="btn btn-success btn-lg px-5 py-3 rounded-pill cta-button" id="submit-btn" disabled>
                         <i class="fas fa-check me-2"></i> Confirm Order
@@ -190,8 +239,11 @@
         const confirmSourceChangeBtn = document.getElementById('confirm-source-change');
         const actualFileInput = document.getElementById('actual-file-input');
         const fileChosenSpan = document.getElementById('file-chosen');
-        // === NEW: Clear Cart Button Element ===
         const clearCartBtn = document.getElementById('clear-cart-btn');
+
+        // New elements for Excel upload
+        const excelFileInput = document.getElementById('excel-file-input');
+        const excelPreviewSection = document.getElementById('excel-preview-section');
 
         function debounce(func, delay = 400) {
             let timeout;
@@ -452,6 +504,17 @@
         if (actualFileInput) {
             actualFileInput.addEventListener('change', () => {
                 fileChosenSpan.textContent = actualFileInput.files.length > 0 ? actualFileInput.files[0].name : 'No file chosen';
+            });
+        }
+
+        // New event listener for Excel file input
+        if (excelFileInput) {
+            excelFileInput.addEventListener('change', () => {
+                if (excelFileInput.files.length > 0) {
+                    excelPreviewSection.style.display = 'block';
+                } else {
+                    excelPreviewSection.style.display = 'none';
+                }
             });
         }
 
