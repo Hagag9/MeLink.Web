@@ -539,7 +539,6 @@ namespace MeLink.Web.Controllers
             return Json(medicines);
         }
         [HttpPost]
-        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CancelOrder(int orderId)
         {

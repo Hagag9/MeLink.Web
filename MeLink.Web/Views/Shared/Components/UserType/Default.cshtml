@@ -37,10 +37,15 @@
             <span class="material-symbols-outlined">orders</span>
             <span class="sidebar-text-label text-base font-medium sr-only">My Orders</span>
         </a>
+                <a asp-controller="Order" asp-action="IncomingOrders" class="sidebar-link flex items-center gap-4 rounded-md p-3 transition-colors">
+            <span class="material-symbols-outlined">call_received</span>
+            <span class="sidebar-text-label text-base font-medium sr-only">Incoming Orders</span>
+        </a>
         <a asp-controller="Order" asp-action="BrowseMedicines" class="sidebar-link flex items-center gap-4 rounded-md p-3 transition-colors">
             <span class="material-symbols-outlined">pill</span>
             <span class="sidebar-text-label text-base font-medium sr-only">Find Medicine</span>
         </a>
+
         <a asp-controller="Order" asp-action="Indebtedness" class="sidebar-link flex items-center gap-4 rounded-md p-3 transition-colors">
             <span class="material-symbols-outlined">payments</span>
             <span class="sidebar-text-label text-base font-medium sr-only">Indebtedness</span>
