@@ -310,6 +310,7 @@
     <script>
         const pageSize = 10; let currentPage = 1; let allMedicineItems = [];
         let cart = []; let currentSourceId = null; let currentSourceName = null;
+        let isPatient = false;
 
         document.addEventListener('DOMContentLoaded', function () {
             var offcanvasElementList = [].slice.call(document.querySelectorAll('.offcanvas'));
@@ -318,7 +319,7 @@
             const tableBody = document.getElementById('medicines-table-body');
             if (tableBody) {
                 const medicines = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.AvailableMedicines));
-                const isPatient = @Html.Raw(Json.Serialize(ViewBag.IsPatient));
+                isPatient = @Html.Raw(Json.Serialize(ViewBag.IsPatient));
 
                 const tableBodyHtml = medicines.map(medicine => {
                     let discountCell = '';
@@ -398,11 +399,18 @@
         }
 
         function addToCart(inventoryId, medicineName, brandName, pharmacyName, price, pharmacyId, stockQuantity, quantityToAdd = 1) {
-            if (currentSourceId && currentSourceId !== pharmacyId) {
-                if (!confirm(`You can only order from one pharmacy at a time. Clear cart and start a new order?`)) { return; }
+            if (isPatient && currentSourceId && currentSourceId !== pharmacyId) {
+                if (!confirm(`You can only order from one pharmacy at a time. Clear cart and start a new order?`)) {
+                    return;
+                }
                 clearCart();
             }
-            currentSourceId = pharmacyId; currentSourceName = pharmacyName;
+
+            if (isPatient && cart.length === 0) {
+                currentSourceId = pharmacyId;
+                currentSourceName = pharmacyName;
+            }
+
             const existingItem = cart.find(item => item.inventoryId === inventoryId);
             const totalQuantity = (existingItem ? existingItem.quantity : 0) + quantityToAdd;
             if (totalQuantity > stockQuantity) { alert(`Maximum available quantity for ${brandName || medicineName} is ${stockQuantity}.`); return; }
@@ -508,7 +516,10 @@
             document.getElementById('order-summary').innerHTML = summaryHtml;
             let hiddenItemsHtml = '';
             cart.forEach((item, index) => {
-                hiddenItemsHtml += `<input type="hidden" name="OrderItems[${index}].InventoryId" value="${item.inventoryId}"/><input type="hidden" name="OrderItems[${index}].UnitPrice" value="${item.price}"/><input type="hidden" name="OrderItems[${index}].Quantity" value="${item.quantity}"/>`;
+                hiddenItemsHtml += `<input type="hidden" name="OrderItems[${index}].SourceId" value="${item.pharmacyId}"/>`;
+                hiddenItemsHtml += `<input type="hidden" name="OrderItems[${index}].InventoryId" value="${item.inventoryId}"/>`;
+                hiddenItemsHtml += `<input type="hidden" name="OrderItems[${index}].UnitPrice" value="${item.price}"/>`;
+                hiddenItemsHtml += `<input type="hidden" name="OrderItems[${index}].Quantity" value="${item.quantity}"/>`;
             });
             document.getElementById('hidden-items').innerHTML = hiddenItemsHtml;
             var orderModal = new bootstrap.Modal(document.getElementById('orderModal'));
