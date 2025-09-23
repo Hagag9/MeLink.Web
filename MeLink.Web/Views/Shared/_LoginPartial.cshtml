@@ -5,9 +5,12 @@
 
 @if (SignInManager.IsSignedIn(User))
 {
+    var user = await UserManager.GetUserAsync(User);
+    var displayName = user?.DisplayName ?? User.Identity?.Name;
+
     <div class="d-flex align-items-center gap-3">
         <a asp-area="Identity" asp-page="/Account/Manage/Index" class="text-sm fw-semibold text-dark text-decoration-none">
-            <i class="fas fa-user-circle me-2"></i>@User.Identity?.Name
+            <i class="fas fa-user-circle me-2"></i>@displayName
         </a>
         <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post">
             <button type="submit" class="btn btn-outline-danger btn-sm rounded-pill px-3 shadow-sm">
