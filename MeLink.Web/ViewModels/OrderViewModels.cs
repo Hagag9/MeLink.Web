@@ -56,6 +56,7 @@ namespace MeLink.Web.ViewModels
     // عنصر في الطلب
     public class OrderItemViewModel
     {
+        public string SourceId { get; set; } = default!;
         public int InventoryId { get; set; }
         public int MedicineId { get; set; }
         public string MedicineName { get; set; } = default!;

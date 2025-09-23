@@ -227,6 +227,7 @@
         let currentSourceId = null;
         let currentSourceName = null;
         let currentUserId = '@Model.CurrentUserId';
+        const isPatient = @Html.Raw(Json.Serialize(Model.IsPatient));
         let pendingItem = null;
 
         const searchInput = document.getElementById('medicine-search');
@@ -307,7 +308,6 @@
                 resultsContainer.innerHTML = `<div class="alert alert-warning text-center rounded-3 p-3">No medicines found.</div>`;
                 return;
             }
-            const isPatient = @Html.Raw(Json.Serialize(Model.IsPatient));
             let html = '<div class="list-group list-group-flush">';
             medicines.forEach(med => {
                 const brandName = med.brandName || med.medicineName;
@@ -357,7 +357,7 @@
 
             const itemData = { inventoryId, medicineName, brandName, sourceId, sourceName, price, quantity };
 
-            if (currentSourceId && currentSourceId !== sourceId) {
+            if (isPatient && currentSourceId && currentSourceId !== sourceId) {
                 pendingItem = itemData;
                 sourceChangeModal.show();
             } else {
@@ -379,7 +379,8 @@
                     medicineName: itemData.medicineName,
                     brandName: itemData.brandName, // Ensure brandName is stored
                     price: itemData.price,
-                    quantity: itemData.quantity
+                    quantity: itemData.quantity,
+                    sourceId: itemData.sourceId
                 });
             }
             updateSelectedItemsDisplay();
@@ -423,6 +424,7 @@
                     </li>
                 `;
                 hiddenHtml += `
+                    <input type="hidden" name="OrderItems[${index}].SourceId" value="${item.sourceId}">
                     <input type="hidden" name="OrderItems[${index}].InventoryId" value="${item.inventoryId}">
                     <input type="hidden" name="OrderItems[${index}].MedicineName" value="${item.medicineName}">
                     <input type="hidden" name="OrderItems[${index}].BrandName" value="${item.brandName || ''}">

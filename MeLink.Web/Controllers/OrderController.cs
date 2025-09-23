@@ -259,8 +259,6 @@ namespace MeLink.Web.Controllers
         {
             var currentUser = await _userManager.GetUserAsync(User);
 
-
-            // تعبئة بيانات المريض إذا كانت فارغة
             if (string.IsNullOrEmpty(model.FromUserId))
             {
                 model.FromUserId = currentUser.Id;
@@ -269,79 +267,80 @@ namespace MeLink.Web.Controllers
             if (model.OrderItems == null || !model.OrderItems.Any())
             {
                 TempData["Error"] = "لا توجد أدوية في الطلب";
-                return RedirectToAction("Index");
+                return RedirectToAction("Create");
             }
 
-            if (string.IsNullOrEmpty(model.PharmacyId))
-            {
-                TempData["Error"] = "لم يتم تحديد الصيدلية";
-                return RedirectToAction("Index");
-            }
+            var itemsGroupedBySource = model.OrderItems.GroupBy(item => item.SourceId);
 
             using var transaction = await _context.Database.BeginTransactionAsync();
-
             try
             {
-                // إنشاء الطلب الرئيسي
-                var order = new Order
+                var newOrderIds = new List<int>();
+
+                foreach (var sourceGroup in itemsGroupedBySource)
                 {
-                    FromUserId = currentUser.Id,
-                    ToUserId = model.PharmacyId,
-                    Status = OrderStatus.Pending,
-                    OrderType = "Patient-Pharmacy"
-                };
-
-                _context.Orders.Add(order);
-                await _context.SaveChangesAsync();
-
-                // إضافة تفاصيل الطلب
-                foreach (var item in model.OrderItems)
-                {
-                    var inventory = await _context.Inventories
-                        .FirstOrDefaultAsync(i => i.Id == item.InventoryId);
-
-                    if (inventory == null || inventory.StockQuantity < item.Quantity)
+                    var sourceId = sourceGroup.Key;
+                    if (string.IsNullOrEmpty(sourceId))
                     {
-                        throw new Exception($"الدواء '{item.MedicineName}' غير متوفر بالكمية المطلوبة");
+                        throw new Exception("An item was found without a source. The order could not be processed.");
                     }
 
-                    var orderDetail = new OrderDetail
+                    var order = new Order
                     {
-                        OrderId = order.Id,
-                        MedicineId = inventory.MedicineId,
-                        Quantity = item.Quantity
+                        FromUserId = currentUser.Id,
+                        ToUserId = sourceId,
+                        Status = OrderStatus.Pending,
+                        OrderType = (currentUser is Patient) ? "Patient-Pharmacy" : "Pharmacy-Supplier"
                     };
 
-                    _context.OrderDetails.Add(orderDetail);
+                    _context.Orders.Add(order);
+                    await _context.SaveChangesAsync();
+                    newOrderIds.Add(order.Id);
 
-                    // تقليل المخزون
-                    inventory.StockQuantity -= item.Quantity;
-                    if (inventory.StockQuantity <= 0)
+                    foreach (var item in sourceGroup)
                     {
-                        inventory.IsAvailable = false;
+                        var inventory = await _context.Inventories
+                            .FirstOrDefaultAsync(i => i.Id == item.InventoryId);
+
+                        if (inventory == null || inventory.StockQuantity < item.Quantity)
+                        {
+                            throw new Exception($"الدواء '{item.MedicineName}' غير متوفر بالكمية المطلوبة");
+                        }
+
+                        var orderDetail = new OrderDetail
+                        {
+                            OrderId = order.Id,
+                            MedicineId = inventory.MedicineId,
+                            Quantity = item.Quantity
+                        };
+                        _context.OrderDetails.Add(orderDetail);
+
+                        inventory.StockQuantity -= item.Quantity;
+                        if (inventory.StockQuantity <= 0)
+                        {
+                            inventory.IsAvailable = false;
+                        }
                     }
                 }
 
-                // حفظ الروشتة إن وجدت
-                if (model.PrescriptionFile != null)
+                if (model.PrescriptionFile != null && newOrderIds.Any())
                 {
-                    var prescription = await SavePrescriptionAsync(model.PrescriptionFile, order.Id, currentUser.Id);
+                    var prescription = await SavePrescriptionAsync(model.PrescriptionFile, newOrderIds.First(), currentUser.Id);
                     _context.Prescriptions.Add(prescription);
                 }
 
                 await _context.SaveChangesAsync();
                 await transaction.CommitAsync();
 
-                TempData["Success"] = "تم إنشاء طلبك بنجاح!";
+                TempData["Success"] = $"تم إنشاء {itemsGroupedBySource.Count()} طلبات بنجاح!";
 
-                // توجيه لصفحة الفاتورة
-                return RedirectToAction("Invoice", new { orderId = order.Id });
+                return RedirectToAction("MyOrders");
             }
             catch (Exception ex)
             {
                 await transaction.RollbackAsync();
                 TempData["Error"] = "حدث خطأ أثناء إنشاء الطلب: " + ex.Message;
-                return RedirectToAction("Index");
+                return RedirectToAction("Create");
             }
         }
 
