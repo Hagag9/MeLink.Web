@@ -7,207 +7,227 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/MeLink.Web.styles.css" asp-append-version="true" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+
+    <link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect" />
+    <link as="style" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter%3Awght%40400%3B500%3B700%3B900&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900" onload="this.rel='stylesheet'" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <link href="data:image/x-icon;base64," rel="icon" type="image/x-icon" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <style type="text/tailwindcss">
+        :root {
+            --primary-color: #137fec;
+        }
+
+        .sidebar-link:hover {
+            background-color: #283039;
+        }
+
+        .sidebar-link span:first-child {
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .sidebar-link:hover span:first-child {
+            transform: translateX(4px);
+        }
+    </style>
+    <script type="text/tailwindcss">
+        tailwind.config = {
+          theme: {
+            extend: {
+              fontFamily: {
+                sans: ['Inter', 'Noto Sans', ...tailwind.defaultTheme.fontFamily.sans],
+              }
+            }
+          }
+        }
+    </script>
 </head>
-<body class="d-flex flex-column min-vh-100">
-    <div class="d-flex flex-grow-1">
-        @if (User.Identity.IsAuthenticated)
-        {
-            <aside id="sidebar">
-                <button id="sidebar-toggle" class="btn btn-dark mb-3 d-none d-lg-block">
+<body>
+    <div class="relative flex min-h-screen flex-col">
+        <div class="flex flex-1">
+             @if (User.Identity.IsAuthenticated)
+              {
+            <aside id="sidebar" class="sticky top-0 h-full self-start flex w-20 flex-col items-center bg-gray-800 p-4 text-white transition-all duration-300">
+                <button id="sidebar-toggle" class="mb-8 rounded-md p-2 text-white transition-colors hover:bg-[#283039] focus:outline-none">
                     <span class="material-symbols-outlined">menu</span>
                 </button>
-                <nav class="nav flex-column gap-2">
-                    <a class="sidebar-link active" href="~/Home/Index" title="Home">
+                <nav class="flex flex-col gap-y-6">
+                    <a class="sidebar-link flex items-center gap-4 rounded-md p-3 transition-colors bg-[var(--primary-color)]" href="~/Home/Index">
                         <span class="material-symbols-outlined">home</span>
-                        <span class="sidebar-text-label">Home</span>
+                        <span class="sidebar-text-label text-base font-medium sr-only">Home</span>
                     </a>
-                    @await Component.InvokeAsync("UserType")
+
+                        @await Component.InvokeAsync("UserType")
+
                 </nav>
-                <div class="mt-auto nav flex-column gap-2">
-                    <a class="sidebar-link" href="#" title="Profile">
+                <div class="mt-auto flex flex-col gap-y-6">
+                    <a class="sidebar-link flex items-center gap-4 rounded-md p-3 transition-colors" href="#">
                         <span class="material-symbols-outlined">person</span>
-                        <span class="sidebar-text-label">Profile</span>
+                        <span class="sidebar-text-label text-base font-medium sr-only">Profile</span>
                     </a>
-                    <a class="sidebar-link" href="#" title="More">
+                    <a class="sidebar-link flex items-center gap-4 rounded-md p-3 transition-colors" href="#">
                         <span class="material-symbols-outlined">more_horiz</span>
-                        <span class="sidebar-text-label">More</span>
+                        <span class="sidebar-text-label text-base font-medium sr-only">More</span>
                     </a>
                 </div>
             </aside>
-        }
-        <div class="flex-grow-1 d-flex flex-column">
-            <header class="shadow-sm">
-                <nav class="navbar navbar-expand-lg navbar-light bg-white">
-                    <div class="container-fluid">
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            <button id="sidebar-toggle-mobile" class="btn btn-link d-lg-none me-2">
-                                <span class="material-symbols-outlined">menu</span>
-                            </button>
-                        }
-                        <a class="navbar-brand d-flex align-items-center" href="~/Home/Index">
-                            <div class="logo-icon text-primary">
+            }
+            <div class="flex-1 flex flex-col">
+                <header class="sticky top-0 z-40 bg-white shadow-sm">
+                    <div class="container mx-auto flex items-center justify-between p-4">
+                        <!-- Logo -->
+                        <a class="flex items-center gap-3 text-black" href="#">
+                            <div class="size-8 text-[var(--primary-color)]">
                                 <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M36.7273 44C33.9891 44 31.6043 39.8386 30.3636 33.69C29.123 39.8386 26.7382 44 24 44C21.2618 44 18.877 39.8386 17.6364 33.69C16.3957 39.8386 14.0109 44 11.2727 44C7.25611 44 4 35.0457 4 24C4 12.9543 7.25611 4 11.2727 4C14.0109 4 16.3957 8.16144 17.6364 14.31C18.877 8.16144 21.2618 4 24 4C26.7382 4 29.123 8.16144 30.3636 14.31C31.6043 8.16144 33.9891 4 36.7273 4C40.7439 4 44 12.9543 44 24C44 35.0457 40.7439 44 36.7273 44Z" fill="currentColor"></path>
                                 </svg>
                             </div>
-                            <h1 class="h5 fw-bold ms-2 mb-0 d-none d-sm-block">Pharma</h1>
+                            <h1 class="text-xl font-bold">Pharma</h1>
                         </a>
 
-                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav" aria-controls="main-nav" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-
-                        <div class="collapse navbar-collapse" id="main-nav">
-                            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                                <li class="nav-item"><a class="nav-link" href="~/Home/Index">Home</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#">Contact Us</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#">About</a></li>
-                            </ul>
+                        <!-- Desktop Navigation & Search -->
+                        <div class="hidden lg:flex items-center gap-x-8">
+                            <a class="text-base font-medium text-slate-500 hover:text-[var(--primary-color)] transition-colors" href="~/Home/Index">Home</a>
+                            <a class="text-base font-medium text-slate-500 hover:text-[var(--primary-color)] transition-colors" href="#">Contact Us</a>
+                            <a class="text-base font-medium text-slate-500 hover:text-[var(--primary-color)] transition-colors" href="#">About</a>
+                            <div class="relative">
+                                <input class="w-80 rounded-full border border-gray-300 bg-gray-50 py-2.5 pl-12 pr-4 text-gray-700 focus:border-[var(--primary-color)] focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]/50" placeholder="Search..." type="text" />
+                                <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">search</span>
+                            </div>
                         </div>
 
-                        <form class="d-flex position-relative align-items-center me-lg-3">
-                            <span class="material-symbols-outlined position-absolute search-icon">search</span>
-                            <input class="form-control form-control-sm rounded-pill search-input" placeholder="Search..." type="text" />
-                        </form>
-
-                        <div class="d-flex align-items-center">
+                        <!-- Login Partial -->
+                        <div class="hidden lg:flex items-center gap-4">
                             <partial name="_LoginPartial" />
                         </div>
-                    </div>
-                </nav>
-            </header>
-            <main class="flex-grow-1 bg-light">
-                <div class="container-fluid p-4">
-                    @RenderBody()
-                </div>
-            </main>
-        </div>
-    </div>
-    <div class="body-overlay"></div>
 
-    <footer class="footer-enhanced bg-dark text-white pt-5 pb-3">
-        <div class="container">
-            <div class="row g-4 text-center text-md-start justify-content-lg-between">
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <a href="#" class="d-inline-block mb-3">
-                        <i class="fas fa-pills fa-4x mb-2 text-primary"></i>
-                    </a>
-                    <p class="small text-muted mb-4">
-                        A modern platform connecting patients and medical suppliers, ensuring easy access to essential medicines.
-                    </p>
-                    <h6 class="text-white fw-bold mb-3">Stay Updated</h6>
-                    <form action="#" class="newsletter-form">
-                        <div class="input-group">
-                            <input type="email" class="form-control" placeholder="Enter your email" required>
-                            <button class="btn btn-primary" type="submit">Subscribe</button>
+                        <!-- Mobile Menu Button -->
+                        <div class="lg:hidden">
+                            <button id="mobile-menu-button" class="text-gray-600 hover:text-gray-800 focus:outline-none">
+                                <span class="material-symbols-outlined">menu</span>
+                            </button>
                         </div>
-                    </form>
-                </div>
+                    </div>
 
-                <div class="col-lg-2 col-md-3 col-6 mb-4">
-                    <h6 class="text-white fw-bold mb-3">Quick Links</h6>
-                    <ul class="list-unstyled">
-                        <li class="mb-2"><a href="#" class="text-muted">Home</a></li>
-                        <li class="mb-2"><a href="#" class="text-muted">About Us</a></li>
-                        <li class="mb-2"><a href="#" class="text-muted">Contact</a></li>
-                        <li class="mb-2"><a href="#" class="text-muted">Privacy Policy</a></li>
-                    </ul>
-                </div>
+                    <!-- Mobile Menu -->
+                    <div id="mobile-menu" class="hidden lg:hidden p-4 border-t border-gray-200">
+                        <nav class="flex flex-col gap-y-4">
+                            <a class="text-base font-medium text-slate-500 hover:text-[var(--primary-color)] transition-colors" href="~/Home/Index">Home</a>
+                            <a class="text-base font-medium text-slate-500 hover:text-[var(--primary-color)] transition-colors" href="#">Contact Us</a>
+                            <a class="text-base font-medium text-slate-500 hover:text-[var(--primary-color)] transition-colors" href="#">About</a>
+                            <div class="relative mt-4">
+                                <input class="w-full rounded-full border border-gray-300 bg-gray-50 py-2.5 pl-12 pr-4 text-gray-700 focus:border-[var(--primary-color)] focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]/50" placeholder="Search..." type="text" />
+                                <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">search</span>
+                            </div>
+                             <div class="mt-4 border-t pt-4">
+                                <partial name="_LoginPartial" />
+                            </div>
+                        </nav>
+                    </div>
+                </header>
+                <main class="bg-white">
+                    <div class="p-10">
+                        @RenderBody()
+                    </div>
+                </main>
+            </div>
+        </div>
 
-                <div class="col-lg-2 col-md-3 col-6 mb-4">
-                    <h6 class="text-white fw-bold mb-3">Categories</h6>
-                    <ul class="list-unstyled">
-                        <li class="mb-2"><a href="#" class="text-muted">Medicines</a></li>
-                        <li class="mb-2"><a href="#" class="text-muted">Medical Supplies</a></li>
-                        <li class="mb-2"><a href="#" class="text-muted">Cosmetics</a></li>
-                    </ul>
-                </div>
+        <footer class="footer-enhanced">
+            <div class="container py-4">
+                <div class="row g-4 text-center text-md-start justify-content-lg-between">
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <a href="#" class="d-inline-block mb-3">
+                            <i class="fas fa-pills fa-4x mb-2 text-primary"></i>
+                        </a>
+                        <p class="small text-muted mb-4">
+                            A modern platform connecting patients and medical suppliers, ensuring easy access to essential medicines.
+                        </p>
+                        <h6 class="text-white fw-bold mb-3">Stay Updated</h6>
+                        <form action="#" class="newsletter-form">
+                            <div class="input-group">
+                                <input type="email" class="form-control" placeholder="Enter your email" required>
+                                <button class="btn btn-primary" type="submit">Subscribe</button>
+                            </div>
+                        </form>
+                    </div>
 
-                <div class="col-lg-3 col-md-12 mb-4 text-center text-lg-start">
-                    <h6 class="text-white fw-bold mb-3">Contact Info</h6>
-                    <ul class="list-unstyled small text-muted">
-                        <li class="mb-2"><i class="fas fa-map-marker-alt me-2 text-primary"></i> 123 Health St, Cairo, Egypt</li>
-                        <li class="mb-2"><i class="fas fa-envelope me-2 text-primary"></i> info@Logicalsoft.com</li>
-                        <li class="mb-2"><i class="fas fa-phone me-2 text-primary"></i> +123 456 7890</li>
-                    </ul>
-                    <div class="social-icons mt-4">
-                        <a href="#" class="text-muted me-3" title="Facebook"><i class="fab fa-facebook-f fa-lg"></i></a>
-                        <a href="#" class="text-muted me-3" title="Twitter"><i class="fab fa-twitter fa-lg"></i></a>
-                        <a href="#" class="text-muted me-3" title="Instagram"><i class="fab fa-instagram fa-lg"></i></a>
-                        <a href="#" class="text-muted" title="LinkedIn"><i class="fab fa-linkedin-in fa-lg"></i></a>
+                    <div class="col-lg-2 col-md-3 col-6 mb-4">
+                        <h6 class="text-white fw-bold mb-3">Quick Links</h6>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><a href="#">Home</a></li>
+                            <li class="mb-2"><a href="#">About Us</a></li>
+                            <li class="mb-2"><a href="#">Contact</a></li>
+                            <li class="mb-2"><a href="#">Privacy Policy</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col-lg-2 col-md-3 col-6 mb-4">
+                        <h6 class="text-white fw-bold mb-3">Categories</h6>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><a href="#">Medicines</a></li>
+                            <li class="mb-2"><a href="#">Medical Supplies</a></li>
+                            <li class="mb-2"><a href="#">Cosmetics</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col-lg-3 col-md-12 mb-4 text-center text-lg-start">
+                        <h6 class="text-white fw-bold mb-3">Contact Info</h6>
+                        <ul class="list-unstyled small text-muted">
+                            <li class="mb-2"><i class="fas fa-map-marker-alt me-2 text-primary"></i> 123 Health St, Cairo, Egypt</li>
+                            <li class="mb-2"><i class="fas fa-envelope me-2 text-primary"></i> info@Logicalsoft.com</li>
+                            <li class="mb-2"><i class="fas fa-phone me-2 text-primary"></i> +123 456 7890</li>
+                        </ul>
+                        <div class="social-icons mt-4">
+                            <a href="#" class="me-3" title="Facebook"><i class="fab fa-facebook-f fa-lg"></i></a>
+                            <a href="#" class="me-3" title="Twitter"><i class="fab fa-twitter fa-lg"></i></a>
+                            <a href="#" class="me-3" title="Instagram"><i class="fab fa-instagram fa-lg"></i></a>
+                            <a href="#" title="LinkedIn"><i class="fab fa-linkedin-in fa-lg"></i></a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="footer-bottom text-center py-3 mt-4 border-top border-secondary">
-            <div class="container">
-                <p class="small text-muted mb-0">
-                    &copy; @DateTime.Now.Year LogicalSoft All Rights Reserved.
-                </p>
+            <div class="footer-bottom text-center py-3">
+                <div class="container">
+                    <p class="small text-muted mb-0">
+                        &copy; @DateTime.Now.Year LogicalSoft All Rights Reserved.
+                    </p>
+                </div>
             </div>
-        </div>
-    </footer>
+        </footer>
+    </div>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.5.1/flowbite.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 
     <script>
-        $(document).ready(function () {
-            const sidebar = $('#sidebar');
-            const overlay = $('.body-overlay');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarToggle = document.getElementById('sidebar-toggle');
+        const sidebarLabels = document.querySelectorAll('.sidebar-text-label');
 
-            // Set initial state for desktop
-            if (window.innerWidth >= 992) {
-                sidebar.addClass('sidebar-collapsed');
-            } else {
-                sidebar.addClass('sidebar-expanded'); // Ensure it's in a state to be toggled on mobile
-            }
-
-            function toggleDesktopSidebar() {
-                sidebar.toggleClass('sidebar-collapsed sidebar-expanded');
-            }
-
-            function toggleMobileSidebar() {
-                // On mobile, expanded means 'visible'
-                sidebar.toggleClass('sidebar-expanded');
-                overlay.toggle(sidebar.hasClass('sidebar-expanded') && !sidebar.hasClass('sidebar-collapsed'));
-            }
-
-            $('#sidebar-toggle').on('click', function () {
-                toggleDesktopSidebar();
+        sidebarToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('w-20');
+            sidebar.classList.toggle('w-64');
+            sidebar.classList.toggle('items-center');
+            sidebar.classList.toggle('items-start');
+            sidebarLabels.forEach(label => {
+                label.classList.toggle('sr-only');
             });
+        });
 
-            $('#sidebar-toggle-mobile').on('click', function (e) {
-                e.stopPropagation();
-                toggleMobileSidebar();
-            });
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
 
-            overlay.on('click', function () {
-                toggleMobileSidebar();
-            });
-
-            $(window).on('resize', function() {
-                if (window.innerWidth >= 992) {
-                    // If we are on desktop, remove expanded state if it was left from mobile
-                    sidebar.removeClass('sidebar-expanded');
-                    if (!sidebar.hasClass('sidebar-collapsed')) {
-                        sidebar.addClass('sidebar-collapsed');
-                    }
-                    overlay.hide();
-                } else {
-                    // On mobile, it should be expandable
-                     sidebar.removeClass('sidebar-collapsed');
-                     if (!sidebar.hasClass('sidebar-expanded')) {
-                        sidebar.addClass('sidebar-expanded');
-                     }
-                }
-            });
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
         });
     </script>
 </body>
