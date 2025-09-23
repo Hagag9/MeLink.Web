@@ -179,6 +179,7 @@
         let currentSourceName = null;
         let currentUserId = '@Model.CurrentUserId';
         let pendingItem = null;
+        const isPatient = @Model.IsPatient.ToString().ToLower();
 
         const searchInput = document.getElementById('medicine-search');
         const resultsContainer = document.getElementById('search-results-container');
@@ -255,16 +256,11 @@
                 resultsContainer.innerHTML = `<div class="alert alert-warning text-center rounded-3 p-3">No medicines found.</div>`;
                 return;
             }
-            const isPatient = @Html.Raw(Json.Serialize(Model.IsPatient));
             let html = '<div class="list-group list-group-flush">';
             medicines.forEach(med => {
-                const brandName = med.brandName || med.medicineName;
+                // === CHANGED: Display Brand Name as main, Medicine Name as subtext ===
+                const brandName = med.brandName || med.medicineName; // Fallback to medicineName if brandName is null
                 const genericName = med.medicineName;
-
-                let discountHtml = '';
-                if (!isPatient && med.discountPercentage > 0) {
-                    discountHtml = `<span class="badge bg-danger-subtle text-danger fs-6 fw-normal">${med.discountPercentage.toFixed(0)}% off</span>`;
-                }
 
                 html += `
                     <div class="list-group-item p-0">
@@ -275,8 +271,8 @@
                                 <small class="text-muted d-block mt-1">From: ${med.sourceName}</small>
                             </div>
                             <div class="d-flex align-items-center gap-3">
-                                 ${discountHtml}
                                  <span class="badge bg-success-subtle text-success fs-6 fw-normal">EGP ${med.price.toFixed(2)}</span>
+                                 ${!isPatient && med.discountPercentage ? `<span class="badge bg-danger-subtle text-danger fs-6 fw-bold">${med.discountPercentage.toFixed(0)}% OFF</span>` : ''}
                                  <span class="badge bg-info-subtle text-info fs-6 fw-normal">${med.stock} units</span>
                             </div>
                             <div class="input-group input-group-sm add-to-cart-group">

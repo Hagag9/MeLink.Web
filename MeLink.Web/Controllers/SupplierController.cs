@@ -37,7 +37,6 @@ namespace MeLink.Web.Controllers
             {
                 types.Add(new SupplierTypeViewModel { Type = "Manufacturer", Title = "Manufacturers", Description = "Order from factories.", Icon = "fas fa-industry", Color = "warning" });
                 types.Add(new SupplierTypeViewModel { Type = "DistributionCompany", Title = "Distribution Companies", Description = "Order from wholesalers.", Icon = "fas fa-truck", Color = "success" });
-                types.Add(new SupplierTypeViewModel { Type = "Warehouse", Title = "Other Warehouses", Description = "Order from other warehouses.", Icon = "fas fa-warehouse", Color = "info" });
             }
             // **تمت إضافة هذا الشرط لـ DistributionCompany**
             else if (currentUser is DistributionCompany)
@@ -54,27 +53,69 @@ namespace MeLink.Web.Controllers
             var currentUser = await _userManager.GetUserAsync(User);
             if (currentUser == null) return Forbid();
 
-            IQueryable<ApplicationUser> suppliersQuery = _context.Users.AsQueryable();
-            var pageTitle = $"{type}s";
+            var supplierIds = new List<string>();
+            var pageTitle = "";
 
-            switch (type)
+            // **تمت إضافة هذا الشرط لـ DistributionCompany**
+            if (currentUser is DistributionCompany)
             {
-                case "Manufacturer":
-                    suppliersQuery = _context.Users.OfType<Manufacturer>();
-                    break;
-                case "Warehouse":
-                    suppliersQuery = _context.Users.OfType<MedicineWarehouse>().Where(w => w.Id != currentUser.Id);
-                    pageTitle = "Other Warehouses";
-                    break;
-                case "DistributionCompany":
-                    suppliersQuery = _context.Users.OfType<DistributionCompany>();
-                    pageTitle = "Distribution Companies";
-                    break;
-                default:
-                    return BadRequest("Invalid supplier type.");
-            }
+                pageTitle = "Connected Manufacturers";
+                var relationType = RelationType.CompanyManufacturer;
 
-            var suppliers = await suppliersQuery
+                supplierIds = await _context.UserRelations
+                    .Where(r => r.FromUserId == currentUser.Id && r.RelationType == relationType)
+                    .Select(r => r.ToUserId)
+                    .ToListAsync();
+            }
+            // **تم تعديل هذا الشرط ليصبح else if**
+            else if (currentUser is Pharmacy)
+            {
+                pageTitle = type switch
+                {
+                    "Manufacturer" => "Connected Manufacturers",
+                    "Warehouse" => "Connected Warehouses",
+                    "DistributionCompany" => "Connected Distribution Companies",
+                    _ => "Connected Suppliers"
+                };
+
+                var relationType = type switch
+                {
+                    "Manufacturer" => RelationType.PharmacyManufacturer,
+                    "Warehouse" => RelationType.PharmacyWarehouse,
+                    "DistributionCompany" => RelationType.PharmacyCompany,
+                    _ => RelationType.PatientPharmacy
+                };
+
+                supplierIds = await _context.UserRelations
+                    .Where(r => r.FromUserId == currentUser.Id && r.RelationType == relationType)
+                    .Select(r => r.ToUserId)
+                    .ToListAsync();
+            }
+            else if (currentUser is MedicineWarehouse)
+            {
+                pageTitle = type switch
+                {
+                    "Manufacturer" => "Connected Manufacturers",
+                    "DistributionCompany" => "Connected Distribution Companies",
+                    _ => "Connected Suppliers"
+                };
+
+                var relationType = type switch
+                {
+                    "Manufacturer" => RelationType.WarehouseManufacturer,
+                    "DistributionCompany" => RelationType.CompanyWarehouse,
+                    _ => RelationType.PatientPharmacy
+                };
+
+                supplierIds = await _context.UserRelations
+                    .Where(r => r.FromUserId == currentUser.Id && r.RelationType == relationType)
+                    .Select(r => r.ToUserId)
+                    .ToListAsync();
+            }
+            // يمكنك إضافة المزيد من الشروط هنا لأنواع مستخدمين أخرى
+
+            var suppliers = await _context.Users
+                .Where(u => supplierIds.Contains(u.Id))
                 .Select(u => new SupplierViewModel
                 {
                     UserId = u.Id,
@@ -82,15 +123,9 @@ namespace MeLink.Web.Controllers
                     Address = u.Address,
                     City = u.City,
                     UserType = u.GetType().Name,
-                    Installment = u.Installment
+                    Installment =u.Installment
                 })
                 .ToListAsync();
-
-            // This logic ensures that only valid supplier types are shown based on the current user's role.
-            if (currentUser is DistributionCompany && type != "Manufacturer")
-                suppliers.Clear();
-            if (currentUser is MedicineWarehouse && !new[] { "Manufacturer", "DistributionCompany", "Warehouse" }.Contains(type))
-                suppliers.Clear();
 
             var viewModel = new UserSuppliersViewModel
             {

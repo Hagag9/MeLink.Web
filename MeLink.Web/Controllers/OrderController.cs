@@ -94,6 +94,87 @@ namespace MeLink.Web.Controllers
             return View(viewModel);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ApproveOrder(int orderId)
+        {
+            var seller = await _userManager.GetUserAsync(User);
+
+            // Find the order, ensuring the current user is the recipient (seller)
+            var order = await _context.Orders
+                .Include(o => o.Items)
+                .ThenInclude(i => i.Medicine) // Include medicine details for new inventory items
+                .Include(o => o.FromUser)     // Include the buyer
+                .FirstOrDefaultAsync(o => o.Id == orderId && o.ToUserId == seller.Id);
+
+            if (order == null)
+            {
+                TempData["Error"] = "Order not found or you are not authorized to approve it.";
+                return RedirectToAction(nameof(IncomingOrders));
+            }
+
+            if (order.Status != OrderStatus.Pending)
+            {
+                TempData["Warning"] = "This order has already been processed.";
+                return RedirectToAction(nameof(IncomingOrders));
+            }
+
+            using var transaction = await _context.Database.BeginTransactionAsync();
+            try
+            {
+                // 1. Update order status
+                order.Status = OrderStatus.Approved;
+
+                var buyer = order.FromUser;
+
+                // 2. Update or create inventory for the buyer
+                foreach (var orderItem in order.Items)
+                {
+                    var buyerInventoryItem = await _context.Inventories
+                        .FirstOrDefaultAsync(i => i.UserId == buyer.Id && i.MedicineId == orderItem.MedicineId);
+
+                    if (buyerInventoryItem != null)
+                    {
+                        // Buyer already has this medicine, so just increase the stock
+                        buyerInventoryItem.StockQuantity += orderItem.Quantity;
+                        buyerInventoryItem.IsAvailable = true; // Ensure it's marked as available
+                    }
+                    else
+                    {
+                        // Buyer does not have this medicine, create a new inventory record
+                        var sellerInventoryItem = await _context.Inventories
+                            .FirstOrDefaultAsync(i => i.UserId == seller.Id && i.MedicineId == orderItem.MedicineId);
+
+                        var newInventoryItem = new Inventory
+                        {
+                            UserId = buyer.Id,
+                            MedicineId = orderItem.MedicineId,
+                            StockQuantity = orderItem.Quantity,
+                            IsAvailable = true,
+                            // Set a default price or copy from seller. For now, let's set it to 0.
+                            // In a real scenario, this would be based on the order's price details.
+                            Price = sellerInventoryItem?.Price ?? 0,
+                            DiscountPrice = sellerInventoryItem?.DiscountPrice
+                        };
+                        _context.Inventories.Add(newInventoryItem);
+                    }
+                }
+
+                await _context.SaveChangesAsync();
+                await transaction.CommitAsync();
+
+                TempData["Success"] = $"Order #{order.Id} has been approved and the buyer's inventory updated.";
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync();
+                // Log the exception ex
+                TempData["Error"] = "An error occurred while approving the order.";
+            }
+
+            return RedirectToAction(nameof(IncomingOrders));
+        }
+
        
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -481,24 +562,30 @@ namespace MeLink.Web.Controllers
             }
             else if (currentUser is Pharmacy)
             {
-                // Pharmacy can order from all Warehouses, Companies, and Manufacturers
-                var warehouseIds = _context.Users.OfType<MedicineWarehouse>().Select(w => w.Id);
-                var companyIds = _context.Users.OfType<DistributionCompany>().Select(c => c.Id);
-                var manufacturerIds = _context.Users.OfType<Manufacturer>().Select(m => m.Id);
-                allowedSupplierIds = warehouseIds.Concat(companyIds).Concat(manufacturerIds);
+                // Pharmacy orders from Companies, Warehouses, and Manufacturers
+                allowedSupplierIds = _context.UserRelations
+                    .Where(r => r.FromUserId == currentUser.Id &&
+                                (r.RelationType == RelationType.PharmacyCompany ||
+                                 r.RelationType == RelationType.PharmacyWarehouse ||
+                                 r.RelationType == RelationType.PharmacyManufacturer))
+                    .Select(r => r.ToUserId);
             }
             else if (currentUser is MedicineWarehouse)
             {
-                // Warehouse can order from other Warehouses, Companies, and Manufacturers
-                var otherWarehouseIds = _context.Users.OfType<MedicineWarehouse>().Where(w => w.Id != currentUser.Id).Select(w => w.Id);
-                var companyIds = _context.Users.OfType<DistributionCompany>().Select(c => c.Id);
-                var manufacturerIds = _context.Users.OfType<Manufacturer>().Select(m => m.Id);
-                allowedSupplierIds = otherWarehouseIds.Concat(companyIds).Concat(manufacturerIds);
+                // Warehouse orders from Companies and Manufacturers
+                allowedSupplierIds = _context.UserRelations
+                    .Where(r => r.FromUserId == currentUser.Id &&
+                                (r.RelationType == RelationType.CompanyManufacturer || // Note: this might need adjustment based on your full relation types
+                                 r.RelationType == RelationType.WarehouseManufacturer))
+                    .Select(r => r.ToUserId);
             }
             else if (currentUser is DistributionCompany)
             {
                 // Company orders from Manufacturers
-                allowedSupplierIds = _context.Users.OfType<Manufacturer>().Select(m => m.Id);
+                allowedSupplierIds = _context.UserRelations
+                    .Where(r => r.FromUserId == currentUser.Id &&
+                                r.RelationType == RelationType.CompanyManufacturer)
+                    .Select(r => r.ToUserId);
             }
             else
             {
@@ -539,7 +626,6 @@ namespace MeLink.Web.Controllers
             return Json(medicines);
         }
         [HttpPost]
-        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CancelOrder(int orderId)
         {
@@ -571,77 +657,6 @@ namespace MeLink.Web.Controllers
             }
 
             return RedirectToAction(nameof(MyOrders));
-        }
-
-        public async Task<IActionResult> ApproveOrder(int orderId)
-        {
-            var currentUser = await _userManager.GetUserAsync(User);
-            var order = await _context.Orders
-                .Include(o => o.Items)
-                .FirstOrDefaultAsync(o => o.Id == orderId);
-
-            if (order == null)
-            {
-                TempData["ErrorMessage"] = "Order not found.";
-                return RedirectToAction(nameof(IncomingOrders));
-            }
-
-            if (order.ToUserId != currentUser.Id)
-            {
-                return Forbid();
-            }
-
-            if (order.Status != OrderStatus.Pending)
-            {
-                TempData["ErrorMessage"] = "This order has already been processed.";
-                return RedirectToAction(nameof(IncomingOrders));
-            }
-
-            using var transaction = await _context.Database.BeginTransactionAsync();
-            try
-            {
-                order.Status = OrderStatus.Approved;
-
-                var requesterId = order.FromUserId;
-                foreach (var item in order.Items)
-                {
-                    var requesterInventoryItem = await _context.Inventories
-                        .FirstOrDefaultAsync(i => i.UserId == requesterId && i.MedicineId == item.MedicineId);
-
-                    if (requesterInventoryItem != null)
-                    {
-                        requesterInventoryItem.StockQuantity += item.Quantity;
-                    }
-                    else
-                    {
-                        var supplierInventoryItem = await _context.Inventories
-                            .AsNoTracking()
-                            .FirstOrDefaultAsync(i => i.UserId == order.ToUserId && i.MedicineId == item.MedicineId);
-
-                        var newInventoryItem = new Inventory
-                        {
-                            UserId = requesterId,
-                            MedicineId = item.MedicineId,
-                            StockQuantity = item.Quantity,
-                            Price = supplierInventoryItem?.Price ?? 0,
-                            IsAvailable = true,
-                            LastUpdated = DateTime.UtcNow
-                        };
-                        _context.Inventories.Add(newInventoryItem);
-                    }
-                }
-
-                await _context.SaveChangesAsync();
-                await transaction.CommitAsync();
-                TempData["SuccessMessage"] = $"Order #{orderId} has been successfully approved.";
-            }
-            catch (Exception ex)
-            {
-                await transaction.RollbackAsync();
-                TempData["ErrorMessage"] = "An error occurred while approving the order: " + ex.Message;
-            }
-
-            return RedirectToAction(nameof(IncomingOrders));
         }
 
         public async Task<IActionResult> Reorder(int orderId)
@@ -678,22 +693,17 @@ namespace MeLink.Web.Controllers
 
             if (!string.IsNullOrEmpty(supplierId))
             {
+
                 query = query.Where(i => i.UserId == supplierId && i.IsAvailable && i.StockQuantity > 0);
             }
             else
             {
-                if (currentUser is Pharmacy)
-                {
-                    query = query.Where(i => i.User is MedicineWarehouse || i.User is DistributionCompany || i.User is Manufacturer);
-                }
+                if(currentUser is Pharmacy)
+                    query = query.Where(i=>i.User is MedicineWarehouse ||i.User is DistributionCompany ||i.User is Manufacturer);
                 else if (currentUser is MedicineWarehouse)
-                {
-                    query = query.Where(i => (i.User is DistributionCompany || i.User is Manufacturer) || (i.User is MedicineWarehouse && i.UserId != currentUser.Id));
-                }
+                    query = query.Where(i => i.User is DistributionCompany || i.User is Manufacturer);
                 else if (currentUser is DistributionCompany)
-                {
                     query = query.Where(i => i.User is Manufacturer);
-                }
             }
            
 
@@ -705,14 +715,19 @@ namespace MeLink.Web.Controllers
                     i.Medicine!.ActiveIngredient!.Contains(searchTerm));
             }
 
-            var availableMedicines = await query
+            var results = query
                 .Select(i => new
                 {
                     Inventory = i,
                     DiscountPercentage = (i.DiscountPrice.HasValue && i.Price > 0) ? ((i.Price - i.DiscountPrice.Value) / i.Price) * 100 : (decimal?)null
-                })
-                .OrderByDescending(r => r.DiscountPercentage)
-                .Select(r => new MedicineInventoryViewModel
+                });
+
+            if (currentUser is not Patient)
+            {
+                results = results.OrderByDescending(r => r.DiscountPercentage);
+            }
+
+            var availableMedicines = await results.Select(r => new MedicineInventoryViewModel
                 {
                     MedicineId = r.Inventory.MedicineId,
                     GenericName = r.Inventory.Medicine!.GenericName,

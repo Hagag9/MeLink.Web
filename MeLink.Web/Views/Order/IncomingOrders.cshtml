@@ -131,9 +131,12 @@
                                                 {
                                                     <li><hr class="dropdown-divider"></li>
                                                     <li>
-                                                        <a class="dropdown-item text-success approve-order-btn" href="#" data-order-id="@order.OrderId">
-                                                            <i class="fas fa-check fa-fw me-2"></i>Approve
-                                                        </a>
+                                                        <form asp-action="ApproveOrder" method="post" class="d-inline">
+                                                            <input type="hidden" name="orderId" value="@order.OrderId" />
+                                                            <button type="submit" class="dropdown-item text-success" onclick="return confirm('Are you sure you want to approve this order?');">
+                                                                <i class="fas fa-check fa-fw me-2"></i>Approve
+                                                            </button>
+                                                        </form>
                                                     </li>
                                                     <li>
                                                         <a class="dropdown-item text-danger reject-order-btn" href="#" data-order-id="@order.OrderId">
@@ -198,14 +201,6 @@
             }
 
             // Action button handlers
-            $('#orders-container').on('click', '.approve-order-btn', function (e) {
-                e.preventDefault();
-                const orderId = $(this).data('order-id');
-                if (confirm('Are you sure you want to approve this order?')) {
-                    window.location.href = `/Order/ApproveOrder?orderId=${orderId}`;
-                }
-            });
-
             $('#orders-container').on('click', '.reject-order-btn', function (e) {
                 e.preventDefault();
                 const orderId = $(this).data('order-id');
