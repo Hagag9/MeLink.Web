@@ -1,4 +1,4 @@
-﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer localizer
 @model MeLink.Web.ViewModels.IncomingOrdersViewModel
 
@@ -112,11 +112,11 @@
                                     <td>
                                         <small class="fw-bold">
                                             <i class="fas fa-pills me-1"></i>
-                                            @order.TotalItems item@(order.TotalItems > 1 ? "s" : "")
+                                            @order.TotalItems @(order.TotalItems > 1 ? localizer["items"] : localizer["item"])
                                         </small>
                                     </td>
                                     <td>
-                                        <span class="badge @GetStatusBadgeClass(order.Status)">@GetStatusText(order.Status)</span>
+                                        <span class="badge @GetStatusBadgeClass(order.Status)">@localizer[GetStatusText(order.Status)]</span>
                                     </td>
                                     <td class="text-end">
                                         <div class="dropdown">
@@ -203,7 +203,7 @@
             $('#orders-container').on('click', '.approve-order-btn', function (e) {
                 e.preventDefault();
                 const orderId = $(this).data('order-id');
-                if (confirm('Are you sure you want to approve this order?')) {
+                if (confirm('@localizer["Are you sure you want to approve this order?"]')) {
                     window.location.href = `/Order/ApproveOrder?orderId=${orderId}`;
                 }
             });
@@ -211,7 +211,7 @@
             $('#orders-container').on('click', '.reject-order-btn', function (e) {
                 e.preventDefault();
                 const orderId = $(this).data('order-id');
-                if (confirm('Are you sure you want to reject this order?')) {
+                if (confirm('@localizer["Are you sure you want to reject this order?"]')) {
                     window.location.href = `/Order/RejectOrder?orderId=${orderId}`;
                 }
             });
@@ -219,7 +219,7 @@
             $('#orders-container').on('click', '.mark-shipped-btn', function (e) {
                 e.preventDefault();
                 const orderId = $(this).data('order-id');
-                if (confirm('Mark this order as shipped?')) {
+                if (confirm('@localizer["Mark this order as shipped?"]')) {
                     window.location.href = `/Order/MarkShipped?orderId=${orderId}`;
                 }
             });

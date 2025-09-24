@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Order Medicines" xml:space="preserve">
+    <value>طلب أدوية</value>
+  </data>
+  <data name="MY SHOPPING CART" xml:space="preserve">
+    <value>عربة التسوق الخاصة بي</value>
+  </data>
+  <data name="Your cart is currently empty." xml:space="preserve">
+    <value>عربة التسوق فارغة حاليا.</value>
+  </data>
+  <data name="Cart Subtotal" xml:space="preserve">
+    <value>المجموع الفرعي للعربة</value>
+  </data>
+  <data name="VIEW AND EDIT CART" xml:space="preserve">
+    <value>عرض وتحرير العربة</value>
+  </data>
+  <data name="GO TO CHECKOUT" xml:space="preserve">
+    <value>الذهاب إلى الدفع</value>
+  </data>
+  <data name="Clear Cart" xml:space="preserve">
+    <value>إفراغ العربة</value>
+  </data>
+  <data name="Order Confirmation" xml:space="preserve">
+    <value>تأكيد الطلب</value>
+  </data>
+  <data name="Upload Prescription" xml:space="preserve">
+    <value>تحميل روشتة</value>
+  </data>
+  <data name="(Optional)" xml:space="preserve">
+    <value>(اختياري)</value>
+  </data>
+  <data name="Additional Notes" xml:space="preserve">
+    <value>ملاحظات إضافية</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>إلغاء</value>
+  </data>
+  <data name="Confirm &amp; Place Order" xml:space="preserve">
+    <value>تأكيد وإرسال الطلب</value>
+  </data>
+  <data name="Medicine" xml:space="preserve">
+    <value>الدواء</value>
+  </data>
+  <data name="Search for products..." xml:space="preserve">
+    <value>البحث عن المنتجات ...</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>بحث</value>
+  </data>
+  <data name="Image" xml:space="preserve">
+    <value>صورة</value>
+  </data>
+  <data name="Supplier" xml:space="preserve">
+    <value>المورد</value>
+  </data>
+  <data name="Discount" xml:space="preserve">
+    <value>خصم</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>الحالة</value>
+  </data>
+  <data name="Price" xml:space="preserve">
+    <value>السعر</value>
+  </data>
+  <data name="Actions" xml:space="preserve">
+    <value>الإجراءات</value>
+  </data>
+  <data name="Add Selected to Cart" xml:space="preserve">
+    <value>إضافة المحدد إلى العربة</value>
+  </data>
+  <data name="No Results Found" xml:space="preserve">
+    <value>لم يتم العثور على نتائج</value>
+  </data>
+  <data name="In Stock" xml:space="preserve">
+    <value>متوفر</value>
+  </data>
+  <data name="Out of Stock" xml:space="preserve">
+    <value>غير متوفر</value>
+  </data>
+  <data name="Add to Cart" xml:space="preserve">
+    <value>إضافة إلى العربة</value>
+  </data>
+  <data name="You can only order from one pharmacy at a time. Clear cart and start a new order?" xml:space="preserve">
+    <value>يمكنك الطلب من صيدلية واحدة فقط في كل مرة. هل تريد إفراغ العربة وبدء طلب جديد؟</value>
+  </data>
+  <data name="Maximum available quantity for {0} is {1}." xml:space="preserve">
+    <value>الكمية القصوى المتاحة لـ {0} هي {1}.</value>
+  </data>
+    <data name="Source" xml:space="preserve">
+    <value>المصدر</value>
+  </data>
+    <data name="Total" xml:space="preserve">
+    <value>المجموع</value>
+  </data>
+</root>
