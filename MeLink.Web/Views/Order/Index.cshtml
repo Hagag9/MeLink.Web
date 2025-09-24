@@ -313,6 +313,7 @@
         const pageSize = 10; let currentPage = 1; let allMedicineItems = [];
         let cart = []; let currentSourceId = null; let currentSourceName = null;
         let isPatient = false;
+        const maxQuantityAlertFormat = '@localizer["Maximum available quantity for {0} is {1}."]'
 
         document.addEventListener('DOMContentLoaded', function () {
             var offcanvasElementList = [].slice.call(document.querySelectorAll('.offcanvas'));
@@ -415,7 +416,10 @@
 
             const existingItem = cart.find(item => item.inventoryId === inventoryId);
             const totalQuantity = (existingItem ? existingItem.quantity : 0) + quantityToAdd;
-            if (totalQuantity > stockQuantity) { alert(`@string.Format(localizer["Maximum available quantity for {0} is {1}."], (brandName || medicineName), stockQuantity)`); return; }
+            if (totalQuantity > stockQuantity) {
+                alert(maxQuantityAlertFormat.replace('{0}', brandName || medicineName).replace('{1}', stockQuantity));
+                return;
+            }
             if (existingItem) { existingItem.quantity += quantityToAdd; }
             else { cart.push({ inventoryId, medicineName, brandName, price, quantity: quantityToAdd, pharmacyId, pharmacyName, stockQuantity }); }
             updateCartDisplay();
