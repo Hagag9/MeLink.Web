@@ -315,6 +315,19 @@
         let isPatient = false;
 
         document.addEventListener('DOMContentLoaded', function () {
+            // Localized strings
+            const L = {
+                inStock: '@localizer["In Stock"]',
+                outOfStock: '@localizer["Out of Stock"]',
+                addToCart: '@localizer["Add to Cart"]',
+                clearCartConfirmation: '@localizer["You can only order from one pharmacy at a time. Clear cart and start a new order?"]',
+                maxQuantityAlert: '@localizer["Maximum available quantity for {0} is {1}."]',
+                sourceLabel: '@localizer["Source"]',
+                totalLabel: '@localizer["Total"]',
+                emptyCart: '@localizer["Your cart is currently empty."]',
+                qty: '@localizer["Qty"]'
+            };
+
             var offcanvasElementList = [].slice.call(document.querySelectorAll('.offcanvas'));
             var offcanvasList = offcanvasElementList.map(function (offcanvasEl) { return new bootstrap.Offcanvas(offcanvasEl) });
 
@@ -322,7 +335,6 @@
             if (tableBody) {
                 const medicines = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.AvailableMedicines));
                 isPatient = @Html.Raw(Json.Serialize(ViewBag.IsPatient));
-                const maxQuantityAlertFormat = '@localizer["Maximum available quantity for {0} is {1}."]';
 
                 const tableBodyHtml = medicines.map(medicine => {
                     let discountCell = '';
@@ -339,7 +351,7 @@
                             <td class="p-4"><div class="font-medium text-gray-800">${medicine.BrandName}</div><div class="text-sm text-gray-500">${medicine.GenericName}<br>${medicine.Strength}</div></td>
                             <td class="p-4"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">${medicine.PharmacyName}</span></td>
                             ${discountCell}
-                            <td class="p-4">${medicine.StockQuantity > 0 ? `<span class="flex items-center text-green-600"><i class="fas fa-check-circle mr-1"></i><span>@localizer["In Stock"] (${medicine.StockQuantity})</span></span>` : `<span class="flex items-center text-red-600"><i class="fas fa-times-circle mr-1"></i><span>@localizer["Out of Stock"]</span></span>`}</td>
+                            <td class="p-4">${medicine.StockQuantity > 0 ? `<span class="flex items-center text-green-600"><i class="fas fa-check-circle mr-1"></i><span>${L.inStock} (${medicine.StockQuantity})</span></span>` : `<span class="flex items-center text-red-600"><i class="fas fa-times-circle mr-1"></i><span>${L.outOfStock}</span></span>`}</td>
                             <td class="p-4 text-gray-800 font-medium">${medicine.Price.toFixed(2)} EGP</td>
                             <td class="p-4">
                                 <div id="add-to-cart-controls-${medicine.InventoryId}" class="add-to-cart-controls flex items-center space-x-2"
@@ -347,7 +359,7 @@
                                      data-brand-name="${medicine.BrandName || ''}" data-pharmacy-name="${medicine.PharmacyName}"
                                      data-price="${medicine.Price.toFixed(2)}" data-pharmacy-id="${medicine.PharmacyId}" data-stock-quantity="${medicine.StockQuantity}">
                                     <input class="w-16 border border-gray-300 rounded-md px-2 py-1 text-center" type="number" value="1" min="1" />
-                                    <button class="bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-700 text-sm whitespace-nowrap" type="button" onclick="handleAddToCartClick(this)">@localizer["Add to Cart"]</button>
+                                    <button class="bg-gray-800 text-white px-4 py-2 rounded-md hover:bg-gray-700 text-sm whitespace-nowrap" type="button" onclick="handleAddToCartClick(this)">${L.addToCart}</button>
                                 </div>
                             </td>
                         </tr>
@@ -356,180 +368,181 @@
                 tableBody.innerHTML = tableBodyHtml;
 
                 allMedicineItems = Array.from(tableBody.querySelectorAll('.medicine-item-row'));
-                setupPagination(); displayPage(currentPage);
+                setupPagination();
+                displayPage(currentPage);
                 document.getElementById('selectAllCheckbox').addEventListener('change', function(e) {
                     allMedicineItems.forEach(row => { row.querySelector('.item-checkbox').checked = e.target.checked; });
                 });
             }
-        });
 
-        function displayPage(page) {
-            const start = (page - 1) * pageSize; const end = start + pageSize;
-            allMedicineItems.forEach((item, index) => { item.style.display = (index >= start && index < end) ? 'table-row' : 'none'; });
-        }
-
-        function createPageButton(content, pageNumber, isDisabled = false, isActive = false) {
-            const button = document.createElement('button'); button.innerHTML = content;
-            let classes = 'p-2 rounded-md hover:bg-gray-200 flex items-center justify-center min-w-[36px]';
-            if (isActive) { classes = 'px-4 py-2 bg-blue-500 text-white rounded-md'; }
-            if (isDisabled) { classes += ' opacity-50 cursor-not-allowed'; }
-            button.className = classes;
-            if (!isDisabled && pageNumber) { button.onclick = (e) => { e.preventDefault(); currentPage = pageNumber; displayPage(currentPage); setupPagination(); }; }
-            return button;
-        }
-
-        function setupPagination() {
-            const totalItems = allMedicineItems.length; const totalPages = Math.ceil(totalItems / pageSize);
-            const paginationContainer = document.getElementById('pagination-container');
-            if (!paginationContainer) return; paginationContainer.innerHTML = ''; if (totalPages <= 1) return;
-            const wrapper = document.createElement('div'); wrapper.className = 'flex items-center space-x-2';
-            wrapper.appendChild(createPageButton('<i class="fas fa-chevron-left"></i>', currentPage - 1, currentPage === 1));
-            for(let i = 1; i <= totalPages; i++){
-                 if (i === currentPage) { wrapper.appendChild(createPageButton(i, i, false, true)); }
-                 else { wrapper.appendChild(createPageButton(i, i, false, false)); }
+            function displayPage(page) {
+                const start = (page - 1) * pageSize; const end = start + pageSize;
+                allMedicineItems.forEach((item, index) => { item.style.display = (index >= start && index < end) ? 'table-row' : 'none'; });
             }
-            wrapper.appendChild(createPageButton('<i class="fas fa-chevron-right"></i>', currentPage + 1, currentPage >= totalPages));
-            paginationContainer.appendChild(wrapper);
-        }
 
-        function handleAddToCartClick(buttonElement) {
-            const controlsDiv = buttonElement.closest('.add-to-cart-controls');
-            const quantityInput = controlsDiv.querySelector('input[type="number"]');
-            const quantity = parseInt(quantityInput.value);
-            if (isNaN(quantity) || quantity < 1) { quantityInput.value = 1; return; }
-            const dataset = controlsDiv.dataset;
-            addToCart(parseInt(dataset.inventoryId), dataset.medicineName, dataset.brandName, dataset.pharmacyName, parseFloat(dataset.price), dataset.pharmacyId, parseInt(dataset.stockQuantity), quantity);
-        }
+            function createPageButton(content, pageNumber, isDisabled = false, isActive = false) {
+                const button = document.createElement('button'); button.innerHTML = content;
+                let classes = 'p-2 rounded-md hover:bg-gray-200 flex items-center justify-center min-w-[36px]';
+                if (isActive) { classes = 'px-4 py-2 bg-blue-500 text-white rounded-md'; }
+                if (isDisabled) { classes += ' opacity-50 cursor-not-allowed'; }
+                button.className = classes;
+                if (!isDisabled && pageNumber) { button.onclick = (e) => { e.preventDefault(); currentPage = pageNumber; displayPage(currentPage); setupPagination(); }; }
+                return button;
+            }
 
-        function addToCart(inventoryId, medicineName, brandName, pharmacyName, price, pharmacyId, stockQuantity, quantityToAdd = 1) {
-            if (isPatient && currentSourceId && currentSourceId !== pharmacyId) {
-                if (!confirm(`@localizer["You can only order from one pharmacy at a time. Clear cart and start a new order?"]`)) {
+            function setupPagination() {
+                const totalItems = allMedicineItems.length; const totalPages = Math.ceil(totalItems / pageSize);
+                const paginationContainer = document.getElementById('pagination-container');
+                if (!paginationContainer) return; paginationContainer.innerHTML = ''; if (totalPages <= 1) return;
+                const wrapper = document.createElement('div'); wrapper.className = 'flex items-center space-x-2';
+                wrapper.appendChild(createPageButton('<i class="fas fa-chevron-left"></i>', currentPage - 1, currentPage === 1));
+                for(let i = 1; i <= totalPages; i++){
+                     if (i === currentPage) { wrapper.appendChild(createPageButton(i, i, false, true)); }
+                     else { wrapper.appendChild(createPageButton(i, i, false, false)); }
+                }
+                wrapper.appendChild(createPageButton('<i class="fas fa-chevron-right"></i>', currentPage + 1, currentPage >= totalPages));
+                paginationContainer.appendChild(wrapper);
+            }
+
+            window.handleAddToCartClick = function(buttonElement) {
+                const controlsDiv = buttonElement.closest('.add-to-cart-controls');
+                const quantityInput = controlsDiv.querySelector('input[type="number"]');
+                const quantity = parseInt(quantityInput.value);
+                if (isNaN(quantity) || quantity < 1) { quantityInput.value = 1; return; }
+                const dataset = controlsDiv.dataset;
+                addToCart(parseInt(dataset.inventoryId), dataset.medicineName, dataset.brandName, dataset.pharmacyName, parseFloat(dataset.price), dataset.pharmacyId, parseInt(dataset.stockQuantity), quantity);
+            }
+
+            function addToCart(inventoryId, medicineName, brandName, pharmacyName, price, pharmacyId, stockQuantity, quantityToAdd = 1) {
+                if (isPatient && currentSourceId && currentSourceId !== pharmacyId) {
+                    if (!confirm(L.clearCartConfirmation)) {
+                        return;
+                    }
+                    clearCart();
+                }
+
+                if (isPatient && cart.length === 0) {
+                    currentSourceId = pharmacyId;
+                    currentSourceName = pharmacyName;
+                }
+
+                const existingItem = cart.find(item => item.inventoryId === inventoryId);
+                const totalQuantity = (existingItem ? existingItem.quantity : 0) + quantityToAdd;
+                if (totalQuantity > stockQuantity) {
+                    alert(L.maxQuantityAlert.replace('{0}', brandName || medicineName).replace('{1}', stockQuantity));
                     return;
                 }
-                clearCart();
-            }
-
-            if (isPatient && cart.length === 0) {
-                currentSourceId = pharmacyId;
-                currentSourceName = pharmacyName;
-            }
-
-            const existingItem = cart.find(item => item.inventoryId === inventoryId);
-            const totalQuantity = (existingItem ? existingItem.quantity : 0) + quantityToAdd;
-            if (totalQuantity > stockQuantity) {
-                alert(maxQuantityAlertFormat.replace('{0}', brandName || medicineName).replace('{1}', stockQuantity));
-                return;
-            }
-            if (existingItem) { existingItem.quantity += quantityToAdd; }
-            else { cart.push({ inventoryId, medicineName, brandName, price, quantity: quantityToAdd, pharmacyId, pharmacyName, stockQuantity }); }
-            updateCartDisplay();
-        }
-
-        function addSelectedToCart() {
-            document.querySelectorAll('#medicines-table-body .item-checkbox:checked').forEach(cb => {
-                handleAddToCartClick(cb.closest('tr').querySelector('.add-to-cart-controls button'));
-            });
-        }
-
-        function addAllToCart() {
-            allMedicineItems.forEach(row => {
-                handleAddToCartClick(row.querySelector('.add-to-cart-controls button'));
-            });
-        }
-
-        function changeQuantity(inventoryId, change) {
-            const itemIndex = cart.findIndex(item => item.inventoryId === inventoryId);
-            if (itemIndex > -1) {
-                const item = cart[itemIndex]; const newQuantity = item.quantity + change;
-                if (newQuantity <= 0) { removeFromCartById(inventoryId); return; }
-                if (newQuantity > item.stockQuantity) { return; }
-                item.quantity = newQuantity; updateCartDisplay();
-            }
-        }
-
-        function removeFromCartById(inventoryId) {
-            const itemIndex = cart.findIndex(item => item.inventoryId === inventoryId);
-            if (itemIndex > -1) {
-                cart.splice(itemIndex, 1);
-                if (cart.length === 0) { currentSourceId = null; currentSourceName = null; }
+                if (existingItem) { existingItem.quantity += quantityToAdd; }
+                else { cart.push({ inventoryId, medicineName, brandName, price, quantity: quantityToAdd, pharmacyId, pharmacyName, stockQuantity }); }
                 updateCartDisplay();
             }
-        }
 
-        function updateCartDisplay() {
-            const floatingBtn = document.getElementById('floating-cart-button');
-            const itemCountSpan = document.getElementById('cart-item-count');
-            const offcanvasItemsDiv = document.getElementById('offcanvas-cart-items');
-            const offcanvasFooter = document.getElementById('offcanvas-cart-footer');
-            const offcanvasTotalSpan = document.getElementById('offcanvas-cart-total');
-
-            if (cart.length === 0) {
-                itemCountSpan.textContent = '0'; // <-- BUG FIX IS HERE
-                floatingBtn.classList.add('d-none');
-                offcanvasItemsDiv.innerHTML = `<div class="text-center empty-cart-message"><p>@localizer["Your cart is currently empty."]</p></div>`;
-                offcanvasFooter.style.display = 'none';
-                return;
+            window.addSelectedToCart = function() {
+                document.querySelectorAll('#medicines-table-body .item-checkbox:checked').forEach(cb => {
+                    handleAddToCartClick(cb.closest('tr').querySelector('.add-to-cart-controls button'));
+                });
             }
 
-            floatingBtn.classList.remove('d-none');
-            offcanvasFooter.style.display = 'block';
-            offcanvasItemsDiv.innerHTML = '';
-            let total = 0;
-            let totalItems = 0;
+            window.addAllToCart = function() {
+                allMedicineItems.forEach(row => {
+                    handleAddToCartClick(row.querySelector('.add-to-cart-controls button'));
+                });
+            }
 
-            cart.forEach(item => {
-                const itemTotal = item.price * item.quantity;
-                total += itemTotal;
-                totalItems += item.quantity;
-                offcanvasItemsDiv.innerHTML += `
-                    <div class="cart-elegant-item">
-                        <img src="/images/icon_jar_can_box.png" class="cart-elegant-img" alt="${item.medicineName}">
-                        <span class="cart-elegant-name">${item.brandName || item.medicineName}</span>
-                        <span class="cart-elegant-price">${itemTotal.toFixed(2)} EGP</span>
-                        <div class="cart-elegant-controls">
-                             <div class="cart-elegant-qty">
-                                <span>Qty:</span>
-                                <button onclick="changeQuantity(${item.inventoryId}, 1)">+</button>
-                                <span>${item.quantity}</span>
-                                <button onclick="changeQuantity(${item.inventoryId}, -1)">-</button>
+            window.changeQuantity = function(inventoryId, change) {
+                const itemIndex = cart.findIndex(item => item.inventoryId === inventoryId);
+                if (itemIndex > -1) {
+                    const item = cart[itemIndex]; const newQuantity = item.quantity + change;
+                    if (newQuantity <= 0) { removeFromCartById(inventoryId); return; }
+                    if (newQuantity > item.stockQuantity) { return; }
+                    item.quantity = newQuantity; updateCartDisplay();
+                }
+            }
+
+            window.removeFromCartById = function(inventoryId) {
+                const itemIndex = cart.findIndex(item => item.inventoryId === inventoryId);
+                if (itemIndex > -1) {
+                    cart.splice(itemIndex, 1);
+                    if (cart.length === 0) { currentSourceId = null; currentSourceName = null; }
+                    updateCartDisplay();
+                }
+            }
+
+            function updateCartDisplay() {
+                const floatingBtn = document.getElementById('floating-cart-button');
+                const itemCountSpan = document.getElementById('cart-item-count');
+                const offcanvasItemsDiv = document.getElementById('offcanvas-cart-items');
+                const offcanvasFooter = document.getElementById('offcanvas-cart-footer');
+                const offcanvasTotalSpan = document.getElementById('offcanvas-cart-total');
+
+                if (cart.length === 0) {
+                    itemCountSpan.textContent = '0';
+                    floatingBtn.classList.add('d-none');
+                    offcanvasItemsDiv.innerHTML = `<div class="text-center empty-cart-message"><p>${L.emptyCart}</p></div>`;
+                    offcanvasFooter.style.display = 'none';
+                    return;
+                }
+
+                floatingBtn.classList.remove('d-none');
+                offcanvasFooter.style.display = 'block';
+                offcanvasItemsDiv.innerHTML = '';
+                let total = 0;
+                let totalItems = 0;
+
+                cart.forEach(item => {
+                    const itemTotal = item.price * item.quantity;
+                    total += itemTotal;
+                    totalItems += item.quantity;
+                    offcanvasItemsDiv.innerHTML += `
+                        <div class="cart-elegant-item">
+                            <img src="/images/icon_jar_can_box.png" class="cart-elegant-img" alt="${item.medicineName}">
+                            <span class="cart-elegant-name">${item.brandName || item.medicineName}</span>
+                            <span class="cart-elegant-price">${itemTotal.toFixed(2)} EGP</span>
+                            <div class="cart-elegant-controls">
+                                 <div class="cart-elegant-qty">
+                                    <span>${L.qty}:</span>
+                                    <button onclick="changeQuantity(${item.inventoryId}, 1)">+</button>
+                                    <span>${item.quantity}</span>
+                                    <button onclick="changeQuantity(${item.inventoryId}, -1)">-</button>
+                                </div>
+                                <button class="cart-remove-btn" onclick="removeFromCartById(${item.inventoryId})">&times;</button>
                             </div>
-                            <button class="cart-remove-btn" onclick="removeFromCartById(${item.inventoryId})">&times;</button>
-                        </div>
-                    </div>`;
-            });
-            offcanvasTotalSpan.textContent = `${total.toFixed(2)} EGP`;
-            itemCountSpan.textContent = totalItems;
-        }
+                        </div>`;
+                });
+                offcanvasTotalSpan.textContent = `${total.toFixed(2)} EGP`;
+                itemCountSpan.textContent = totalItems;
+            }
 
-        function clearCart() {
-            cart = [];
-            currentSourceId = null;
-            currentSourceName = null;
-            updateCartDisplay();
-        }
+            window.clearCart = function() {
+                cart = [];
+                currentSourceId = null;
+                currentSourceName = null;
+                updateCartDisplay();
+            }
 
-        function proceedToOrder() {
-            if (cart.length === 0) { return; }
-            document.getElementById('pharmacy-id').value = currentSourceId;
-            document.querySelector('#pharmacy-name').value = currentSourceName;
-            let summaryHtml = `<div class="alert alert-light small"><strong>@localizer["Source"]:</strong> ${currentSourceName}</div><ul class="list-group list-group-flush">`;
-            let total = 0;
-            cart.forEach((item) => {
-                const itemTotal = item.price * item.quantity; total += itemTotal;
-                summaryHtml += `<li class="list-group-item d-flex justify-content-between small p-2"><div><div class="fw-bold">${item.brandName||item.medicineName}</div><small class="text-muted">${item.quantity} x ${item.price.toFixed(2)}</small></div><span>${itemTotal.toFixed(2)}</span></li>`;
-            });
-            summaryHtml += `<li class="list-group-item d-flex justify-content-between bg-light p-2"><strong class="fw-bold">@localizer["Total"]:</strong><strong class="fw-bold text-primary">${total.toFixed(2)} EGP</strong></li></ul>`;
-            document.getElementById('order-summary').innerHTML = summaryHtml;
-            let hiddenItemsHtml = '';
-            cart.forEach((item, index) => {
-                hiddenItemsHtml += `<input type="hidden" name="OrderItems[${index}].SourceId" value="${item.pharmacyId}"/>`;
-                hiddenItemsHtml += `<input type="hidden" name="OrderItems[${index}].InventoryId" value="${item.inventoryId}"/>`;
-                hiddenItemsHtml += `<input type="hidden" name="OrderItems[${index}].UnitPrice" value="${item.price}"/>`;
-                hiddenItemsHtml += `<input type="hidden" name="OrderItems[${index}].Quantity" value="${item.quantity}"/>`;
-            });
-            document.getElementById('hidden-items').innerHTML = hiddenItemsHtml;
-            var orderModal = new bootstrap.Modal(document.getElementById('orderModal'));
-            orderModal.show();
-        }
+            window.proceedToOrder = function() {
+                if (cart.length === 0) { return; }
+                document.getElementById('pharmacy-id').value = currentSourceId;
+                document.querySelector('#pharmacy-name').value = currentSourceName;
+                let summaryHtml = `<div class="alert alert-light small"><strong>${L.sourceLabel}:</strong> ${currentSourceName}</div><ul class="list-group list-group-flush">`;
+                let total = 0;
+                cart.forEach((item) => {
+                    const itemTotal = item.price * item.quantity; total += itemTotal;
+                    summaryHtml += `<li class="list-group-item d-flex justify-content-between small p-2"><div><div class="fw-bold">${item.brandName||item.medicineName}</div><small class="text-muted">${item.quantity} x ${item.price.toFixed(2)}</small></div><span>${itemTotal.toFixed(2)}</span></li>`;
+                });
+                summaryHtml += `<li class="list-group-item d-flex justify-content-between bg-light p-2"><strong class="fw-bold">${L.totalLabel}:</strong><strong class="fw-bold text-primary">${total.toFixed(2)} EGP</strong></li></ul>`;
+                document.getElementById('order-summary').innerHTML = summaryHtml;
+                let hiddenItemsHtml = '';
+                cart.forEach((item, index) => {
+                    hiddenItemsHtml += `<input type="hidden" name="OrderItems[${index}].SourceId" value="${item.pharmacyId}"/>`;
+                    hiddenItemsHtml += `<input type="hidden" name="OrderItems[${index}].InventoryId" value="${item.inventoryId}"/>`;
+                    hiddenItemsHtml += `<input type="hidden" name="OrderItems[${index}].UnitPrice" value="${item.price}"/>`;
+                    hiddenItemsHtml += `<input type="hidden" name="OrderItems[${index}].Quantity" value="${item.quantity}"/>`;
+                });
+                document.getElementById('hidden-items').innerHTML = hiddenItemsHtml;
+                var orderModal = new bootstrap.Modal(document.getElementById('orderModal'));
+                orderModal.show();
+            }
+        });
     </script>
 }
