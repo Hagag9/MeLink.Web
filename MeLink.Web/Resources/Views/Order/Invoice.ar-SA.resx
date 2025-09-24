@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="xml:space" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Invoice #">
+    <value>فاتورة رقم </value>
+  </data>
+  <data name="INVOICE">
+    <value>فاتورة</value>
+  </data>
+  <data name="For Order #">
+    <value>للطلب رقم </value>
+  </data>
+  <data name="Date Issued:">
+    <value>تاريخ الإصدار:</value>
+  </data>
+  <data name="Customer Details">
+    <value>تفاصيل العميل</value>
+  </data>
+  <data name="Order Time:">
+    <value>وقت الطلب:</value>
+  </data>
+  <data name="Supplier Details">
+    <value>تفاصيل المورد</value>
+  </data>
+  <data name="Description">
+    <value>الوصف</value>
+  </data>
+  <data name="Qty">
+    <value>الكمية</value>
+  </data>
+  <data name="Unit Price">
+    <value>سعر الوحدة</value>
+  </data>
+  <data name="Total">
+    <value>المجموع</value>
+  </data>
+  <data name="Subtotal">
+    <value>المجموع الفرعي</value>
+  </data>
+  <data name="Grand Total">
+    <value>المجموع الكلي</value>
+  </data>
+  <data name="Notes">
+    <value>ملاحظات</value>
+  </data>
+  <data name="Thank you for your business. Please contact us with any questions regarding this invoice.">
+    <value>شكرا لتعاملكم معنا. يرجى الاتصال بنا مع أي أسئلة بخصوص هذه الفاتورة.</value>
+  </data>
+  <data name="Status">
+    <value>الحالة</value>
+  </data>
+  <data name="Back to Orders">
+    <value>العودة إلى الطلبات</value>
+  </data>
+  <data name="Print">
+    <value>طباعة</value>
+  </data>
+  <data name="Download">
+    <value>تحميل</value>
+  </data>
+</root>

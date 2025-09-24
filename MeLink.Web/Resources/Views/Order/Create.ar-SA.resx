@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="xml:space" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Create New Order">
+    <value>إنشاء طلب جديد</value>
+  </data>
+  <data name="Change Order Source?">
+    <value>تغيير مصدر الطلب؟</value>
+  </data>
+  <data name="You can only order from one source at a time. Do you want to clear your current selection and start a new order with this item?">
+    <value>يمكنك فقط الطلب من مصدر واحد في كل مرة. هل تريد مسح اختيارك الحالي وبدء طلب جديد بهذا الصنف؟</value>
+  </data>
+  <data name="Cancel">
+    <value>إلغاء</value>
+  </data>
+  <data name="Yes, Start New Order">
+    <value>نعم، ابدأ طلبًا جديدًا</value>
+  </data>
+  <data name="Select Medicines">
+    <value>اختيار الأدوية</value>
+  </data>
+  <data name="Add Details">
+    <value>إضافة التفاصيل</value>
+  </data>
+  <data name="Confirm">
+    <value>تأكيد</value>
+  </data>
+  <data name="Fill in the details below to create your order easily.">
+    <value>املأ التفاصيل أدناه لإنشاء طلبك بسهولة.</value>
+  </data>
+  <data name="Your Information">
+    <value>معلوماتك</value>
+  </data>
+  <data name="Name:">
+    <value>الاسم:</value>
+  </data>
+  <data name="Source Information">
+    <value>معلومات المصدر</value>
+  </data>
+  <data name="Source:">
+    <value>المصدر:</value>
+  </data>
+  <data name="Not Selected">
+    <value>لم يتم الاختيار</value>
+  </data>
+  <data name="Step 1: Search &amp; Add Medicines">
+    <value>الخطوة 1: البحث وإضافة الأدوية</value>
+  </data>
+  <data name="Find Your Medicine">
+    <value>ابحث عن دوائك</value>
+  </data>
+  <data name="Start typing to search...">
+    <value>ابدأ بالكتابة للبحث ...</value>
+  </data>
+  <data name="Your Order">
+    <value>طلبك</value>
+  </data>
+  <data name="Clear All">
+    <value>مسح الكل</value>
+  </data>
+  <data name="Step 2: Additional Details">
+    <value>الخطوة 2: تفاصيل إضافية</value>
+  </data>
+  <data name="Upload Prescription (Optional)">
+    <value>تحميل وصفة طبية (اختياري)</value>
+  </data>
+  <data name="Choose File">
+    <value>اختر ملف</value>
+  </data>
+  <data name="No file chosen">
+    <value>لم يتم اختيار ملف</value>
+  </data>
+  <data name="You can upload an image or PDF file of your prescription.">
+    <value>يمكنك تحميل صورة أو ملف PDF لوصفتك الطبية.</value>
+  </data>
+  <data name="Additional Notes">
+    <value>ملاحظات إضافية</value>
+  </data>
+  <data name="Any special instructions or delivery details...">
+    <value>أي تعليمات خاصة أو تفاصيل التسليم ...</value>
+  </data>
+  <data name="Or Upload an Excel Sheet">
+    <value>أو تحميل ملف إكسل</value>
+  </data>
+  <data name="Upload Excel Sheet">
+    <value>تحميل ملف إكسل</value>
+  </data>
+  <data name="Upload a list of medicines in an Excel file.">
+    <value>تحميل قائمة بالأدوية في ملف إكسل.</value>
+  </data>
+  <data name="Order Preview from Excel">
+    <value>معاينة الطلب من إكسل</value>
+  </data>
+  <data name="Medicine">
+    <value>الدواء</value>
+  </data>
+  <data name="Supplier">
+    <value>المورد</value>
+  </data>
+  <data name="Stock">
+    <value>المخزون</value>
+  </data>
+  <data name="Confirm Order">
+    <value>تأكيد الطلب</value>
+  </data>
+</root>

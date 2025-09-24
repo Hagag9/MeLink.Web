@@ -1,19 +1,22 @@
 ﻿@model List<MeLink.Web.ViewModels.SupplierTypeViewModel>
 
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
 @{
-    ViewData["Title"] = "Supplier Types";
+    ViewData["Title"] = Localizer["Supplier Types"];
 }
 
 <div class="container mt-5">
     <div class="text-center mb-5">
-        <h2 class="display-4 text-primary">Select a Supplier Type</h2>
-        <p class="lead text-muted">Browse your connected suppliers by type.</p>
+        <h2 class="display-4 text-primary">@Localizer["Select a Supplier Type"]</h2>
+        <p class="lead text-muted">@Localizer["Browse your connected suppliers by type."]</p>
     </div>
 
     @if (!Model.Any())
     {
         <div class="alert alert-info" role="alert">
-            No supplier types are configured for your account.
+            @Localizer["No supplier types are configured for your account."]
         </div>
     }
     else

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="xml:space" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="My Orders">
+    <value>My Orders</value>
+  </data>
+  <data name="Keep track of orders and their information.">
+    <value>Keep track of orders and their information.</value>
+  </data>
+  <data name="Create Order">
+    <value>Create Order</value>
+  </data>
+  <data name="Total Orders">
+    <value>Total Orders</value>
+  </data>
+  <data name="Pending Orders">
+    <value>Pending Orders</value>
+  </data>
+  <data name="Delivered Orders">
+    <value>Delivered Orders</value>
+  </data>
+  <data name="Total Items Ordered">
+    <value>Total Items Ordered</value>
+  </data>
+  <data name="Orders List">
+    <value>Orders List</value>
+  </data>
+  <data name="Search orders...">
+    <value>Search orders...</value>
+  </data>
+  <data name="Filters">
+    <value>Filters</value>
+  </data>
+  <data name="All">
+    <value>All</value>
+  </data>
+  <data name="Pending">
+    <value>Pending</value>
+  </data>
+  <data name="Delivered">
+    <value>Delivered</value>
+  </data>
+  <data name="Cancelled">
+    <value>Cancelled</value>
+  </data>
+  <data name="Order ID">
+    <value>Order ID</value>
+  </data>
+  <data name="Source Name">
+    <value>Source Name</value>
+  </data>
+  <data name="Order Date">
+    <value>Order Date</value>
+  </data>
+  <data name="Quantity">
+    <value>Quantity</value>
+  </data>
+  <data name="Order Status">
+    <value>Order Status</value>
+  </data>
+  <data name="Action">
+    <value>Action</value>
+  </data>
+  <data name="View Details">
+    <value>View Details</value>
+  </data>
+  <data name="Cancel Order">
+    <value>Cancel Order</value>
+  </data>
+  <data name="No Orders Yet">
+    <value>No Orders Yet</value>
+  </data>
+  <data name="Start by searching for the medicines you need.">
+    <value>Start by searching for the medicines you need.</value>
+  </data>
+  <data name="Are you sure you want to cancel this order?">
+    <value>Are you sure you want to cancel this order?</value>
+  </data>
+  <data name="This action cannot be undone.">
+    <value>This action cannot be undone.</value>
+  </data>
+  <data name="Order Details:">
+    <value>Order Details:</value>
+  </data>
+  <data name="Keep Order">
+    <value>Keep Order</value>
+  </data>
+  <data name="Yes, Cancel Order">
+    <value>Yes, Cancel Order</value>
+  </data>
+  <data name="Shipped">
+    <value>Shipped</value>
+  </data>
+  <data name="Rejected">
+    <value>Rejected</value>
+  </data>
+  <data name="Unknown">
+    <value>Unknown</value>
+  </data>
+</root>

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="xml:space" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Incoming Orders">
+    <value>Incoming Orders</value>
+  </data>
+  <data name="View and manage orders from your customers.">
+    <value>View and manage orders from your customers.</value>
+  </data>
+  <data name="Order from Suppliers">
+    <value>Order from Suppliers</value>
+  </data>
+  <data name="Total Orders">
+    <value>Total Orders</value>
+  </data>
+  <data name="New Orders">
+    <value>New Orders</value>
+  </data>
+  <data name="Approved Orders">
+    <value>Approved Orders</value>
+  </data>
+  <data name="Shipped Orders">
+    <value>Shipped Orders</value>
+  </data>
+  <data name="Incoming Orders List">
+    <value>Incoming Orders List</value>
+  </data>
+  <data name="Search by customer name...">
+    <value>Search by customer name...</value>
+  </data>
+  <data name="Filters">
+    <value>Filters</value>
+  </data>
+  <data name="All">
+    <value>All</value>
+  </data>
+  <data name="Pending">
+    <value>Pending</value>
+  </data>
+  <data name="Approved">
+    <value>Approved</value>
+  </data>
+  <data name="Rejected">
+    <value>Rejected</value>
+  </data>
+  <data name="Order ID">
+    <value>Order ID</value>
+  </data>
+  <data name="Customer Name">
+    <value>Customer Name</value>
+  </data>
+  <data name="Order Date">
+    <value>Order Date</value>
+  </data>
+  <data name="Quantity">
+    <value>Quantity</value>
+  </data>
+  <data name="Order Status">
+    <value>Order Status</value>
+  </data>
+  <data name="Action">
+    <value>Action</value>
+  </data>
+  <data name="View Details">
+    <value>View Details</value>
+  </data>
+  <data name="Approve">
+    <value>Approve</value>
+  </data>
+  <data name="Reject">
+    <value>Reject</value>
+  </data>
+  <data name="Mark as Shipped">
+    <value>Mark as Shipped</value>
+  </data>
+  <data name="No Incoming Orders">
+    <value>No Incoming Orders</value>
+  </data>
+  <data name="You currently have no orders waiting for your action.">
+    <value>You currently have no orders waiting for your action.</value>
+  </data>
+  <data name="Pending Review">
+    <value>Pending Review</value>
+  </data>
+  <data name="In Transit">
+    <value>In Transit</value>
+  </data>
+  <data name="Delivered">
+    <value>Delivered</value>
+  </data>
+  <data name="Cancelled">
+    <value>Cancelled</value>
+  </data>
+  <data name="Unknown">
+    <value>Unknown</value>
+  </data>
+  <data name="Are you sure you want to approve this order?">
+    <value>Are you sure you want to approve this order?</value>
+  </data>
+  <data name="Are you sure you want to reject this order?">
+    <value>Are you sure you want to reject this order?</value>
+  </data>
+  <data name="Mark this order as shipped?">
+    <value>Mark this order as shipped?</value>
+  </data>
+</root>

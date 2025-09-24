@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="xml:space" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Incoming Orders">
+    <value>الطلبات الواردة</value>
+  </data>
+  <data name="View and manage orders from your customers.">
+    <value>عرض وإدارة الطلبات من عملائك.</value>
+  </data>
+  <data name="Order from Suppliers">
+    <value>اطلب من الموردين</value>
+  </data>
+  <data name="Total Orders">
+    <value>إجمالي الطلبات</value>
+  </data>
+  <data name="New Orders">
+    <value>طلبات جديدة</value>
+  </data>
+  <data name="Approved Orders">
+    <value>الطلبات المعتمدة</value>
+  </data>
+  <data name="Shipped Orders">
+    <value>الطلبات المشحونة</value>
+  </data>
+  <data name="Incoming Orders List">
+    <value>قائمة الطلبات الواردة</value>
+  </data>
+  <data name="Search by customer name...">
+    <value>البحث باسم العميل ...</value>
+  </data>
+  <data name="Filters">
+    <value>المرشحات</value>
+  </data>
+  <data name="All">
+    <value>الكل</value>
+  </data>
+  <data name="Pending">
+    <value>قيد الانتظار</value>
+  </data>
+  <data name="Approved">
+    <value>معتمد</value>
+  </data>
+  <data name="Rejected">
+    <value>مرفوض</value>
+  </data>
+  <data name="Order ID">
+    <value>رقم الطلب</value>
+  </data>
+  <data name="Customer Name">
+    <value>اسم العميل</value>
+  </data>
+  <data name="Order Date">
+    <value>تاريخ الطلب</value>
+  </data>
+  <data name="Quantity">
+    <value>الكمية</value>
+  </data>
+  <data name="Order Status">
+    <value>حالة الطلب</value>
+  </data>
+  <data name="Action">
+    <value>إجراء</value>
+  </data>
+  <data name="View Details">
+    <value>عرض التفاصيل</value>
+  </data>
+  <data name="Approve">
+    <value>موافقة</value>
+  </data>
+  <data name="Reject">
+    <value>رفض</value>
+  </data>
+  <data name="Mark as Shipped">
+    <value>وضع علامة كـ مشحون</value>
+  </data>
+  <data name="No Incoming Orders">
+    <value>لا توجد طلبات واردة</value>
+  </data>
+  <data name="You currently have no orders waiting for your action.">
+    <value>ليس لديك حاليًا أي طلبات في انتظار الإجراء الخاص بك.</value>
+  </data>
+  <data name="Pending Review">
+    <value>في انتظار المراجعة</value>
+  </data>
+  <data name="In Transit">
+    <value>قيد النقل</value>
+  </data>
+  <data name="Delivered">
+    <value>تم التوصيل</value>
+  </data>
+  <data name="Cancelled">
+    <value>تم الإلغاء</value>
+  </data>
+  <data name="Unknown">
+    <value>غير معروف</value>
+  </data>
+  <data name="Are you sure you want to approve this order?">
+    <value>هل أنت متأكد أنك تريد الموافقة على هذا الطلب؟</value>
+  </data>
+  <data name="Are you sure you want to reject this order?">
+    <value>هل أنت متأكد أنك تريد رفض هذا الطلب؟</value>
+  </data>
+  <data name="Mark this order as shipped?">
+    <value>هل تريد وضع علامة على هذا الطلب كـ مشحون؟</value>
+  </data>
+</root>

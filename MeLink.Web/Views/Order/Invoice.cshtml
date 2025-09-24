@@ -1,8 +1,11 @@
 ﻿@* Views/Order/Invoice.cshtml *@
 @model MeLink.Web.ViewModels.InvoiceViewModel
 
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
 @{
-    ViewData["Title"] = $"Invoice #{Model.OrderId}";
+    ViewData["Title"] = $"{Localizer["Invoice #"]}{Model.OrderId}";
 }
 
 <div class="container py-5">
@@ -17,9 +20,9 @@
                             <i class="fas fa-pills fa-4x mb-2 text-primary"></i>
                         </div>
                         <div class="col-md-6 text-md-end mt-3 mt-md-0">
-                            <h1 class="display-6 fw-bold text-primary mb-1">INVOICE</h1>
-                            <p class="text-muted mb-0"><strong>For Order #</strong> @Model.OrderId</p>
-                            <p class="text-muted mb-0"><strong>Date Issued:</strong> @Model.OrderDate.ToString("dd MMMM, yyyy")</p>
+                            <h1 class="display-6 fw-bold text-primary mb-1">@Localizer["INVOICE"]</h1>
+                            <p class="text-muted mb-0"><strong>@Localizer["For Order #"]</strong> @Model.OrderId</p>
+                            <p class="text-muted mb-0"><strong>@Localizer["Date Issued:"]</strong> @Model.OrderDate.ToString("dd MMMM, yyyy")</p>
                         </div>
                     </div>
 
@@ -28,14 +31,14 @@
                     <div class="row mb-4">
                         <div class="col-md-6">
                             <h5 class="fw-bold mb-3">
-                                <i class="fas fa-user-circle me-2"></i> Customer Details
+                                <i class="fas fa-user-circle me-2"></i> @Localizer["Customer Details"]
                             </h5>
                             <p class="mb-1">@Model.PatientName</p>
-                            <p class="text-muted mb-0">Order Time: @Model.OrderDate.ToString("hh:mm tt")</p>
+                            <p class="text-muted mb-0">@Localizer["Order Time:"] @Model.OrderDate.ToString("hh:mm tt")</p>
                         </div>
                         <div class="col-md-6 text-md-end">
                             <h5 class="fw-bold mb-3">
-                                <i class="fas fa-store me-2"></i> Supplier Details
+                                <i class="fas fa-store me-2"></i> @Localizer["Supplier Details"]
                             </h5>
                             <p class="mb-1">@Model.PharmacyName</p>
                             @if (!string.IsNullOrEmpty(Model.PharmacyAddress))
@@ -49,10 +52,10 @@
                         <table class="table invoice-table">
                             <thead class="invoice-table-header">
                                 <tr>
-                                    <th scope="col">Description</th>
-                                    <th scope="col" class="text-center">Qty</th>
-                                    <th scope="col" class="text-end">Unit Price</th>
-                                    <th scope="col" class="text-end">Total</th>
+                                    <th scope="col">@Localizer["Description"]</th>
+                                    <th scope="col" class="text-center">@Localizer["Qty"]</th>
+                                    <th scope="col" class="text-end">@Localizer["Unit Price"]</th>
+                                    <th scope="col" class="text-end">@Localizer["Total"]</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -79,12 +82,12 @@
                         <div class="col-md-5">
                             <div class="invoice-totals">
                                 <div class="d-flex justify-content-between">
-                                    <span class="text-muted">Subtotal</span>
+                                    <span class="text-muted">@Localizer["Subtotal"]</span>
                                     <span>@Model.TotalAmount.ToString("N2") EGP</span>
                                 </div>
                                 <hr class="my-2" />
                                 <div class="d-flex justify-content-between fw-bold fs-5">
-                                    <span class="text-primary">Grand Total</span>
+                                    <span class="text-primary">@Localizer["Grand Total"]</span>
                                     <span class="text-primary">@Model.TotalAmount.ToString("N2") EGP</span>
                                 </div>
                             </div>
@@ -95,13 +98,13 @@
 
                     <div class="row align-items-start">
                         <div class="col-md-8">
-                            <h6 class="fw-bold">Notes</h6>
-                            <p class="text-muted small">Thank you for your business. Please contact us with any questions regarding this invoice.</p>
+                            <h6 class="fw-bold">@Localizer["Notes"]</h6>
+                            <p class="text-muted small">@Localizer["Thank you for your business. Please contact us with any questions regarding this invoice."]</p>
                         </div>
                         @if (!string.IsNullOrEmpty(Model.Status))
                         {
                             <div class="col-md-4 text-md-end">
-                                <h6 class="fw-bold me-3">Status</h6>
+                                <h6 class="fw-bold me-3">@Localizer["Status"]</h6>
                                 <span class="badge rounded-pill @GetStatusBadgeClass(Model.Status) fs-6 fw-normal">
                                     @GetStatusText(Model.Status)
                                 </span>
@@ -114,14 +117,14 @@
 
             <div class="d-flex flex-column flex-md-row justify-content-center justify-content-md-between gap-3 mt-4">
                 <a asp-action="MyOrders" class="btn btn-outline-primary rounded-pill px-4">
-                    <i class="fas fa-arrow-left me-2"></i> Back to Orders
+                    <i class="fas fa-arrow-left me-2"></i> @Localizer["Back to Orders"]
                 </a>
                 <div>
                     <button type="button" class="btn btn-success rounded-pill px-4 me-2" onclick="printInvoice()">
-                        <i class="fas fa-print me-2"></i> Print
+                        <i class="fas fa-print me-2"></i> @Localizer["Print"]
                     </button>
                     <button type="button" class="btn btn-secondary rounded-pill px-4" onclick="downloadPDF()">
-                        <i class="fas fa-download me-2"></i> Download
+                        <i class="fas fa-download me-2"></i> @Localizer["Download"]
                     </button>
                 </div>
             </div>

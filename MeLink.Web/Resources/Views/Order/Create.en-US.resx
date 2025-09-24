@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="xml:space" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Create New Order">
+    <value>Create New Order</value>
+  </data>
+  <data name="Change Order Source?">
+    <value>Change Order Source?</value>
+  </data>
+  <data name="You can only order from one source at a time. Do you want to clear your current selection and start a new order with this item?">
+    <value>You can only order from one source at a time. Do you want to clear your current selection and start a new order with this item?</value>
+  </data>
+  <data name="Cancel">
+    <value>Cancel</value>
+  </data>
+  <data name="Yes, Start New Order">
+    <value>Yes, Start New Order</value>
+  </data>
+  <data name="Select Medicines">
+    <value>Select Medicines</value>
+  </data>
+  <data name="Add Details">
+    <value>Add Details</value>
+  </data>
+  <data name="Confirm">
+    <value>Confirm</value>
+  </data>
+  <data name="Fill in the details below to create your order easily.">
+    <value>Fill in the details below to create your order easily.</value>
+  </data>
+  <data name="Your Information">
+    <value>Your Information</value>
+  </data>
+  <data name="Name:">
+    <value>Name:</value>
+  </data>
+  <data name="Source Information">
+    <value>Source Information</value>
+  </data>
+  <data name="Source:">
+    <value>Source:</value>
+  </data>
+  <data name="Not Selected">
+    <value>Not Selected</value>
+  </data>
+  <data name="Step 1: Search &amp; Add Medicines">
+    <value>Step 1: Search &amp; Add Medicines</value>
+  </data>
+  <data name="Find Your Medicine">
+    <value>Find Your Medicine</value>
+  </data>
+  <data name="Start typing to search...">
+    <value>Start typing to search...</value>
+  </data>
+  <data name="Your Order">
+    <value>Your Order</value>
+  </data>
+  <data name="Clear All">
+    <value>Clear All</value>
+  </data>
+  <data name="Step 2: Additional Details">
+    <value>Step 2: Additional Details</value>
+  </data>
+  <data name="Upload Prescription (Optional)">
+    <value>Upload Prescription (Optional)</value>
+  </data>
+  <data name="Choose File">
+    <value>Choose File</value>
+  </data>
+  <data name="No file chosen">
+    <value>No file chosen</value>
+  </data>
+  <data name="You can upload an image or PDF file of your prescription.">
+    <value>You can upload an image or PDF file of your prescription.</value>
+  </data>
+  <data name="Additional Notes">
+    <value>Additional Notes</value>
+  </data>
+  <data name="Any special instructions or delivery details...">
+    <value>Any special instructions or delivery details...</value>
+  </data>
+  <data name="Or Upload an Excel Sheet">
+    <value>Or Upload an Excel Sheet</value>
+  </data>
+  <data name="Upload Excel Sheet">
+    <value>Upload Excel Sheet</value>
+  </data>
+  <data name="Upload a list of medicines in an Excel file.">
+    <value>Upload a list of medicines in an Excel file.</value>
+  </data>
+  <data name="Order Preview from Excel">
+    <value>Order Preview from Excel</value>
+  </data>
+  <data name="Medicine">
+    <value>Medicine</value>
+  </data>
+  <data name="Supplier">
+    <value>Supplier</value>
+  </data>
+  <data name="Stock">
+    <value>Stock</value>
+  </data>
+  <data name="Confirm Order">
+    <value>Confirm Order</value>
+  </data>
+</root>

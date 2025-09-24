@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="xml:space" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="MY SHOPPING CART">
+    <value>عربة التسوق الخاصة بي</value>
+  </data>
+  <data name="Your cart is currently empty.">
+    <value>عربة التسوق فارغة حاليا.</value>
+  </data>
+  <data name="Cart Subtotal">
+    <value>المجموع الفرعي للعربة</value>
+  </data>
+  <data name="VIEW AND EDIT CART">
+    <value>عرض وتحرير العربة</value>
+  </data>
+  <data name="GO TO CHECKOUT">
+    <value>الذهاب إلى الدفع</value>
+  </data>
+  <data name="Clear Cart">
+    <value>إفراغ العربة</value>
+  </data>
+  <data name="Order Confirmation">
+    <value>تأكيد الطلب</value>
+  </data>
+  <data name="Upload Prescription">
+    <value>تحميل وصفة طبية</value>
+  </data>
+  <data name="(Optional)">
+    <value>(اختياري)</value>
+  </data>
+  <data name="Leave a note here">
+    <value>اترك ملاحظة هنا</value>
+  </data>
+  <data name="Additional Notes">
+    <value>ملاحظات إضافية</value>
+  </data>
+  <data name="Cancel">
+    <value>إلغاء</value>
+  </data>
+  <data name="Confirm &amp; Place Order">
+    <value>تأكيد وإرسال الطلب</value>
+  </data>
+  <data name="Medicine">
+    <value>الدواء</value>
+  </data>
+  <data name="Search for products...">
+    <value>البحث عن المنتجات ...</value>
+  </data>
+  <data name="Search">
+    <value>بحث</value>
+  </data>
+  <data name="Image">
+    <value>صورة</value>
+  </data>
+  <data name="Supplier">
+    <value>المورد</value>
+  </data>
+  <data name="Discount">
+    <value>خصم</value>
+  </data>
+  <data name="Status">
+    <value>الحالة</value>
+  </data>
+  <data name="Price">
+    <value>السعر</value>
+  </data>
+  <data name="Actions">
+    <value>الإجراءات</value>
+  </data>
+  <data name="Add Selected to Cart">
+    <value>إضافة المحدد إلى العربة</value>
+  </data>
+  <data name="No Results Found">
+    <value>لم يتم العثور على نتائج</value>
+  </data>
+</root>

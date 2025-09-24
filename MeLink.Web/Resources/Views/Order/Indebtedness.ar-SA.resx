@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="xml:space" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="My Indebtedness">
+    <value>مديونياتي</value>
+  </data>
+  <data name="Indebtedness">
+    <value>المديونية</value>
+  </data>
+  <data name="Track your indebtedness to companies.">
+    <value>تتبع مديونيتك للشركات.</value>
+  </data>
+  <data name="Total Indebtedness">
+    <value>إجمالي المديونية</value>
+  </data>
+  <data name="Total Paid">
+    <value>إجمالي المدفوع</value>
+  </data>
+  <data name="Number of Companies">
+    <value>عدد الشركات</value>
+  </data>
+  <data name="Indebtedness List">
+    <value>قائمة المديونية</value>
+  </data>
+  <data name="Company Name">
+    <value>اسم الشركة</value>
+  </data>
+  <data name="Total Amount">
+    <value>المبلغ الإجمالي</value>
+  </data>
+  <data name="Action">
+    <value>إجراء</value>
+  </data>
+  <data name="Pay">
+    <value>دفع</value>
+  </data>
+  <data name="No Indebtedness Found">
+    <value>لم يتم العثور على مديونية</value>
+  </data>
+  <data name="You have no outstanding debts with companies that offer installment plans.">
+    <value>ليس لديك ديون مستحقة لدى الشركات التي تقدم خطط تقسيط.</value>
+  </data>
+  <data name="Payment Confirmation">
+    <value>تأكيد الدفع</value>
+  </data>
+  <data name="This is a placeholder for the payment process for">
+    <value>هذا نائب للعملية الدفع لـ</value>
+  </data>
+  <data name="Amount:">
+    <value>المبلغ:</value>
+  </data>
+  <data name="(This is for display purposes only)">
+    <value>(هذا للعرض فقط)</value>
+  </data>
+  <data name="Close">
+    <value>إغلاق</value>
+  </data>
+  <data name="Confirm Payment">
+    <value>تأكيد الدفع</value>
+  </data>
+</root>
