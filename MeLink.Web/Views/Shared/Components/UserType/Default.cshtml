@@ -1,4 +1,6 @@
-﻿@model MeLink.Web.Models.ApplicationUser
+@model MeLink.Web.Models.ApplicationUser
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer localizer
 
 @if (Model != null)
 {
@@ -7,48 +9,48 @@
     {
         <a asp-controller="Order" asp-action="NearbyPharmacies" class="sidebar-link flex items-center gap-4 rounded-md p-3 transition-colors" >
             <span class="material-symbols-outlined">local_pharmacy</span>
-            <span class="sidebar-text-label text-base font-medium sr-only">Pharmacies</span>
+            <span class="sidebar-text-label text-base font-medium sr-only">@localizer["Pharmacies"]</span>
         </a>
         <a asp-controller="Order" asp-action="Create" class="sidebar-link flex items-center gap-4 rounded-md p-3 transition-colors" >
             <span class="material-symbols-outlined">assignment_add</span>
-            <span class="sidebar-text-label text-base font-medium sr-only">New order</span>
+            <span class="sidebar-text-label text-base font-medium sr-only">@localizer["New order"]</span>
         </a>
         <a asp-controller="Order" asp-action="Index" class="sidebar-link flex items-center gap-4 rounded-md p-3 transition-colors">
             <span class="material-symbols-outlined">pill</span>
-            <span class="sidebar-text-label text-base font-medium sr-only">Find Medicine</span>
+            <span class="sidebar-text-label text-base font-medium sr-only">@localizer["Find Medicine"]</span>
         </a>
         <a asp-controller="Order" asp-action="MyOrders" class="sidebar-link flex items-center gap-4 rounded-md p-3 transition-colors" >
             <span class="material-symbols-outlined">orders</span>
-            <span class="sidebar-text-label text-base font-medium sr-only">My Orders</span>
+            <span class="sidebar-text-label text-base font-medium sr-only">@localizer["My Orders"]</span>
         </a>
     }
     else if (Model is MeLink.Web.Models.Pharmacy || Model is MeLink.Web.Models.MedicineWarehouse || Model is MeLink.Web.Models.DistributionCompany)
     {
         <a asp-controller="Supplier" asp-action="Index" class="sidebar-link flex items-center gap-4 rounded-md p-3 transition-colors">
             <span class="material-symbols-outlined">local_pharmacy</span>
-            <span class="sidebar-text-label text-base font-medium sr-only">Suppliers</span>
+            <span class="sidebar-text-label text-base font-medium sr-only">@localizer["Suppliers"]</span>
         </a>
         <a asp-controller="Order" asp-action="Create" class="sidebar-link flex items-center gap-4 rounded-md p-3 transition-colors">
             <span class="material-symbols-outlined">assignment_add</span>
-            <span class="sidebar-text-label text-base font-medium sr-only">New order</span>
+            <span class="sidebar-text-label text-base font-medium sr-only">@localizer["New order"]</span>
         </a>
        
         <a asp-controller="Order" asp-action="MyOrders" class="sidebar-link flex items-center gap-4 rounded-md p-3 transition-colors">
             <span class="material-symbols-outlined">orders</span>
-            <span class="sidebar-text-label text-base font-medium sr-only">My Orders</span>
+            <span class="sidebar-text-label text-base font-medium sr-only">@localizer["My Orders"]</span>
         </a>
                 <a asp-controller="Order" asp-action="IncomingOrders" class="sidebar-link flex items-center gap-4 rounded-md p-3 transition-colors">
             <span class="material-symbols-outlined">call_received</span>
-            <span class="sidebar-text-label text-base font-medium sr-only">Incoming Orders</span>
+            <span class="sidebar-text-label text-base font-medium sr-only">@localizer["Incoming Orders"]</span>
         </a>
         <a asp-controller="Order" asp-action="BrowseMedicines" class="sidebar-link flex items-center gap-4 rounded-md p-3 transition-colors">
             <span class="material-symbols-outlined">pill</span>
-            <span class="sidebar-text-label text-base font-medium sr-only">Find Medicine</span>
+            <span class="sidebar-text-label text-base font-medium sr-only">@localizer["Find Medicine"]</span>
         </a>
 
         <a asp-controller="Order" asp-action="Indebtedness" class="sidebar-link flex items-center gap-4 rounded-md p-3 transition-colors">
             <span class="material-symbols-outlined">payments</span>
-            <span class="sidebar-text-label text-base font-medium sr-only">Indebtedness</span>
+            <span class="sidebar-text-label text-base font-medium sr-only">@localizer["Indebtedness"]</span>
         </a>
 
     }
@@ -56,11 +58,9 @@
     {
         <a asp-controller="Order" asp-action="IncomingOrders" class="sidebar-link flex items-center gap-4 rounded-md p-3 transition-colors">
             <span class="material-symbols-outlined">call_received</span>
-            <span class="sidebar-text-label text-base font-medium sr-only">Incoming Orders</span>
+            <span class="sidebar-text-label text-base font-medium sr-only">@localizer["Incoming Orders"]</span>
         </a>
 
 
     }
 }
-
-

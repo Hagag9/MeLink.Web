@@ -7,12 +7,66 @@
 @{
     var requestCulture = Context.Features.Get<IRequestCultureFeature>();
     var cultureItems = LocOptions.Value.SupportedUICultures
-        .Select(c => new SelectListItem { Value = c.Name, Text = c.Name.StartsWith("ar") ? "Ar" : "En" })
+        .Select(c => new SelectListItem { Value = c.Name, Text = c.Name.StartsWith("ar") ? "Arabic" : "English" })
         .ToList();
+    var currentCulture = cultureItems.FirstOrDefault(p => p.Value == requestCulture.RequestCulture.UICulture.Name);
 }
 
 <form id="culture-switcher" asp-controller="Culture" asp-action="SetCulture" method="post" class="form-horizontal" role="form">
     <input type="hidden" name="returnUrl" value="@Context.Request.Path" />
-    <select name="culture" asp-for="@requestCulture.RequestCulture.UICulture.Name" asp-items="cultureItems" onchange="this.form.submit();" class="border-gray-300 rounded-md shadow-sm text-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-    </select>
+    <div class="relative">
+        <button type="button" class="culture-switcher-button inline-flex items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-100" id="menu-button" aria-expanded="true" aria-haspopup="true">
+            @if (currentCulture.Value.StartsWith("ar"))
+            {
+                <img src="https://cdn.jsdelivr.net/gh/lipis/flag-icon-css@6.6.6/flags/4x3/eg.svg" alt="Arabic" class="mr-2 h-5 w-5">
+            }
+            else
+            {
+                <img src="https://cdn.jsdelivr.net/gh/lipis/flag-icon-css@6.6.6/flags/4x3/us.svg" alt="English" class="mr-2 h-5 w-5">
+            }
+            @currentCulture.Text
+            <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M10 12l-5-5h10l-5 5z" />
+            </svg>
+        </button>
+
+        <div class="culture-switcher-menu absolute right-0 mt-2 w-40 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+            <div class="py-1" role="none">
+                @foreach (var item in cultureItems)
+                {
+                    <button type="submit" name="culture" value="@item.Value" class="flex w-full items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem" tabindex="-1">
+                        @if (item.Value.StartsWith("ar"))
+                        {
+                            <img src="https://cdn.jsdelivr.net/gh/lipis/flag-icon-css@6.6.6/flags/4x3/eg.svg" alt="Arabic" class="mr-2 h-5 w-5">
+                        }
+                        else
+                        {
+                            <img src="https://cdn.jsdelivr.net/gh/lipis/flag-icon-css@6.6.6/flags/4x3/us.svg" alt="English" class="mr-2 h-5 w-5">
+                        }
+                        @item.Text
+                    </button>
+                }
+            </div>
+        </div>
+    </div>
 </form>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const button = document.querySelector('.culture-switcher-button');
+        const menu = document.querySelector('.culture-switcher-menu');
+
+        // Hide the menu initially
+        menu.classList.add('hidden');
+
+        button.addEventListener('click', function () {
+            menu.classList.toggle('hidden');
+        });
+
+        document.addEventListener('click', function (event) {
+            if (!button.contains(event.target) && !menu.contains(event.target)) {
+                menu.classList.add('hidden');
+            }
+        });
+    });
+</script>
