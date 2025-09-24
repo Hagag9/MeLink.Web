@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Incoming Orders" xml:space="preserve">
+    <value>الطلبات الواردة</value>
+  </data>
+  <data name="View and manage orders from your customers." xml:space="preserve">
+    <value>عرض وإدارة الطلبات من عملائك.</value>
+  </data>
+  <data name="Order from Suppliers" xml:space="preserve">
+    <value>اطلب من الموردين</value>
+  </data>
+  <data name="Total Orders" xml:space="preserve">
+    <value>إجمالي الطلبات</value>
+  </data>
+  <data name="New Orders" xml:space="preserve">
+    <value>طلبات جديدة</value>
+  </data>
+  <data name="Approved Orders" xml:space="preserve">
+    <value>الطلبات الموافق عليها</value>
+  </data>
+  <data name="Shipped Orders" xml:space="preserve">
+    <value>الطلبات المشحونة</value>
+  </data>
+  <data name="Incoming Orders List" xml:space="preserve">
+    <value>قائمة الطلبات الواردة</value>
+  </data>
+  <data name="Search by customer name..." xml:space="preserve">
+    <value>البحث باسم العميل ...</value>
+  </data>
+  <data name="Filters" xml:space="preserve">
+    <value>مرشحات</value>
+  </data>
+  <data name="All" xml:space="preserve">
+    <value>الكل</value>
+  </data>
+  <data name="Pending" xml:space="preserve">
+    <value>قيد الانتظار</value>
+  </data>
+  <data name="Approved" xml:space="preserve">
+    <value>موافق عليه</value>
+  </data>
+  <data name="Rejected" xml:space="preserve">
+    <value>مرفوض</value>
+  </data>
+  <data name="Order ID" xml:space="preserve">
+    <value>رقم الطلب</value>
+  </data>
+  <data name="Customer Name" xml:space="preserve">
+    <value>اسم العميل</value>
+  </data>
+  <data name="Order Date" xml:space="preserve">
+    <value>تاريخ الطلب</value>
+  </data>
+  <data name="Quantity" xml:space="preserve">
+    <value>الكمية</value>
+  </data>
+  <data name="Order Status" xml:space="preserve">
+    <value>حالة الطلب</value>
+  </data>
+  <data name="Action" xml:space="preserve">
+    <value>إجراء</value>
+  </data>
+  <data name="View Details" xml:space="preserve">
+    <value>عرض التفاصيل</value>
+  </data>
+  <data name="Approve" xml:space="preserve">
+    <value>موافقة</value>
+  </data>
+  <data name="Reject" xml:space="preserve">
+    <value>رفض</value>
+  </data>
+  <data name="Mark as Shipped" xml:space="preserve">
+    <value>وضع علامة "مشحون"</value>
+  </data>
+  <data name="No Incoming Orders" xml:space="preserve">
+    <value>لا توجد طلبات واردة</value>
+  </data>
+  <data name="You currently have no orders waiting for your action." xml:space="preserve">
+    <value>ليس لديك حاليًا أي طلبات في انتظار الإجراء الخاص بك.</value>
+  </data>
+</root>

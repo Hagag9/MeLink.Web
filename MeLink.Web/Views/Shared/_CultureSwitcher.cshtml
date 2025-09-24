@@ -1,0 +1,17 @@
+@using Microsoft.AspNetCore.Builder
+@using Microsoft.AspNetCore.Localization
+@using Microsoft.Extensions.Options
+
+@inject IOptions<RequestLocalizationOptions> LocOptions
+
+@{
+    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+    var cultureItems = LocOptions.Value.SupportedUICultures
+        .Select(c => new SelectListItem { Value = c.Name, Text = c.NativeName })
+        .ToList();
+}
+
+<form id="culture-switcher" asp-controller="Culture" asp-action="SetCulture" method="post" class="form-horizontal" role="form">
+    <input type="hidden" name="returnUrl" value="@Context.Request.Path" />
+    <select name="culture" asp-for="@requestCulture.RequestCulture.UICulture.Name" asp-items="cultureItems" onchange="this.form.submit();"></select>
+</form>
