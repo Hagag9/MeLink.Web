@@ -313,7 +313,6 @@
         const pageSize = 10; let currentPage = 1; let allMedicineItems = [];
         let cart = []; let currentSourceId = null; let currentSourceName = null;
         let isPatient = false;
-        const maxQuantityAlertFormat = '@localizer["Maximum available quantity for {0} is {1}."]'
 
         document.addEventListener('DOMContentLoaded', function () {
             var offcanvasElementList = [].slice.call(document.querySelectorAll('.offcanvas'));
@@ -323,6 +322,7 @@
             if (tableBody) {
                 const medicines = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.AvailableMedicines));
                 isPatient = @Html.Raw(Json.Serialize(ViewBag.IsPatient));
+                const maxQuantityAlertFormat = '@localizer["Maximum available quantity for {0} is {1}."]';
 
                 const tableBodyHtml = medicines.map(medicine => {
                     let discountCell = '';

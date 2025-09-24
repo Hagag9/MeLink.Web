@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Your Health, Our Priority" xml:space="preserve">
+    <value>صحتك أولويتنا</value>
+  </data>
+  <data name="Find and order your medicines from trusted pharmacies and suppliers with ease. MeLink connects you directly to the care you need, fast." xml:space="preserve">
+    <value>ابحث عن أدويتك واطلبها من الصيدليات والموردين الموثوق بهم بسهولة. تصلك MeLink مباشرة بالرعاية التي تحتاجها بسرعة.</value>
+  </data>
+  <data name="Start Your Order" xml:space="preserve">
+    <value>ابدأ طلبك</value>
+  </data>
+  <data name="Learn More" xml:space="preserve">
+    <value>اعرف المزيد</value>
+  </data>
+  <data name="How It Works" xml:space="preserve">
+    <value>كيف يعمل</value>
+  </data>
+  <data name="Simple steps to get your medicines delivered to your door." xml:space="preserve">
+    <value>خطوات بسيطة لتوصيل أدويتك إلى باب منزلك.</value>
+  </data>
+  <data name="1. Search" xml:space="preserve">
+    <value>١. بحث</value>
+  </data>
+  <data name="Find the medicine you need by name or active ingredient." xml:space="preserve">
+    <value>ابحث عن الدواء الذي تحتاجه بالاسم أو المكون الفعال.</value>
+  </data>
+  <data name="2. Order" xml:space="preserve">
+    <value>٢. اطلب</value>
+  </data>
+  <data name="Choose from a list of available suppliers and place your order." xml:space="preserve">
+    <value>اختر من قائمة الموردين المتاحين وقم بتقديم طلبك.</value>
+  </data>
+  <data name="3. Receive" xml:space="preserve">
+    <value>٣. استلم</value>
+  </data>
+  <data name="Get your medicines delivered directly to your doorstep." xml:space="preserve">
+    <value>احصل على أدويتك مباشرة إلى باب منزلك.</value>
+  </data>
+  <data name="Our Partners" xml:space="preserve">
+    <value>شركاؤنا</value>
+  </data>
+  <data name="Browse our network of trusted suppliers and pharmacies." xml:space="preserve">
+    <value>تصفح شبكتنا من الموردين والصيدليات الموثوق بهم.</value>
+  </data>
+  <data name="Warehouses" xml:space="preserve">
+    <value>المستودعات</value>
+  </data>
+  <data name="A wide selection of medicines and bulk supplies." xml:space="preserve">
+    <value>مجموعة واسعة من الأدوية والمستلزمات بالجملة.</value>
+  </data>
+  <data name="Companies" xml:space="preserve">
+    <value>الشركات</value>
+  </data>
+  <data name="Efficient and reliable distribution of medical goods." xml:space="preserve">
+    <value>توزيع فعال وموثوق للمنتجات الطبية.</value>
+  </data>
+  <data name="Manufacturers" xml:space="preserve">
+    <value>المصنعون</value>
+  </data>
+  <data name="Direct access to a wide range of products." xml:space="preserve">
+    <value>وصول مباشر إلى مجموعة واسعة من المنتجات.</value>
+  </data>
+  <data name="Pharmacies" xml:space="preserve">
+    <value>الصيدليات</value>
+  </data>
+  <data name="Get your prescribed medicines from local pharmacies." xml:space="preserve">
+    <value>احصل على الأدوية الموصوفة لك من الصيدليات المحلية.</value>
+  </data>
+</root>
