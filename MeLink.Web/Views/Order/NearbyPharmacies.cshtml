@@ -1,20 +1,22 @@
-﻿@model MeLink.Web.ViewModels.NearbyPharmaciesViewModel
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer localizer
+@model MeLink.Web.ViewModels.NearbyPharmaciesViewModel
 
 @{
-    ViewData["Title"] = "Nearby Pharmacies";
+    ViewData["Title"] = localizer["Nearby Pharmacies"];
 }
 
 <div class="container py-5">
     <div class="text-center mb-5">
-        <h1 class="display-5 fw-bold text-primary">Nearby Pharmacies</h1>
-        <p class="lead text-muted">Choose a pharmacy and select how you'd like to order.</p>
+        <h1 class="display-5 fw-bold text-primary">@localizer["Nearby Pharmacies"]</h1>
+        <p class="lead text-muted">@localizer["Choose a pharmacy and select how you'd like to order."]</p>
     </div>
 
     @if (!Model.Pharmacies.Any())
     {
         <div class="alert alert-info text-center rounded-3 p-4" role="alert">
-            <h5 class="alert-heading"><i class="fas fa-info-circle me-2"></i> No Pharmacies Found</h5>
-            <p class="mb-0">It seems there are no pharmacies found near your location at the moment.</p>
+            <h5 class="alert-heading"><i class="fas fa-info-circle me-2"></i> @localizer["No Pharmacies Found"]</h5>
+            <p class="mb-0">@localizer["It seems there are no pharmacies found near your location at the moment."]</p>
         </div>
     }
     else
@@ -24,38 +26,32 @@
             {
                 <div class="col-md-6 col-lg-4">
                     <div class="max-w-md mx-auto bg-white dark:bg-[var(--bs-light-black)] rounded-lg shadow-lg overflow-hidden shadow-sm h-100 border-1 rounded-4">
-    <div class="p-6">
-    <div class="flex items-center justify-between mb-4">
-    <h2 class="text-2xl font-bold text-gray-800 dark:text-white">@pharmacy.DisplayName</h2>
-    <span class="inline-block px-3 py-1 text-sm font-semibold text-white bg-[var(--bs-green)] rounded-full">Open Now</span>
-    </div>
-    <div class="flex items-center text-gray-600 dark:text-gray-300 mb-2">
-    <span class="material-symbols-outlined mr-2 text-[var(--bs-blue)]">location_on</span>
-    <p>@pharmacy.Address</p>
-    </div>
-    <div class="flex items-center text-gray-600 dark:text-gray-300 mb-6">
-    <span class="material-symbols-outlined mr-2 text-[var(--bs-blue)]">directions_walk</span>
-    <p>@($"{pharmacy.DistanceInKm!.Value:F2} km away")</p>
-    </div>
-    <div class="flex flex-col sm:flex-row gap-4">
-    <a asp-controller="Order" asp-action="Index" asp-route-supplierId="@pharmacy.UserId" class="w-full sm:w-1/2 flex items-center justify-center px-4 py-2 bg-[var(--bs-blue)] text-white font-semibold rounded-md hover:bg-blue-700 transition-colors duration-300">
-    <span class="material-symbols-outlined mr-2">shopping_bag</span>
-                        Browse Medicine
-                    </a>
-    <a asp-controller="Order" asp-action="CreatePrescriptionOrder" asp-route-supplierId="@pharmacy.UserId" class="w-full sm:w-1/2 flex items-center justify-center px-4 py-2 border border-[var(--bs-blue)] text-[var(--bs-blue)] font-semibold rounded-md hover:bg-[var(--bs-blue)] hover:text-white transition-colors duration-300">
-    <span class="material-symbols-outlined mr-2">description</span>
-                        Order by Prescription
-                    </a>
-    </div>
-    </div>
-    </div>
-    </div>
-
-
-
-                
-
-               
+                        <div class="p-6">
+                            <div class="flex items-center justify-between mb-4">
+                                <h2 class="text-2xl font-bold text-gray-800 dark:text-white">@pharmacy.DisplayName</h2>
+                                <span class="inline-block px-3 py-1 text-sm font-semibold text-white bg-[var(--bs-green)] rounded-full">@localizer["Open Now"]</span>
+                            </div>
+                            <div class="flex items-center text-gray-600 dark:text-gray-300 mb-2">
+                                <span class="material-symbols-outlined mr-2 text-[var(--bs-blue)]">location_on</span>
+                                <p>@pharmacy.Address</p>
+                            </div>
+                            <div class="flex items-center text-gray-600 dark:text-gray-300 mb-6">
+                                <span class="material-symbols-outlined mr-2 text-[var(--bs-blue)]">directions_walk</span>
+                                <p>@($"{pharmacy.DistanceInKm!.Value:F2} {localizer["km away"]}")</p>
+                            </div>
+                            <div class="flex flex-col sm:flex-row gap-4">
+                                <a asp-controller="Order" asp-action="Index" asp-route-supplierId="@pharmacy.UserId" class="w-full sm:w-1/2 flex items-center justify-center px-4 py-2 bg-[var(--bs-blue)] text-white font-semibold rounded-md hover:bg-blue-700 transition-colors duration-300">
+                                    <span class="material-symbols-outlined mr-2">shopping_bag</span>
+                                    @localizer["Browse Medicine"]
+                                </a>
+                                <a asp-controller="Order" asp-action="CreatePrescriptionOrder" asp-route-supplierId="@pharmacy.UserId" class="w-full sm:w-1/2 flex items-center justify-center px-4 py-2 border border-[var(--bs-blue)] text-[var(--bs-blue)] font-semibold rounded-md hover:bg-[var(--bs-blue)] hover:text-white transition-colors duration-300">
+                                    <span class="material-symbols-outlined mr-2">description</span>
+                                    @localizer["Order by Prescription"]
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             }
         </div>
     }

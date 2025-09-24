@@ -40,32 +40,32 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Incoming Orders" xml:space="preserve">
-    <value>Incoming Orders</value>
+  <data name="My Orders" xml:space="preserve">
+    <value>My Orders</value>
   </data>
-  <data name="View and manage orders from your customers." xml:space="preserve">
-    <value>View and manage orders from your customers.</value>
+  <data name="Keep track of orders and their information." xml:space="preserve">
+    <value>Keep track of orders and their information.</value>
   </data>
-  <data name="Order from Suppliers" xml:space="preserve">
-    <value>Order from Suppliers</value>
+  <data name="Create Order" xml:space="preserve">
+    <value>Create Order</value>
   </data>
   <data name="Total Orders" xml:space="preserve">
     <value>Total Orders</value>
   </data>
-  <data name="New Orders" xml:space="preserve">
-    <value>New Orders</value>
+  <data name="Pending Orders" xml:space="preserve">
+    <value>Pending Orders</value>
   </data>
-  <data name="Approved Orders" xml:space="preserve">
-    <value>Approved Orders</value>
+  <data name="Delivered Orders" xml:space="preserve">
+    <value>Delivered Orders</value>
   </data>
-  <data name="Shipped Orders" xml:space="preserve">
-    <value>Shipped Orders</value>
+  <data name="Total Items Ordered" xml:space="preserve">
+    <value>Total Items Ordered</value>
   </data>
-  <data name="Incoming Orders List" xml:space="preserve">
-    <value>Incoming Orders List</value>
+  <data name="Orders List" xml:space="preserve">
+    <value>Orders List</value>
   </data>
-  <data name="Search by customer name..." xml:space="preserve">
-    <value>Search by customer name...</value>
+  <data name="Search orders..." xml:space="preserve">
+    <value>Search orders...</value>
   </data>
   <data name="Filters" xml:space="preserve">
     <value>Filters</value>
@@ -76,17 +76,17 @@
   <data name="Pending" xml:space="preserve">
     <value>Pending</value>
   </data>
-  <data name="Approved" xml:space="preserve">
-    <value>Approved</value>
+  <data name="Delivered" xml:space="preserve">
+    <value>Delivered</value>
   </data>
-  <data name="Rejected" xml:space="preserve">
-    <value>Rejected</value>
+  <data name="Cancelled" xml:space="preserve">
+    <value>Cancelled</value>
   </data>
   <data name="Order ID" xml:space="preserve">
     <value>Order ID</value>
   </data>
-  <data name="Customer Name" xml:space="preserve">
-    <value>Customer Name</value>
+  <data name="Source Name" xml:space="preserve">
+    <value>Source Name</value>
   </data>
   <data name="Order Date" xml:space="preserve">
     <value>Order Date</value>
@@ -103,19 +103,28 @@
   <data name="View Details" xml:space="preserve">
     <value>View Details</value>
   </data>
-  <data name="Approve" xml:space="preserve">
-    <value>Approve</value>
+  <data name="Cancel Order" xml:space="preserve">
+    <value>Cancel Order</value>
   </data>
-  <data name="Reject" xml:space="preserve">
-    <value>Reject</value>
+  <data name="No Orders Yet" xml:space="preserve">
+    <value>No Orders Yet</value>
   </data>
-  <data name="Mark as Shipped" xml:space="preserve">
-    <value>Mark as Shipped</value>
+  <data name="Start by searching for the medicines you need." xml:space="preserve">
+    <value>Start by searching for the medicines you need.</value>
   </data>
-  <data name="No Incoming Orders" xml:space="preserve">
-    <value>No Incoming Orders</value>
+  <data name="Are you sure you want to cancel this order?" xml:space="preserve">
+    <value>Are you sure you want to cancel this order?</value>
   </data>
-  <data name="You currently have no orders waiting for your action." xml:space="preserve">
-    <value>You currently have no orders waiting for your action.</value>
+  <data name="This action cannot be undone." xml:space="preserve">
+    <value>This action cannot be undone.</value>
+  </data>
+  <data name="Order Details:" xml:space="preserve">
+    <value>Order Details:</value>
+  </data>
+  <data name="Keep Order" xml:space="preserve">
+    <value>Keep Order</value>
+  </data>
+  <data name="Yes, Cancel Order" xml:space="preserve">
+    <value>Yes, Cancel Order</value>
   </data>
 </root>

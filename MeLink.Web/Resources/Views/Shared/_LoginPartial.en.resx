@@ -40,34 +40,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Order with Prescription" xml:space="preserve">
-    <value>طلب بوصفة طبية</value>
+  <data name="Logout" xml:space="preserve">
+    <value>Logout</value>
   </data>
-  <data name="From:" xml:space="preserve">
-    <value>من:</value>
-  </data>
-  <data name="Please upload your prescription file. The pharmacy will contact you to confirm the order details and payment." xml:space="preserve">
-    <value>يرجى تحميل ملف الوصفة الطبية الخاص بك. ستتصل بك الصيدلية لتأكيد تفاصيل الطلب والدفع.</value>
-  </data>
-  <data name="PrescriptionFile" xml:space="preserve">
-    <value>ملف الوصفة الطبية</value>
-  </data>
-  <data name="Choose File" xml:space="preserve">
-    <value>اختر ملف</value>
-  </data>
-  <data name="No file chosen" xml:space="preserve">
-    <value>لم يتم اختيار ملف</value>
-  </data>
-  <data name="Notes" xml:space="preserve">
-    <value>ملاحظات</value>
-  </data>
-  <data name="Any special instructions or details for the pharmacy..." xml:space="preserve">
-    <value>أي تعليمات خاصة أو تفاصيل للصيدلية ...</value>
-  </data>
-  <data name="Submit Prescription" xml:space="preserve">
-    <value>إرسال الوصفة الطبية</value>
-  </data>
-  <data name="Back to options" xml:space="preserve">
-    <value>العودة إلى الخيارات</value>
+  <data name="Login" xml:space="preserve">
+    <value>Login</value>
   </data>
 </root>

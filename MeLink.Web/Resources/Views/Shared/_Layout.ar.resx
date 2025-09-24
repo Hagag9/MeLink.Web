@@ -58,4 +58,55 @@
   <data name="Search..." xml:space="preserve">
     <value>ابحث...</value>
   </data>
+  <data name="A modern platform connecting patients and medical suppliers, ensuring easy access to essential medicines." xml:space="preserve">
+    <value>منصة حديثة تربط المرضى والموردين الطبيين، مما يضمن سهولة الوصول إلى الأدوية الأساسية.</value>
+  </data>
+  <data name="Stay Updated" xml:space="preserve">
+    <value>ابق على اطلاع</value>
+  </data>
+  <data name="Enter your email" xml:space="preserve">
+    <value>أدخل بريدك الإلكتروني</value>
+  </data>
+  <data name="Subscribe" xml:space="preserve">
+    <value>الاشتراك</value>
+  </data>
+  <data name="Quick Links" xml:space="preserve">
+    <value>روابط سريعة</value>
+  </data>
+  <data name="About Us" xml:space="preserve">
+    <value>معلومات عنا</value>
+  </data>
+  <data name="Contact" xml:space="preserve">
+    <value>اتصل</value>
+  </data>
+  <data name="Privacy Policy" xml:space="preserve">
+    <value>سياسة الخصوصية</value>
+  </data>
+  <data name="Categories" xml:space="preserve">
+    <value>التصنيفات</value>
+  </data>
+  <data name="Medicines" xml:space="preserve">
+    <value>الأدوية</value>
+  </data>
+  <data name="Medical Supplies" xml:space="preserve">
+    <value>لوازم طبية</value>
+  </data>
+  <data name="Cosmetics" xml:space="preserve">
+    <value>مستحضرات التجميل</value>
+  </data>
+  <data name="Contact Info" xml:space="preserve">
+    <value>معلومات الاتصال</value>
+  </data>
+  <data name="123 Health St, Cairo, Egypt" xml:space="preserve">
+    <value>123 شارع الصحة، القاهرة، مصر</value>
+  </data>
+  <data name="info@Logicalsoft.com" xml:space="preserve">
+    <value>info@Logicalsoft.com</value>
+  </data>
+  <data name="+123 456 7890" xml:space="preserve">
+    <value>+123 456 7890</value>
+  </data>
+  <data name="LogicalSoft All Rights Reserved." xml:space="preserve">
+    <value>لوجيكال سوفت جميع الحقوق محفوظة.</value>
+  </data>
 </root>

@@ -40,10 +40,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Privacy Policy" xml:space="preserve">
-    <value>سياسة الخصوصية</value>
+  <data name="Supplier Types" xml:space="preserve">
+    <value>أنواع الموردين</value>
   </data>
-  <data name="Use this page to detail your site's privacy policy." xml:space="preserve">
-    <value>استخدم هذه الصفحة لتفصيل سياسة خصوصية موقعك.</value>
+  <data name="Select a Supplier Type" xml:space="preserve">
+    <value>اختر نوع المورد</value>
+  </data>
+  <data name="Browse your connected suppliers by type." xml:space="preserve">
+    <value>تصفح الموردين المتصلين حسب النوع.</value>
+  </data>
+  <data name="No supplier types are configured for your account." xml:space="preserve">
+    <value>لم يتم تكوين أنواع الموردين لحسابك.</value>
   </data>
 </root>

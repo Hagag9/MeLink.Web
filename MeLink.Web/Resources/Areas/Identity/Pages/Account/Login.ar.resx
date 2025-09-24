@@ -40,34 +40,34 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Order with Prescription" xml:space="preserve">
-    <value>Order with Prescription</value>
+  <data name="Log in" xml:space="preserve">
+    <value>تسجيل الدخول</value>
   </data>
-  <data name="From:" xml:space="preserve">
-    <value>From:</value>
+  <data name="Sign in with" xml:space="preserve">
+    <value>تسجيل الدخول باستخدام</value>
   </data>
-  <data name="Please upload your prescription file. The pharmacy will contact you to confirm the order details and payment." xml:space="preserve">
-    <value>Please upload your prescription file. The pharmacy will contact you to confirm the order details and payment.</value>
+  <data name="Or" xml:space="preserve">
+    <value>أو</value>
   </data>
-  <data name="PrescriptionFile" xml:space="preserve">
-    <value>Prescription File</value>
+  <data name="Enter a valid email address" xml:space="preserve">
+    <value>أدخل عنوان بريد إلكتروني صالح</value>
   </data>
-  <data name="Choose File" xml:space="preserve">
-    <value>Choose File</value>
+  <data name="Enter password" xml:space="preserve">
+    <value>أدخل كلمة المرور</value>
   </data>
-  <data name="No file chosen" xml:space="preserve">
-    <value>No file chosen</value>
+  <data name="RememberMe" xml:space="preserve">
+    <value>تذكرنى</value>
   </data>
-  <data name="Notes" xml:space="preserve">
-    <value>Notes</value>
+  <data name="Forgot password?" xml:space="preserve">
+    <value>هل نسيت كلمة السر؟</value>
   </data>
-  <data name="Any special instructions or details for the pharmacy..." xml:space="preserve">
-    <value>Any special instructions or details for the pharmacy...</value>
+  <data name="Login" xml:space="preserve">
+    <value>تسجيل الدخول</value>
   </data>
-  <data name="Submit Prescription" xml:space="preserve">
-    <value>Submit Prescription</value>
+  <data name="Don't have an account ?" xml:space="preserve">
+    <value>ليس لديك حساب؟</value>
   </data>
-  <data name="Back to options" xml:space="preserve">
-    <value>Back to options</value>
+  <data name="Register" xml:space="preserve">
+    <value>تسجيل</value>
   </data>
 </root>

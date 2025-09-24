@@ -58,4 +58,55 @@
   <data name="Search..." xml:space="preserve">
     <value>Search...</value>
   </data>
+  <data name="A modern platform connecting patients and medical suppliers, ensuring easy access to essential medicines." xml:space="preserve">
+    <value>A modern platform connecting patients and medical suppliers, ensuring easy access to essential medicines.</value>
+  </data>
+  <data name="Stay Updated" xml:space="preserve">
+    <value>Stay Updated</value>
+  </data>
+  <data name="Enter your email" xml:space="preserve">
+    <value>Enter your email</value>
+  </data>
+  <data name="Subscribe" xml:space="preserve">
+    <value>Subscribe</value>
+  </data>
+  <data name="Quick Links" xml:space="preserve">
+    <value>Quick Links</value>
+  </data>
+  <data name="About Us" xml:space="preserve">
+    <value>About Us</value>
+  </data>
+  <data name="Contact" xml:space="preserve">
+    <value>Contact</value>
+  </data>
+  <data name="Privacy Policy" xml:space="preserve">
+    <value>Privacy Policy</value>
+  </data>
+  <data name="Categories" xml:space="preserve">
+    <value>Categories</value>
+  </data>
+  <data name="Medicines" xml:space="preserve">
+    <value>Medicines</value>
+  </data>
+  <data name="Medical Supplies" xml:space="preserve">
+    <value>Medical Supplies</value>
+  </data>
+  <data name="Cosmetics" xml:space="preserve">
+    <value>Cosmetics</value>
+  </data>
+  <data name="Contact Info" xml:space="preserve">
+    <value>Contact Info</value>
+  </data>
+  <data name="123 Health St, Cairo, Egypt" xml:space="preserve">
+    <value>123 Health St, Cairo, Egypt</value>
+  </data>
+  <data name="info@Logicalsoft.com" xml:space="preserve">
+    <value>info@Logicalsoft.com</value>
+  </data>
+  <data name="+123 456 7890" xml:space="preserve">
+    <value>+123 456 7890</value>
+  </data>
+  <data name="LogicalSoft All Rights Reserved." xml:space="preserve">
+    <value>LogicalSoft All Rights Reserved.</value>
+  </data>
 </root>

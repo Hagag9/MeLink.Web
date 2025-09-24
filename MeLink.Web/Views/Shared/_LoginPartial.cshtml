@@ -1,6 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer localizer
 
 
 @if (SignInManager.IsSignedIn(User))
@@ -14,7 +16,7 @@
         </a>
         <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post">
             <button type="submit" class="btn btn-outline-danger btn-sm rounded-pill px-3 shadow-sm">
-                Logout
+                @localizer["Logout"]
             </button>
         </form>
     </div>
@@ -22,11 +24,11 @@
 else
 {
     <div class="d-flex align-items-center gap-2">
-       @*  <a class="btn btn-primary rounded-pill px-4" asp-area="Identity" asp-page="/Account/Register">
+        @*  <a class="btn btn-primary rounded-pill px-4" asp-area="Identity" asp-page="/Account/Register">
             Register
         </a> *@
         <a class="btn btn-outline-secondary rounded-pill px-4" asp-area="Identity" asp-page="/Account/Login">
-            Login
+            @localizer["Login"]
         </a>
     </div>
 }

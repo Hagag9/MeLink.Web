@@ -1,8 +1,10 @@
 ﻿@page
 @model LoginModel
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer localizer
 
 @{
-    ViewData["Title"] = "Log in";
+    ViewData["Title"] = localizer["Log in"];
 }
 <style>
     .divider:after,
@@ -32,7 +34,7 @@ height: 100%;
             <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
                 <form id="account" method="post">
                     <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
-                        <p class="lead fw-normal mb-0 me-3">Sign in with</p>
+                        <p class="lead fw-normal mb-0 me-3">@localizer["Sign in with"]</p>
                         <button type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-floating mx-1">
                             <i class="fab fa-facebook-f"></i>
                         </button>
@@ -47,12 +49,12 @@ height: 100%;
                     </div>
 
                     <div class="divider d-flex align-items-center my-4">
-                        <p class="text-center fw-bold mx-3 mb-0">Or</p>
+                        <p class="text-center fw-bold mx-3 mb-0">@localizer["Or"]</p>
                     </div>
                     <!-- Email input -->
                     <div data-mdb-input-init class="form-outline mb-4">
                         <input asp-for="Input.Email" autocomplete="username" aria-required="true" type="email" id="form3Example3" class="form-control form-control-lg"
-                               placeholder="Enter a valid email address" />
+                               placeholder="@localizer["Enter a valid email address"]" />
                        
                         <span asp-validation-for="Input.Email" class="text-danger"></span>
                     </div>
@@ -60,7 +62,7 @@ height: 100%;
                     <!-- Password input -->
                     <div data-mdb-input-init class="form-outline mb-3">
                         <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" type="password" id="form3Example4" class="form-control form-control-lg"
-                               placeholder="Enter password" />
+                               placeholder="@localizer["Enter password"]" />
                        
                     </div>
 
@@ -70,20 +72,20 @@ height: 100%;
 
                             <label asp-for="Input.RememberMe" class="form-check-label" for="form2Example3">
                                 <input class="form-check-input me-2" asp-for="Input.RememberMe" />
-                                @Html.DisplayNameFor(m => m.Input.RememberMe)
+                                @localizer["RememberMe"]
                             </label>
                         </div>
-                        <a id="forgot-password" asp-page="./ForgotPassword" class="text-body">Forgot password?</a>
+                        <a id="forgot-password" asp-page="./ForgotPassword" class="text-body">@localizer["Forgot password?"]</a>
                     </div>
 
                     <div class="text-center text-lg-start mt-4 pt-2">
                         <button id="login-submit" type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg"
                                 style="padding-left: 2.5rem; padding-right: 2.5rem;">
-                            Login
+                            @localizer["Login"]
                         </button>
                         <p class="small fw-bold mt-2 pt-1 mb-0">
-                            Don't have an account ? <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl"
-                                                      class="link-danger">Register</a>
+                            @localizer["Don't have an account ?"] <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl"
+                                                                      class="link-danger">@localizer["Register"]</a>
                         </p>
                     </div>
 

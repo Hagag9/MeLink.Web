@@ -1,4 +1,6 @@
-﻿@model MeLink.Web.ViewModels.UserSuppliersViewModel
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer localizer
+@model MeLink.Web.ViewModels.UserSuppliersViewModel
 
 @{
     ViewData["Title"] = Model.PageTitle;
@@ -8,11 +10,11 @@
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-5">
         <div class="text-center text-md-start mb-3 mb-md-0">
             <h1 class="display-6 fw-bold text-dark">@Model.PageTitle</h1>
-            <p class="text-muted lead-sm">Browse suppliers of this type and place your order.</p>
+            <p class="text-muted lead-sm">@localizer["Browse suppliers of this type and place your order."]</p>
         </div>
         <div>
             <a asp-controller="Supplier" asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4 shadow-sm">
-                <i class="fas fa-arrow-left me-2"></i>Back to Types
+                <i class="fas fa-arrow-left me-2"></i>@localizer["Back to Types"]
             </a>
         </div>
     </div>
@@ -20,8 +22,8 @@
     @if (!Model.Suppliers.Any())
     {
         <div class="alert alert-info text-center rounded-3 p-4" role="alert">
-            <h5 class="alert-heading"><i class="fas fa-info-circle me-2"></i> No Suppliers Found</h5>
-            <p class="mb-0">It seems there are no suppliers of this type available at the moment.</p>
+            <h5 class="alert-heading"><i class="fas fa-info-circle me-2"></i> @localizer["No Suppliers Found"]</h5>
+            <p class="mb-0">@localizer["It seems there are no suppliers of this type available at the moment."]</p>
         </div>
     }
     else
@@ -55,14 +57,14 @@
                             {
                                 <span class="badge bg-success rounded-pill ms-2 mb-1">
                                     <i class="fas fa-check-circle me-1"></i>
-                                    Installment Available
+                                    @localizer["Installment Available"]
                                 </span>
                             }
                             else
                             {
                                 <span class="badge bg-warning rounded-pill ms-2 mb-1">
                                     <i class="fas fa-times-circle me-1"></i>
-                                    Installment Not Available
+                                    @localizer["Installment Not Available"]
                                 </span>
                             }
                             <div class="d-flex align-items-center mb-4">
@@ -71,7 +73,7 @@
                             </div>
                             <div class="d-grid">
                                 <a asp-controller="Order" asp-action="BrowseMedicines" asp-route-supplierId="@supplier.UserId" class="btn btn-primary rounded-pill px-4">
-                                    <i class="fas fa-pills me-2"></i>Browse Medicines
+                                    <i class="fas fa-pills me-2"></i>@localizer["Browse Medicines"]
                                 </a>
                             </div>
                         </div>

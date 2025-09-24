@@ -40,32 +40,32 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Incoming Orders" xml:space="preserve">
-    <value>الطلبات الواردة</value>
+  <data name="My Orders" xml:space="preserve">
+    <value>طلباتي</value>
   </data>
-  <data name="View and manage orders from your customers." xml:space="preserve">
-    <value>عرض وإدارة الطلبات من عملائك.</value>
+  <data name="Keep track of orders and their information." xml:space="preserve">
+    <value>تتبع الطلبات ومعلوماتها.</value>
   </data>
-  <data name="Order from Suppliers" xml:space="preserve">
-    <value>اطلب من الموردين</value>
+  <data name="Create Order" xml:space="preserve">
+    <value>إنشاء طلب</value>
   </data>
   <data name="Total Orders" xml:space="preserve">
     <value>إجمالي الطلبات</value>
   </data>
-  <data name="New Orders" xml:space="preserve">
-    <value>طلبات جديدة</value>
+  <data name="Pending Orders" xml:space="preserve">
+    <value>الطلبات المعلقة</value>
   </data>
-  <data name="Approved Orders" xml:space="preserve">
-    <value>الطلبات الموافق عليها</value>
+  <data name="Delivered Orders" xml:space="preserve">
+    <value>الطلبات المسلمة</value>
   </data>
-  <data name="Shipped Orders" xml:space="preserve">
-    <value>الطلبات المشحونة</value>
+  <data name="Total Items Ordered" xml:space="preserve">
+    <value>إجمالي الأصناف المطلوبة</value>
   </data>
-  <data name="Incoming Orders List" xml:space="preserve">
-    <value>قائمة الطلبات الواردة</value>
+  <data name="Orders List" xml:space="preserve">
+    <value>قائمة الطلبات</value>
   </data>
-  <data name="Search by customer name..." xml:space="preserve">
-    <value>البحث باسم العميل ...</value>
+  <data name="Search orders..." xml:space="preserve">
+    <value>البحث في الطلبات ...</value>
   </data>
   <data name="Filters" xml:space="preserve">
     <value>مرشحات</value>
@@ -76,17 +76,17 @@
   <data name="Pending" xml:space="preserve">
     <value>قيد الانتظار</value>
   </data>
-  <data name="Approved" xml:space="preserve">
-    <value>موافق عليه</value>
+  <data name="Delivered" xml:space="preserve">
+    <value>تم التوصيل</value>
   </data>
-  <data name="Rejected" xml:space="preserve">
-    <value>مرفوض</value>
+  <data name="Cancelled" xml:space="preserve">
+    <value>تم الإلغاء</value>
   </data>
   <data name="Order ID" xml:space="preserve">
     <value>رقم الطلب</value>
   </data>
-  <data name="Customer Name" xml:space="preserve">
-    <value>اسم العميل</value>
+  <data name="Source Name" xml:space="preserve">
+    <value>اسم المصدر</value>
   </data>
   <data name="Order Date" xml:space="preserve">
     <value>تاريخ الطلب</value>
@@ -103,19 +103,28 @@
   <data name="View Details" xml:space="preserve">
     <value>عرض التفاصيل</value>
   </data>
-  <data name="Approve" xml:space="preserve">
-    <value>موافقة</value>
+  <data name="Cancel Order" xml:space="preserve">
+    <value>إلغاء الطلب</value>
   </data>
-  <data name="Reject" xml:space="preserve">
-    <value>رفض</value>
+  <data name="No Orders Yet" xml:space="preserve">
+    <value>لا توجد طلبات حتى الآن</value>
   </data>
-  <data name="Mark as Shipped" xml:space="preserve">
-    <value>وضع علامة "مشحون"</value>
+  <data name="Start by searching for the medicines you need." xml:space="preserve">
+    <value>ابدأ بالبحث عن الأدوية التي تحتاجها.</value>
   </data>
-  <data name="No Incoming Orders" xml:space="preserve">
-    <value>لا توجد طلبات واردة</value>
+  <data name="Are you sure you want to cancel this order?" xml:space="preserve">
+    <value>هل أنت متأكد أنك تريد إلغاء هذا الطلب؟</value>
   </data>
-  <data name="You currently have no orders waiting for your action." xml:space="preserve">
-    <value>ليس لديك حاليًا أي طلبات في انتظار الإجراء الخاص بك.</value>
+  <data name="This action cannot be undone." xml:space="preserve">
+    <value>لا يمكن التراجع عن هذا الإجراء.</value>
+  </data>
+  <data name="Order Details:" xml:space="preserve">
+    <value>تفاصيل الطلب:</value>
+  </data>
+  <data name="Keep Order" xml:space="preserve">
+    <value>الاحتفاظ بالطلب</value>
+  </data>
+  <data name="Yes, Cancel Order" xml:space="preserve">
+    <value>نعم، إلغاء الطلب</value>
   </data>
 </root>

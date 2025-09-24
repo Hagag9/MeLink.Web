@@ -40,61 +40,58 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="My Indebtedness" xml:space="preserve">
-    <value>مديونياتي</value>
+  <data name="Invoice" xml:space="preserve">
+    <value>فاتورة</value>
   </data>
-  <data name="Indebtedness" xml:space="preserve">
-    <value>المديونية</value>
+  <data name="For Order #" xml:space="preserve">
+    <value>للطلب #</value>
   </data>
-  <data name="Track your indebtedness to companies." xml:space="preserve">
-    <value>تتبع مديونيتك للشركات.</value>
+  <data name="Date Issued:" xml:space="preserve">
+    <value>تاريخ الاصدار:</value>
   </data>
-  <data name="Total Indebtedness" xml:space="preserve">
-    <value>إجمالي المديونية</value>
+  <data name="Customer Details" xml:space="preserve">
+    <value>تفاصيل العميل</value>
   </data>
-  <data name="Total Paid" xml:space="preserve">
-    <value>إجمالي المدفوع</value>
+  <data name="Order Time:" xml:space="preserve">
+    <value>وقت الطلب:</value>
   </data>
-  <data name="Number of Companies" xml:space="preserve">
-    <value>عدد الشركات</value>
+  <data name="Supplier Details" xml:space="preserve">
+    <value>تفاصيل المورد</value>
   </data>
-  <data name="Indebtedness List" xml:space="preserve">
-    <value>قائمة المديونية</value>
+  <data name="Description" xml:space="preserve">
+    <value>الوصف</value>
   </data>
-  <data name="Company Name" xml:space="preserve">
-    <value>اسم الشركة</value>
+  <data name="Qty" xml:space="preserve">
+    <value>الكمية</value>
   </data>
-  <data name="Total Amount" xml:space="preserve">
-    <value>المبلغ الإجمالي</value>
+  <data name="Unit Price" xml:space="preserve">
+    <value>سعر الوحدة</value>
   </data>
-  <data name="Action" xml:space="preserve">
-    <value>إجراء</value>
+  <data name="Total" xml:space="preserve">
+    <value>المجموع</value>
   </data>
-  <data name="Pay" xml:space="preserve">
-    <value>دفع</value>
+  <data name="Subtotal" xml:space="preserve">
+    <value>المجموع الفرعي</value>
   </data>
-  <data name="No Indebtedness Found" xml:space="preserve">
-    <value>لم يتم العثور على مديونية</value>
+  <data name="Grand Total" xml:space="preserve">
+    <value>المجموع الكلي</value>
   </data>
-  <data name="You have no outstanding debts with companies that offer installment plans." xml:space="preserve">
-    <value>ليس لديك ديون مستحقة لدى الشركات التي تقدم خطط تقسيط.</value>
+  <data name="Notes" xml:space="preserve">
+    <value>ملاحظات</value>
   </data>
-  <data name="Payment Confirmation" xml:space="preserve">
-    <value>تأكيد الدفع</value>
+  <data name="Thank you for your business. Please contact us with any questions regarding this invoice." xml:space="preserve">
+    <value>شكرا لك على عملك. يرجى الاتصال بنا مع أي أسئلة بخصوص هذه الفاتورة.</value>
   </data>
-  <data name="This is a placeholder for the payment process for" xml:space="preserve">
-    <value>هذا عنصر نائب لعملية الدفع لـ</value>
+  <data name="Status" xml:space="preserve">
+    <value>الحالة</value>
   </data>
-  <data name="Amount:" xml:space="preserve">
-    <value>المبلغ:</value>
+  <data name="Back to Orders" xml:space="preserve">
+    <value>العودة إلى الطلبات</value>
   </data>
-  <data name="(This is for display purposes only)" xml:space="preserve">
-    <value>(هذا لأغراض العرض فقط)</value>
+  <data name="Print" xml:space="preserve">
+    <value>طباعة</value>
   </data>
-  <data name="Close" xml:space="preserve">
-    <value>إغلاق</value>
-  </data>
-  <data name="Confirm Payment" xml:space="preserve">
-    <value>تأكيد الدفع</value>
+  <data name="Download" xml:space="preserve">
+    <value>تحميل</value>
   </data>
 </root>

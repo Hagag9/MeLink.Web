@@ -1,18 +1,20 @@
-﻿@model List<MeLink.Web.ViewModels.OrderSummaryViewModel>
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer localizer
+@model List<MeLink.Web.ViewModels.OrderSummaryViewModel>
 
 @{
-    ViewData["Title"] = "My Orders";
+    ViewData["Title"] = localizer["My Orders"];
 }
 
 <div class="container py-5">
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4">
         <div>
-            <h1 class="h2 fw-bold text-dark">My Orders</h1>
-            <p class="text-muted">Keep track of orders and their information.</p>
+            <h1 class="h2 fw-bold text-dark">@localizer["My Orders"]</h1>
+            <p class="text-muted">@localizer["Keep track of orders and their information."]</p>
         </div>
         <div class="d-flex gap-2">
             <a asp-action="Index" class="btn btn-primary rounded-3">
-                <i class="fas fa-plus me-2"></i>Create Order
+                <i class="fas fa-plus me-2"></i>@localizer["Create Order"]
             </a>
         </div>
     </div>
@@ -23,7 +25,7 @@
             <div class="col-sm-6 col-md-3">
                 <div class="card h-100 bg-primary-subtle text-primary rounded-4 shadow-sm">
                     <div class="card-body text-center p-4">
-                        <p class="text-muted mb-1 small">Total Orders</p>
+                        <p class="text-muted mb-1 small">@localizer["Total Orders"]</p>
                         <h3 class="fw-bold mb-0">@Model.Count()</h3>
                     </div>
                 </div>
@@ -31,7 +33,7 @@
             <div class="col-sm-6 col-md-3">
                 <div class="card h-100 bg-warning-subtle text-primary rounded-4 shadow-sm">
                     <div class="card-body text-center p-4">
-                        <p class="text-muted mb-1 small">Pending Orders</p>
+                        <p class="text-muted mb-1 small">@localizer["Pending Orders"]</p>
                         <h3 class="fw-bold mb-0">@Model.Count(o => o.Status == "Pending")</h3>
                     </div>
                 </div>
@@ -39,7 +41,7 @@
             <div class="col-sm-6 col-md-3">
                 <div class="card h-100 bg-success-subtle text-primary rounded-4 shadow-sm">
                     <div class="card-body text-center p-4">
-                        <p class="text-muted mb-1 small">Delivered Orders</p>
+                        <p class="text-muted mb-1 small">@localizer["Delivered Orders"]</p>
                         <h3 class="fw-bold mb-0">@Model.Count(o => o.Status == "Delivered")</h3>
                     </div>
                 </div>
@@ -47,7 +49,7 @@
             <div class="col-sm-6 col-md-3">
                 <div class="card h-100 bg-info-subtle text-primary rounded-4 shadow-sm">
                     <div class="card-body text-center p-4">
-                        <p class="text-muted mb-1 small">Total Items Ordered</p>
+                        <p class="text-muted mb-1 small">@localizer["Total Items Ordered"]</p>
                         <h3 class="fw-bold mb-0">@Model.Sum(o => o.TotalItems)</h3>
                     </div>
                 </div>
@@ -59,22 +61,22 @@
         <div class="card-header bg-white border-0 pt-4 pb-3 px-4">
             <div class="row justify-content-between align-items-center g-2">
                 <div class="col-md-4">
-                    <h5 class="fw-bold mb-0">Orders List</h5>
+                    <h5 class="fw-bold mb-0">@localizer["Orders List"]</h5>
                 </div>
                 <div class="col-md-8 d-flex justify-content-start justify-content-md-end gap-2">
                     <div class="input-group" style="max-width: 300px;">
                         <span class="input-group-text bg-light border-0"><i class="fas fa-search"></i></span>
-                        <input type="text" class="form-control bg-light border-0" id="search-orders" placeholder="Search orders...">
+                        <input type="text" class="form-control bg-light border-0" id="search-orders" placeholder="@localizer["Search orders..."]">
                     </div>
                     <div class="btn-group">
                         <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fas fa-filter me-2"></i> Filters
+                            <i class="fas fa-filter me-2"></i> @localizer["Filters"]
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="#" data-filter="all">All</a></li>
-                            <li><a class="dropdown-item" href="#" data-filter="pending">Pending</a></li>
-                            <li><a class="dropdown-item" href="#" data-filter="delivered">Delivered</a></li>
-                            <li><a class="dropdown-item" href="#" data-filter="cancelled">Cancelled</a></li>
+                            <li><a class="dropdown-item" href="#" data-filter="all">@localizer["All"]</a></li>
+                            <li><a class="dropdown-item" href="#" data-filter="pending">@localizer["Pending"]</a></li>
+                            <li><a class="dropdown-item" href="#" data-filter="delivered">@localizer["Delivered"]</a></li>
+                            <li><a class="dropdown-item" href="#" data-filter="cancelled">@localizer["Cancelled"]</a></li>
                         </ul>
                     </div>
                 </div>
@@ -87,12 +89,12 @@
                     <table class="table orders-table mb-0">
                         <thead>
                             <tr>
-                                <th>Order ID</th>
-                                <th>Source Name</th>
-                                <th>Order Date</th>
-                                <th>Quantity</th>
-                                <th>Order Status</th>
-                                <th class="text-end">Action</th>
+                                <th>@localizer["Order ID"]</th>
+                                <th>@localizer["Source Name"]</th>
+                                <th>@localizer["Order Date"]</th>
+                                <th>@localizer["Quantity"]</th>
+                                <th>@localizer["Order Status"]</th>
+                                <th class="text-end">@localizer["Action"]</th>
                             </tr>
                         </thead>
                         <tbody id="orders-container">
@@ -124,14 +126,14 @@
                                             <ul class="dropdown-menu dropdown-menu-end">
                                                 <li>
                                                     <a class="dropdown-item" asp-action="Invoice" asp-route-orderId="@order.OrderId">
-                                                        <i class="fas fa-eye fa-fw me-2"></i>View Details
+                                                        <i class="fas fa-eye fa-fw me-2"></i>@localizer["View Details"]
                                                     </a>
                                                 </li>
                                                 @if (order.Status == "Pending")
                                                 {
                                                     <li>
                                                         <a class="dropdown-item text-danger cancel-order-btn" href="#" data-order-id="@order.OrderId" data-pharmacy="@order.PharmacyName">
-                                                            <i class="fas fa-times fa-fw me-2"></i>Cancel Order
+                                                            <i class="fas fa-times fa-fw me-2"></i>@localizer["Cancel Order"]
                                                         </a>
                                                     </li>
                                                 }
@@ -148,8 +150,8 @@
             {
                 <div class="text-center py-5">
                     <div class="mb-4"><i class="fas fa-clipboard-list text-muted opacity-25" style="font-size: 5rem;"></i></div>
-                    <h4 class="text-muted fw-bold mb-3">No Orders Yet</h4>
-                    <p class="text-muted mb-4 lead">Start by searching for the medicines you need.</p>
+                    <h4 class="text-muted fw-bold mb-3">@localizer["No Orders Yet"]</h4>
+                    <p class="text-muted mb-4 lead">@localizer["Start by searching for the medicines you need."]</p>
                 </div>
             }
         </div>
@@ -160,28 +162,28 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content rounded-4 shadow-lg">
             <div class="modal-header bg-danger text-white border-0 rounded-top-4">
-                <h5 class="modal-title" id="cancelOrderModalLabel"><i class="fas fa-exclamation-triangle me-2"></i>Cancel Order</h5>
+                <h5 class="modal-title" id="cancelOrderModalLabel"><i class="fas fa-exclamation-triangle me-2"></i>@localizer["Cancel Order"]</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body p-4 text-center">
                 <div class="mb-3"><i class="fas fa-question-circle fa-4x text-warning"></i></div>
-                <h5 class="fw-bold mb-3">Are you sure you want to cancel this order?</h5>
-                <p class="text-muted lead-sm mb-4">This action cannot be undone.</p>
+                <h5 class="fw-bold mb-3">@localizer["Are you sure you want to cancel this order?"]</h5>
+                <p class="text-muted lead-sm mb-4">@localizer["This action cannot be undone."]</p>
                 <div class="alert alert-info rounded-3 text-start">
                     <div class="d-flex align-items-center">
                         <i class="fas fa-info-circle me-2 fs-5"></i>
                         <div>
-                            <strong class="text-dark">Order Details:</strong><br>
+                            <strong class="text-dark">@localizer["Order Details:"]</strong><br>
                             <span id="cancel-order-details" class="small"></span>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer d-flex justify-content-center border-0 p-4">
-                <button type="button" class="btn btn-secondary rounded-pill me-3" data-bs-dismiss="modal"><i class="fas fa-arrow-left me-2"></i>Keep Order</button>
+                <button type="button" class="btn btn-secondary rounded-pill me-3" data-bs-dismiss="modal"><i class="fas fa-arrow-left me-2"></i>@localizer["Keep Order"]</button>
                 <form id="cancel-order-form" asp-action="CancelOrder" method="post" style="display: inline;">
                     <input type="hidden" name="orderId" id="cancel-order-id">
-                    <button type="submit" class="btn btn-danger rounded-pill"><i class="fas fa-times me-2"></i>Yes, Cancel Order</button>
+                    <button type="submit" class="btn btn-danger rounded-pill"><i class="fas fa-times me-2"></i>@localizer["Yes, Cancel Order"]</button>
                 </form>
             </div>
         </div>
