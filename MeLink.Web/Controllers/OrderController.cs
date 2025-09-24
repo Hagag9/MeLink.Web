@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using MeLink.Web.Data;
 using MeLink.Web.Models;
 using MeLink.Web.ViewModels;
+using Microsoft.Extensions.Localization;
 
 namespace MeLink.Web.Controllers
 {
@@ -15,12 +16,14 @@ namespace MeLink.Web.Controllers
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IWebHostEnvironment _environment;
+        private readonly IStringLocalizer<OrderController> _localizer;
 
-        public OrderController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, IWebHostEnvironment environment)
+        public OrderController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, IWebHostEnvironment environment, IStringLocalizer<OrderController> localizer)
         {
             _context = context;
             _userManager = userManager;
             _environment = environment;
+            _localizer = localizer;
         }
 
         // صفحة البحث عن الأدوية والصيدليات
@@ -132,7 +135,7 @@ namespace MeLink.Web.Controllers
                 await _context.SaveChangesAsync(); // Save the prescription
             }
 
-            TempData["Success"] = "Your prescription has been sent successfully!";
+            TempData["Success"] = _localizer["Your prescription has been sent successfully!"];
             return RedirectToAction("MyOrders");
         }
 
@@ -223,7 +226,7 @@ namespace MeLink.Web.Controllers
 
             if (currentUser is not Patient)
             {
-                return Json(new { success = false, message = "غير مسموح" });
+                return Json(new { success = false, message = _localizer["Not allowed"] });
             }
 
             var inventory = await _context.Inventories
@@ -233,7 +236,7 @@ namespace MeLink.Web.Controllers
 
             if (inventory == null || !inventory.IsAvailable || inventory.StockQuantity < request.Quantity)
             {
-                return Json(new { success = false, message = "الدواء غير متوفر بالكمية المطلوبة" });
+                return Json(new { success = false, message = _localizer["The medicine is not available in the required quantity"] });
             }
 
             
@@ -266,7 +269,7 @@ namespace MeLink.Web.Controllers
 
             if (model.OrderItems == null || !model.OrderItems.Any())
             {
-                TempData["Error"] = "لا توجد أدوية في الطلب";
+                TempData["Error"] = _localizer["There are no medicines in the order"];
                 return RedirectToAction("Create");
             }
 
@@ -282,7 +285,7 @@ namespace MeLink.Web.Controllers
                     var sourceId = sourceGroup.Key;
                     if (string.IsNullOrEmpty(sourceId))
                     {
-                        throw new Exception("An item was found without a source. The order could not be processed.");
+                        throw new Exception(_localizer["An item was found without a source. The order could not be processed."]);
                     }
 
                     var order = new Order
@@ -304,7 +307,7 @@ namespace MeLink.Web.Controllers
 
                         if (inventory == null || inventory.StockQuantity < item.Quantity)
                         {
-                            throw new Exception($"الدواء '{item.MedicineName}' غير متوفر بالكمية المطلوبة");
+                            throw new Exception(_localizer["The medicine '{0}' is not available in the required quantity", item.MedicineName]);
                         }
 
                         var orderDetail = new OrderDetail
@@ -332,14 +335,14 @@ namespace MeLink.Web.Controllers
                 await _context.SaveChangesAsync();
                 await transaction.CommitAsync();
 
-                TempData["Success"] = $"تم إنشاء {itemsGroupedBySource.Count()} طلبات بنجاح!";
+                TempData["Success"] = _localizer["{0} orders have been created successfully!", itemsGroupedBySource.Count()];
 
                 return RedirectToAction("MyOrders");
             }
             catch (Exception ex)
             {
                 await transaction.RollbackAsync();
-                TempData["Error"] = "حدث خطأ أثناء إنشاء الطلب: " + ex.Message;
+                TempData["Error"] = _localizer["An error occurred while creating the order: {0}", ex.Message];
                 return RedirectToAction("Create");
             }
         }
@@ -547,13 +550,13 @@ namespace MeLink.Web.Controllers
 
             if (order == null)
             {
-                TempData["ErrorMessage"] = "Order not found.";
+                TempData["ErrorMessage"] = _localizer["Order not found."];
                 return RedirectToAction(nameof(MyOrders));
             }
 
             if (order.Status != OrderStatus.Pending)
             {
-                TempData["ErrorMessage"] = "This order can no longer be cancelled.";
+                TempData["ErrorMessage"] = _localizer["This order can no longer be cancelled."];
                 return RedirectToAction(nameof(MyOrders));
             }
 
@@ -562,11 +565,11 @@ namespace MeLink.Web.Controllers
             try
             {
                 await _context.SaveChangesAsync();
-                TempData["SuccessMessage"] = $"Order #{orderId} has been successfully cancelled.";
+                TempData["SuccessMessage"] = _localizer["Order #{0} has been successfully cancelled.", orderId];
             }
             catch (Exception)
             {
-                TempData["ErrorMessage"] = "An error occurred while cancelling the order.";
+                TempData["ErrorMessage"] = _localizer["An error occurred while cancelling the order."];
             }
 
             return RedirectToAction(nameof(MyOrders));
@@ -581,7 +584,7 @@ namespace MeLink.Web.Controllers
 
             if (order == null)
             {
-                TempData["ErrorMessage"] = "Order not found.";
+                TempData["ErrorMessage"] = _localizer["Order not found."];
                 return RedirectToAction(nameof(IncomingOrders));
             }
 
@@ -592,7 +595,7 @@ namespace MeLink.Web.Controllers
 
             if (order.Status != OrderStatus.Pending)
             {
-                TempData["ErrorMessage"] = "This order has already been processed.";
+                TempData["ErrorMessage"] = _localizer["This order has already been processed."];
                 return RedirectToAction(nameof(IncomingOrders));
             }
 
@@ -632,12 +635,12 @@ namespace MeLink.Web.Controllers
 
                 await _context.SaveChangesAsync();
                 await transaction.CommitAsync();
-                TempData["SuccessMessage"] = $"Order #{orderId} has been successfully approved.";
+                TempData["SuccessMessage"] = _localizer["Order #{0} has been successfully approved.", orderId];
             }
             catch (Exception ex)
             {
                 await transaction.RollbackAsync();
-                TempData["ErrorMessage"] = "An error occurred while approving the order: " + ex.Message;
+                TempData["ErrorMessage"] = _localizer["An error occurred while approving the order: {0}", ex.Message];
             }
 
             return RedirectToAction(nameof(IncomingOrders));

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="xml:space" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Welcome">
+    <value>أهلاً وسهلاً</value>
+  </data>
+  <data name="Learn">
+    <value>تعلم عن</value>
+  </data>
+  <data name="Building">
+    <value>بناء تطبيقات الويب باستخدام ASP.NET Core</value>
+  </data>
+  <data name="Your Health, Our Priority">
+    <value>صحتك أولويتنا</value>
+  </data>
+  <data name="Find and order your medicines from trusted pharmacies and suppliers with ease.">
+    <value>ابحث عن أدويتك واطلبها من الصيدليات والموردين الموثوق بهم بكل سهولة.</value>
+  </data>
+  <data name="MeLink connects you directly to the care you need, fast.">
+    <value>MeLink يوصلك مباشرة بالرعاية التي تحتاجها بسرعة.</value>
+  </data>
+  <data name="Start Your Order">
+    <value>ابدأ طلبك</value>
+  </data>
+  <data name="Learn More">
+    <value>اعرف المزيد</value>
+  </data>
+  <data name="How It Works">
+    <value>كيف نعمل</value>
+  </data>
+  <data name="Simple steps to get your medicines delivered to your door.">
+    <value>خطوات بسيطة لتوصيل أدويتك إلى باب منزلك.</value>
+  </data>
+  <data name="Search">
+    <value>ابحث</value>
+  </data>
+  <data name="Find the medicine you need by name or active ingredient.">
+    <value>ابحث عن الدواء الذي تحتاجه بالاسم أو المادة الفعالة.</value>
+  </data>
+  <data name="Order">
+    <value>اطلب</value>
+  </data>
+  <data name="Choose from a list of available suppliers and place your order.">
+    <value>اختر من قائمة الموردين المتاحين وقدم طلبك.</value>
+  </data>
+  <data name="Receive">
+    <value>استلم</value>
+  </data>
+  <data name="Get your medicines delivered directly to your doorstep.">
+    <value>احصل على أدويتك مباشرة إلى باب منزلك.</value>
+  </data>
+  <data name="Our Partners">
+    <value>شركاؤنا</value>
+  </data>
+  <data name="Browse our network of trusted suppliers and pharmacies.">
+    <value>تصفح شبكتنا من الموردين والصيدليات الموثوق بهم.</value>
+  </data>
+  <data name="Warehouses">
+    <value>المستودعات</value>
+  </data>
+  <data name="A wide selection of medicines and bulk supplies.">
+    <value>مجموعة واسعة من الأدوية والمستلزمات بالجملة.</value>
+  </data>
+  <data name="Companies">
+    <value>الشركات</value>
+  </data>
+  <data name="Efficient and reliable distribution of medical goods.">
+    <value>توزيع فعال وموثوق للمنتجات الطبية.</value>
+  </data>
+  <data name="Manufacturers">
+    <value>المصنعون</value>
+  </data>
+  <data name="Direct access to a wide range of products.">
+    <value>الوصول المباشر إلى مجموعة واسعة من المنتجات.</value>
+  </data>
+  <data name="Pharmacies">
+    <value>الصيدليات</value>
+  </data>
+  <data name="Get your prescribed medicines from local pharmacies.">
+    <value>احصل على الأدوية الموصوفة لك من الصيدليات المحلية.</value>
+  </data>
+</root>

@@ -1,22 +1,25 @@
-﻿@{
-    ViewData["Title"] = "Home - MeLink";
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+@{
+    ViewData["Title"] = Localizer["Home"];
 }
 
 <div class="container py-5">
     <div class="p-5 text-center hero-section-enhanced rounded-4 mb-5 shadow-sm">
         <div class="row align-items-center">
             <div class="col-md-7 text-md-start">
-                <h1 class="display-3 fw-bold text-primary mb-3">Your Health, Our Priority</h1>
+                <h1 class="display-3 fw-bold text-primary mb-3">@Localizer["Your Health, Our Priority"]</h1>
                 <p class="fs-5 text-muted mb-4">
-                    Find and order your medicines from trusted pharmacies and suppliers with ease.
-                    MeLink connects you directly to the care you need, fast.
+                    @Localizer["Find and order your medicines from trusted pharmacies and suppliers with ease."]
+                    @Localizer["MeLink connects you directly to the care you need, fast."]
                 </p>
                 <div class="d-grid gap-2 d-sm-flex justify-content-center justify-content-md-start mb-4">
                     <a asp-controller="Order" asp-action="@(ViewBag.IsPatient ? "Index" : "BrowseMedicines")" class="btn btn-primary btn-lg rounded-pill px-5">
-                        <i class="fas fa-pills me-2"></i> Start Your Order
+                        <i class="fas fa-pills me-2"></i> @Localizer["Start Your Order"]
                     </a>
                     <a asp-controller="Home" asp-action="About" class="btn btn-outline-primary btn-lg rounded-pill px-5">
-                        <i class="fas fa-info-circle me-2"></i> Learn More
+                        <i class="fas fa-info-circle me-2"></i> @Localizer["Learn More"]
                     </a>
                 </div>
             </div>
@@ -27,8 +30,8 @@
     </div>
 
     <div class="text-center mb-5 fade-in-section">
-        <h2 class="display-6 fw-bold mb-3">How It Works</h2>
-        <p class="text-muted lead-sm">Simple steps to get your medicines delivered to your door.</p>
+        <h2 class="display-6 fw-bold mb-3">@Localizer["How It Works"]</h2>
+        <p class="text-muted lead-sm">@Localizer["Simple steps to get your medicines delivered to your door."]</p>
     </div>
     <div class="row g-4 mb-5 text-center justify-content-center how-it-works-steps fade-in-section">
         <div class="col-lg-3 col-md-6">
@@ -36,8 +39,8 @@
                 <div class="icon-circle icon-circle-sm bg-info-subtle text-info mx-auto mb-3">
                     <i class="fas fa-search fa-2x"></i>
                 </div>
-                <h5 class="fw-bold">1. Search</h5>
-                <p class="text-muted mb-0 small">Find the medicine you need by name or active ingredient.</p>
+                <h5 class="fw-bold">1. @Localizer["Search"]</h5>
+                <p class="text-muted mb-0 small">@Localizer["Find the medicine you need by name or active ingredient."]</p>
             </div>
         </div>
         <div class="col-lg-3 col-md-6">
@@ -45,8 +48,8 @@
                 <div class="icon-circle icon-circle-sm bg-success-subtle text-success mx-auto mb-3">
                     <i class="fas fa-shopping-cart fa-2x"></i>
                 </div>
-                <h5 class="fw-bold">2. Order</h5>
-                <p class="text-muted mb-0 small">Choose from a list of available suppliers and place your order.</p>
+                <h5 class="fw-bold">2. @Localizer["Order"]</h5>
+                <p class="text-muted mb-0 small">@Localizer["Choose from a list of available suppliers and place your order."]</p>
             </div>
         </div>
         <div class="col-lg-3 col-md-6">
@@ -54,15 +57,15 @@
                 <div class="icon-circle icon-circle-sm bg-primary-subtle text-primary mx-auto mb-3">
                     <i class="fas fa-shipping-fast fa-2x"></i>
                 </div>
-                <h5 class="fw-bold">3. Receive</h5>
-                <p class="text-muted mb-0 small">Get your medicines delivered directly to your doorstep.</p>
+                <h5 class="fw-bold">3. @Localizer["Receive"]</h5>
+                <p class="text-muted mb-0 small">@Localizer["Get your medicines delivered directly to your doorstep."]</p>
             </div>
         </div>
     </div>
 
     <div class="text-center mb-5 fade-in-section">
-        <h2 class="display-6 fw-bold mb-3">Our Partners</h2>
-        <p class="text-muted lead-sm">Browse our network of trusted suppliers and pharmacies.</p>
+        <h2 class="display-6 fw-bold mb-3">@Localizer["Our Partners"]</h2>
+        <p class="text-muted lead-sm">@Localizer["Browse our network of trusted suppliers and pharmacies."]</p>
         <div class="row g-4 mt-4 justify-content-center fade-in-section">
             <div class="col-lg-3 col-md-6">
                 <div class="supplier-card h-100 p-4 rounded-4 shadow-sm bg-light">
@@ -70,9 +73,9 @@
                         <div class="icon-circle icon-circle-sm bg-info-subtle text-info me-3">
                             <i class="fas fa-warehouse fa-2x"></i>
                         </div>
-                        <h5 class="fw-bold mb-0">Warehouses</h5>
+                        <h5 class="fw-bold mb-0">@Localizer["Warehouses"]</h5>
                     </div>
-                    <p class="text-muted small">A wide selection of medicines and bulk supplies.</p>
+                    <p class="text-muted small">@Localizer["A wide selection of medicines and bulk supplies."]</p>
                   
                 </div>
             </div>
@@ -82,9 +85,9 @@
                         <div class="icon-circle icon-circle-sm bg-success-subtle text-success me-3">
                             <i class="fas fa-truck fa-2x"></i>
                         </div>
-                        <h5 class="fw-bold mb-0">Companies</h5>
+                        <h5 class="fw-bold mb-0">@Localizer["Companies"]</h5>
                     </div>
-                    <p class="text-muted small">Efficient and reliable distribution of medical goods.</p>
+                    <p class="text-muted small">@Localizer["Efficient and reliable distribution of medical goods."]</p>
                    
                 </div>
             </div>
@@ -94,9 +97,9 @@
                         <div class="icon-circle icon-circle-sm bg-primary-subtle text-primary me-3">
                             <i class="fas fa-industry fa-2x"></i>
                         </div>
-                        <h5 class="fw-bold mb-0">Manufacturers</h5>
+                        <h5 class="fw-bold mb-0">@Localizer["Manufacturers"]</h5>
                     </div>
-                    <p class="text-muted small">Direct access to a wide range of products.</p>
+                    <p class="text-muted small">@Localizer["Direct access to a wide range of products."]</p>
                    
                 </div>
             </div>
@@ -106,9 +109,9 @@
                         <div class="icon-circle icon-circle-sm bg-secondary-subtle text-secondary me-3">
                             <i class="fas fa-prescription-bottle fa-2x"></i>
                         </div>
-                        <h5 class="fw-bold mb-0">Pharmacies</h5>
+                        <h5 class="fw-bold mb-0">@Localizer["Pharmacies"]</h5>
                     </div>
-                    <p class="text-muted small">Get your prescribed medicines from local pharmacies.</p>
+                    <p class="text-muted small">@Localizer["Get your prescribed medicines from local pharmacies."]</p>
                   
                 </div>
             </div>

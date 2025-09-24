@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="xml:space" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Welcome">
+    <value>Welcome</value>
+  </data>
+  <data name="Learn">
+    <value>Learn about</value>
+  </data>
+  <data name="Building">
+    <value>building Web apps with ASP.NET Core</value>
+  </data>
+  <data name="Your Health, Our Priority">
+    <value>Your Health, Our Priority</value>
+  </data>
+  <data name="Find and order your medicines from trusted pharmacies and suppliers with ease.">
+    <value>Find and order your medicines from trusted pharmacies and suppliers with ease.</value>
+  </data>
+  <data name="MeLink connects you directly to the care you need, fast.">
+    <value>MeLink connects you directly to the care you need, fast.</value>
+  </data>
+  <data name="Start Your Order">
+    <value>Start Your Order</value>
+  </data>
+  <data name="Learn More">
+    <value>Learn More</value>
+  </data>
+  <data name="How It Works">
+    <value>How It Works</value>
+  </data>
+  <data name="Simple steps to get your medicines delivered to your door.">
+    <value>Simple steps to get your medicines delivered to your door.</value>
+  </data>
+  <data name="Search">
+    <value>Search</value>
+  </data>
+  <data name="Find the medicine you need by name or active ingredient.">
+    <value>Find the medicine you need by name or active ingredient.</value>
+  </data>
+  <data name="Order">
+    <value>Order</value>
+  </data>
+  <data name="Choose from a list of available suppliers and place your order.">
+    <value>Choose from a list of available suppliers and place your order.</value>
+  </data>
+  <data name="Receive">
+    <value>Receive</value>
+  </data>
+  <data name="Get your medicines delivered directly to your doorstep.">
+    <value>Get your medicines delivered directly to your doorstep.</value>
+  </data>
+  <data name="Our Partners">
+    <value>Our Partners</value>
+  </data>
+  <data name="Browse our network of trusted suppliers and pharmacies.">
+    <value>Browse our network of trusted suppliers and pharmacies.</value>
+  </data>
+  <data name="Warehouses">
+    <value>Warehouses</value>
+  </data>
+  <data name="A wide selection of medicines and bulk supplies.">
+    <value>A wide selection of medicines and bulk supplies.</value>
+  </data>
+  <data name="Companies">
+    <value>Companies</value>
+  </data>
+  <data name="Efficient and reliable distribution of medical goods.">
+    <value>Efficient and reliable distribution of medical goods.</value>
+  </data>
+  <data name="Manufacturers">
+    <value>Manufacturers</value>
+  </data>
+  <data name="Direct access to a wide range of products.">
+    <value>Direct access to a wide range of products.</value>
+  </data>
+  <data name="Pharmacies">
+    <value>Pharmacies</value>
+  </data>
+  <data name="Get your prescribed medicines from local pharmacies.">
+    <value>Get your prescribed medicines from local pharmacies.</value>
+  </data>
+</root>

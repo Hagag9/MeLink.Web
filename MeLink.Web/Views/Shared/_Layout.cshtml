@@ -1,5 +1,9 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using System.Globalization
+@inject IViewLocalizer Localizer
+
+<!DOCTYPE html>
+<html lang="en" dir="@(CultureInfo.CurrentCulture.TextInfo.IsRightToLeft ? "rtl" : "ltr")">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -57,7 +61,7 @@
                 <nav class="flex flex-col gap-y-6">
                     <a class="sidebar-link flex items-center gap-4 rounded-md p-3 transition-colors bg-[var(--primary-color)]" href="~/Home/Index">
                         <span class="material-symbols-outlined">home</span>
-                        <span class="sidebar-text-label text-base font-medium sr-only">Home</span>
+                        <span class="sidebar-text-label text-base font-medium sr-only">@Localizer["Home"]</span>
                     </a>
                   
                         @await Component.InvokeAsync("UserType")
@@ -66,11 +70,11 @@
                 <div class="mt-auto flex flex-col gap-y-6">
                     <a class="sidebar-link flex items-center gap-4 rounded-md p-3 transition-colors" href="#">
                         <span class="material-symbols-outlined">person</span>
-                        <span class="sidebar-text-label text-base font-medium sr-only">Profile</span>
+                        <span class="sidebar-text-label text-base font-medium sr-only">@Localizer["Profile"]</span>
                     </a>
                     <a class="sidebar-link flex items-center gap-4 rounded-md p-3 transition-colors" href="#">
                         <span class="material-symbols-outlined">more_horiz</span>
-                        <span class="sidebar-text-label text-base font-medium sr-only">More</span>
+                        <span class="sidebar-text-label text-base font-medium sr-only">@Localizer["More"]</span>
                     </a>
                 </div>
             </aside>
@@ -87,16 +91,17 @@
                             <h1 class="text-xl font-bold">Pharma</h1>
                         </a>
                         <div class="flex items-center gap-x-8">
-                            <a class="text-base font-medium text-slate-500 hover:text-[var(--primary-color)] transition-colors" href="~/Home/Index">Home</a>
-                            <a class="text-base font-medium text-slate-500 hover:text-[var(--primary-color)] transition-colors" href="#">Contact Us</a>
-                            <a class="text-base font-medium text-slate-500 hover:text-[var(--primary-color)] transition-colors" href="#">About</a>
+                            <a class="text-base font-medium text-slate-500 hover:text-[var(--primary-color)] transition-colors" href="~/Home/Index">@Localizer["Home"]</a>
+                            <a class="text-base font-medium text-slate-500 hover:text-[var(--primary-color)] transition-colors" href="#">@Localizer["Contact Us"]</a>
+                            <a class="text-base font-medium text-slate-500 hover:text-[var(--primary-color)] transition-colors" href="#">@Localizer["About"]</a>
                         </div>
                         <div class="relative">
-                            <input class="w-80 rounded-full border border-gray-300 bg-gray-50 py-2.5 pl-12 pr-4 text-gray-700 focus:border-[var(--primary-color)] focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]/50" placeholder="Search..." type="text" />
+                            <input class="w-80 rounded-full border border-gray-300 bg-gray-50 py-2.5 pl-12 pr-4 text-gray-700 focus:border-[var(--primary-color)] focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]/50" placeholder="@Localizer["Search..."]" type="text" />
                             <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">search</span>
                         </div>
                     </nav>
                     <div class="flex items-center gap-4">
+                        <partial name="_SelectLanguagePartial" />
                         <partial name="_LoginPartial" />
                     </div>
                 </header>
@@ -116,40 +121,40 @@
                             <i class="fas fa-pills fa-4x mb-2 text-primary"></i>
                         </a>
                         <p class="small text-muted mb-4">
-                            A modern platform connecting patients and medical suppliers, ensuring easy access to essential medicines.
+                            @Localizer["A modern platform connecting patients and medical suppliers, ensuring easy access to essential medicines."]
                         </p>
-                        <h6 class="text-white fw-bold mb-3">Stay Updated</h6>
+                        <h6 class="text-white fw-bold mb-3">@Localizer["Stay Updated"]</h6>
                         <form action="#" class="newsletter-form">
                             <div class="input-group">
-                                <input type="email" class="form-control" placeholder="Enter your email" required>
-                                <button class="btn btn-primary" type="submit">Subscribe</button>
+                                <input type="email" class="form-control" placeholder="@Localizer["Enter your email"]" required>
+                                <button class="btn btn-primary" type="submit">@Localizer["Subscribe"]</button>
                             </div>
                         </form>
                     </div>
 
                     <div class="col-lg-2 col-md-3 col-6 mb-4">
-                        <h6 class="text-white fw-bold mb-3">Quick Links</h6>
+                        <h6 class="text-white fw-bold mb-3">@Localizer["Quick Links"]</h6>
                         <ul class="list-unstyled">
-                            <li class="mb-2"><a href="#">Home</a></li>
-                            <li class="mb-2"><a href="#">About Us</a></li>
-                            <li class="mb-2"><a href="#">Contact</a></li>
-                            <li class="mb-2"><a href="#">Privacy Policy</a></li>
+                            <li class="mb-2"><a href="#">@Localizer["Home"]</a></li>
+                            <li class="mb-2"><a href="#">@Localizer["About Us"]</a></li>
+                            <li class="mb-2"><a href="#">@Localizer["Contact"]</a></li>
+                            <li class="mb-2"><a href="#">@Localizer["Privacy Policy"]</a></li>
                         </ul>
                     </div>
 
                     <div class="col-lg-2 col-md-3 col-6 mb-4">
-                        <h6 class="text-white fw-bold mb-3">Categories</h6>
+                        <h6 class="text-white fw-bold mb-3">@Localizer["Categories"]</h6>
                         <ul class="list-unstyled">
-                            <li class="mb-2"><a href="#">Medicines</a></li>
-                            <li class="mb-2"><a href="#">Medical Supplies</a></li>
-                            <li class="mb-2"><a href="#">Cosmetics</a></li>
+                            <li class="mb-2"><a href="#">@Localizer["Medicines"]</a></li>
+                            <li class="mb-2"><a href="#">@Localizer["Medical Supplies"]</a></li>
+                            <li class="mb-2"><a href="#">@Localizer["Cosmetics"]</a></li>
                         </ul>
                     </div>
 
                     <div class="col-lg-3 col-md-12 mb-4 text-center text-lg-start">
-                        <h6 class="text-white fw-bold mb-3">Contact Info</h6>
+                        <h6 class="text-white fw-bold mb-3">@Localizer["Contact Info"]</h6>
                         <ul class="list-unstyled small text-muted">
-                            <li class="mb-2"><i class="fas fa-map-marker-alt me-2 text-primary"></i> 123 Health St, Cairo, Egypt</li>
+                            <li class="mb-2"><i class="fas fa-map-marker-alt me-2 text-primary"></i> @Localizer["123 Health St, Cairo, Egypt"]</li>
                             <li class="mb-2"><i class="fas fa-envelope me-2 text-primary"></i> info@Logicalsoft.com</li>
                             <li class="mb-2"><i class="fas fa-phone me-2 text-primary"></i> +123 456 7890</li>
                         </ul>
