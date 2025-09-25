@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="YourHealthOurPriority" xml:space="preserve">
+    <value>Your Health, Our Priority</value>
+  </data>
+  <data name="FindAndOrder" xml:space="preserve">
+    <value>Find and order your medicines from trusted pharmacies and suppliers with ease. MeLink connects you directly to the care you need, fast.</value>
+  </data>
+  <data name="StartYourOrder" xml:space="preserve">
+    <value>Start Your Order</value>
+  </data>
+  <data name="LearnMore" xml:space="preserve">
+    <value>Learn More</value>
+  </data>
+  <data name="HowItWorks" xml:space="preserve">
+    <value>How It Works</value>
+  </data>
+  <data name="SimpleSteps" xml:space="preserve">
+    <value>Simple steps to get your medicines delivered to your door.</value>
+  </data>
+  <data name="SearchStep" xml:space="preserve">
+    <value>1. Search</value>
+  </data>
+  <data name="SearchStepDescription" xml:space="preserve">
+    <value>Find the medicine you need by name or active ingredient.</value>
+  </data>
+  <data name="OrderStep" xml:space="preserve">
+    <value>2. Order</value>
+  </data>
+  <data name="OrderStepDescription" xml:space="preserve">
+    <value>Choose from a list of available suppliers and place your order.</value>
+  </data>
+  <data name="ReceiveStep" xml:space="preserve">
+    <value>3. Receive</value>
+  </data>
+  <data name="ReceiveStepDescription" xml:space="preserve">
+    <value>Get your medicines delivered directly to your doorstep.</value>
+  </data>
+  <data name="OurPartners" xml:space="preserve">
+    <value>Our Partners</value>
+  </data>
+  <data name="BrowsePartners" xml:space="preserve">
+    <value>Browse our network of trusted suppliers and pharmacies.</value>
+  </data>
+  <data name="Warehouses" xml:space="preserve">
+    <value>Warehouses</value>
+  </data>
+  <data name="WarehousesDescription" xml:space="preserve">
+    <value>A wide selection of medicines and bulk supplies.</value>
+  </data>
+  <data name="Companies" xml:space="preserve">
+    <value>Companies</value>
+  </data>
+  <data name="CompaniesDescription" xml:space="preserve">
+    <value>Efficient and reliable distribution of medical goods.</value>
+  </data>
+  <data name="Manufacturers" xml:space="preserve">
+    <value>Manufacturers</value>
+  </data>
+  <data name="ManufacturersDescription" xml:space="preserve">
+    <value>Direct access to a wide range of products.</value>
+  </data>
+  <data name="Pharmacies" xml:space="preserve">
+    <value>Pharmacies</value>
+  </data>
+  <data name="PharmaciesDescription" xml:space="preserve">
+    <value>Get your prescribed medicines from local pharmacies.</value>
+  </data>
+</root>
