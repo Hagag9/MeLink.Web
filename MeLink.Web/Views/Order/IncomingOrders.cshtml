@@ -1,21 +1,21 @@
 ﻿@using Microsoft.AspNetCore.Mvc.Localization
-@inject IViewLocalizer localizer
+@inject IViewLocalizer Localizer
 @model MeLink.Web.ViewModels.IncomingOrdersViewModel
 
 @{
-    ViewData["Title"] = localizer["Incoming Orders"];
+    ViewData["Title"] = Localizer["IncomingOrders"];
 }
 
 <div class="container py-5">
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4">
         <div>
             <h1 class="h2 fw-bold text-dark">
-                <i class="fas fa-inbox text-primary me-2"></i>@localizer["Incoming Orders"]
+                <i class="fas fa-inbox text-primary me-2"></i>@Localizer["IncomingOrders"]
             </h1>
-            <p class="text-muted">@localizer["View and manage orders from your customers."]</p>
+            <p class="text-muted">@Localizer["ViewAndManageOrders"]</p>
         </div>
         <a asp-controller="Supplier" asp-action="Index" class="btn btn-primary rounded-3">
-            <i class="fas fa-truck-moving me-2"></i>@localizer["Order from Suppliers"]
+            <i class="fas fa-truck-moving me-2"></i>@Localizer["OrderFromSuppliers"]
         </a>
     </div>
 
@@ -25,7 +25,7 @@
             <div class="col-sm-6 col-md-3">
                 <div class="card h-100 bg-primary-subtle text-primary rounded-4 shadow-sm">
                     <div class="card-body text-center p-4">
-                        <p class="text-muted mb-1 small">@localizer["Total Orders"]</p>
+                        <p class="text-muted mb-1 small">@Localizer["TotalOrders"]</p>
                         <h3 class="fw-bold mb-0">@Model.IncomingOrders.Count()</h3>
                     </div>
                 </div>
@@ -33,7 +33,7 @@
             <div class="col-sm-6 col-md-3">
                 <div class="card h-100 bg-warning-subtle text-primary rounded-4 shadow-sm">
                     <div class="card-body text-center p-4">
-                        <p class="text-muted mb-1 small">@localizer["New Orders"]</p>
+                        <p class="text-muted mb-1 small">@Localizer["NewOrders"]</p>
                         <h3 class="fw-bold mb-0">@Model.IncomingOrders.Count(o => o.Status == "Pending")</h3>
                     </div>
                 </div>
@@ -41,7 +41,7 @@
             <div class="col-sm-6 col-md-3">
                 <div class="card h-100 bg-success-subtle text-primary rounded-4 shadow-sm">
                     <div class="card-body text-center p-4">
-                        <p class="text-muted mb-1 small">@localizer["Approved Orders"]</p>
+                        <p class="text-muted mb-1 small">@Localizer["ApprovedOrders"]</p>
                         <h3 class="fw-bold mb-0">@Model.IncomingOrders.Count(o => o.Status == "Approved")</h3>
                     </div>
                 </div>
@@ -49,7 +49,7 @@
             <div class="col-sm-6 col-md-3">
                 <div class="card h-100 bg-info-subtle text-primary rounded-4 shadow-sm">
                     <div class="card-body text-center p-4">
-                        <p class="text-muted mb-1 small">@localizer["Shipped Orders"]</p>
+                        <p class="text-muted mb-1 small">@Localizer["ShippedOrders"]</p>
                         <h3 class="fw-bold mb-0">@Model.IncomingOrders.Count(o => o.Status == "Shipped")</h3>
                     </div>
                 </div>
@@ -61,22 +61,22 @@
         <div class="card-header bg-white border-0 pt-4 pb-3 px-4">
             <div class="row justify-content-between align-items-center g-2">
                 <div class="col-md-4">
-                    <h5 class="fw-bold mb-0">@localizer["Incoming Orders List"]</h5>
+                    <h5 class="fw-bold mb-0">@Localizer["IncomingOrdersList"]</h5>
                 </div>
                 <div class="col-md-8 d-flex justify-content-start justify-content-md-end gap-2">
                     <div class="input-group" style="max-width: 300px;">
                         <span class="input-group-text bg-light border-0"><i class="fas fa-search"></i></span>
-                        <input type="text" class="form-control bg-light border-0" id="search-orders" placeholder="@localizer["Search by customer name..."]">
+                        <input type="text" class="form-control bg-light border-0" id="search-orders" placeholder="@Localizer["SearchByCustomerName"]">
                     </div>
                     <div class="btn-group">
                         <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fas fa-filter me-2"></i> @localizer["Filters"]
+                            <i class="fas fa-filter me-2"></i> @Localizer["Filters"]
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="#" data-filter="all">@localizer["All"]</a></li>
-                            <li><a class="dropdown-item" href="#" data-filter="pending">@localizer["Pending"]</a></li>
-                            <li><a class="dropdown-item" href="#" data-filter="approved">@localizer["Approved"]</a></li>
-                            <li><a class="dropdown-item" href="#" data-filter="rejected">@localizer["Rejected"]</a></li>
+                            <li><a class="dropdown-item" href="#" data-filter="all">@Localizer["All"]</a></li>
+                            <li><a class="dropdown-item" href="#" data-filter="pending">@Localizer["Pending"]</a></li>
+                            <li><a class="dropdown-item" href="#" data-filter="approved">@Localizer["Approved"]</a></li>
+                            <li><a class="dropdown-item" href="#" data-filter="rejected">@Localizer["Rejected"]</a></li>
                         </ul>
                     </div>
                 </div>
@@ -89,12 +89,12 @@
                     <table class="table orders-table mb-0">
                         <thead>
                             <tr>
-                                <th>@localizer["Order ID"]</th>
-                                <th>@localizer["Customer Name"]</th>
-                                <th>@localizer["Order Date"]</th>
-                                <th>@localizer["Quantity"]</th>
-                                <th>@localizer["Order Status"]</th>
-                                <th class="text-end">@localizer["Action"]</th>
+                                <th>@Localizer["OrderID"]</th>
+                                <th>@Localizer["CustomerName"]</th>
+                                <th>@Localizer["OrderDate"]</th>
+                                <th>@Localizer["Quantity"]</th>
+                                <th>@Localizer["OrderStatus"]</th>
+                                <th class="text-end">@Localizer["Action"]</th>
                             </tr>
                         </thead>
                         <tbody id="orders-container">
@@ -126,7 +126,7 @@
                                             <ul class="dropdown-menu dropdown-menu-end">
                                                 <li>
                                                     <a class="dropdown-item" asp-action="Invoice" asp-route-orderId="@order.OrderId">
-                                                        <i class="fas fa-eye fa-fw me-2"></i>@localizer["View Details"]
+                                                        <i class="fas fa-eye fa-fw me-2"></i>@Localizer["ViewDetails"]
                                                     </a>
                                                 </li>
                                                 @if (order.Status == "Pending")
@@ -134,12 +134,12 @@
                                                     <li><hr class="dropdown-divider"></li>
                                                     <li>
                                                         <a class="dropdown-item text-success approve-order-btn" href="#" data-order-id="@order.OrderId">
-                                                            <i class="fas fa-check fa-fw me-2"></i>@localizer["Approve"]
+                                                            <i class="fas fa-check fa-fw me-2"></i>@Localizer["Approve"]
                                                         </a>
                                                     </li>
                                                     <li>
                                                         <a class="dropdown-item text-danger reject-order-btn" href="#" data-order-id="@order.OrderId">
-                                                            <i class="fas fa-times fa-fw me-2"></i>@localizer["Reject"]
+                                                            <i class="fas fa-times fa-fw me-2"></i>@Localizer["Reject"]
                                                         </a>
                                                     </li>
                                                 }
@@ -147,7 +147,7 @@
                                                 {
                                                     <li>
                                                         <a class="dropdown-item text-info mark-shipped-btn" href="#" data-order-id="@order.OrderId">
-                                                            <i class="fas fa-shipping-fast fa-fw me-2"></i>@localizer["Mark as Shipped"]
+                                                            <i class="fas fa-shipping-fast fa-fw me-2"></i>@Localizer["MarkAsShipped"]
                                                         </a>
                                                     </li>
                                                 }
@@ -164,8 +164,8 @@
             {
                 <div class="text-center py-5">
                     <div class="mb-4"><i class="fas fa-inbox text-muted opacity-25" style="font-size: 5rem;"></i></div>
-                    <h4 class="text-muted fw-bold mb-3">@localizer["No Incoming Orders"]</h4>
-                    <p class="text-muted mb-4 lead">@localizer["You currently have no orders waiting for your action."]</p>
+                    <h4 class="text-muted fw-bold mb-3">@Localizer["NoIncomingOrders"]</h4>
+                    <p class="text-muted mb-4 lead">@Localizer["NoOrdersWaiting"]</p>
                 </div>
             }
         </div>
@@ -174,6 +174,12 @@
 
 @section Scripts {
     <script>
+        var localizedStrings = {
+            confirmApprove: @Html.Raw(Json.Serialize(Localizer["ConfirmApprove"].Value)),
+            confirmReject: @Html.Raw(Json.Serialize(Localizer["ConfirmReject"].Value)),
+            confirmMarkShipped: @Html.Raw(Json.Serialize(Localizer["ConfirmMarkShipped"].Value))
+        };
+
         $(document).ready(function () {
             // Filter functionality
             $('.dropdown-item[data-filter]').on('click', function (e) {
@@ -203,7 +209,7 @@
             $('#orders-container').on('click', '.approve-order-btn', function (e) {
                 e.preventDefault();
                 const orderId = $(this).data('order-id');
-                if (confirm('Are you sure you want to approve this order?')) {
+                if (confirm(localizedStrings.confirmApprove)) {
                     window.location.href = `/Order/ApproveOrder?orderId=${orderId}`;
                 }
             });
@@ -211,7 +217,7 @@
             $('#orders-container').on('click', '.reject-order-btn', function (e) {
                 e.preventDefault();
                 const orderId = $(this).data('order-id');
-                if (confirm('Are you sure you want to reject this order?')) {
+                if (confirm(localizedStrings.confirmReject)) {
                     window.location.href = `/Order/RejectOrder?orderId=${orderId}`;
                 }
             });
@@ -219,7 +225,7 @@
             $('#orders-container').on('click', '.mark-shipped-btn', function (e) {
                 e.preventDefault();
                 const orderId = $(this).data('order-id');
-                if (confirm('Mark this order as shipped?')) {
+                if (confirm(localizedStrings.confirmMarkShipped)) {
                     window.location.href = `/Order/MarkShipped?orderId=${orderId}`;
                 }
             });

@@ -1,24 +1,24 @@
 ﻿@using Microsoft.AspNetCore.Mvc.Localization
-@inject IViewLocalizer localizer
+@inject IViewLocalizer Localizer
 @model MeLink.Web.ViewModels.CreateOrderViewModel
 
 @{
-    ViewData["Title"] = localizer["Create New Order"];
+    ViewData["Title"] = Localizer["CreateNewOrder"];
 }
 
 <div class="modal fade" id="sourceChangeModal" tabindex="-1" aria-labelledby="sourceChangeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-0 shadow-lg rounded-4">
             <div class="modal-header border-0">
-                <h5 class="modal-title fw-bold" id="sourceChangeModalLabel"><i class="fas fa-exclamation-triangle text-warning me-2"></i> @localizer["Change Order Source?"]</h5>
+                <h5 class="modal-title fw-bold" id="sourceChangeModalLabel"><i class="fas fa-exclamation-triangle text-warning me-2"></i> @Localizer["ChangeOrderSource"]</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p>@localizer["You can only order from one source at a time. Do you want to clear your current selection and start a new order with this item?"]</p>
+                <p>@Localizer["ChangeSourceConfirmation"]</p>
             </div>
             <div class="modal-footer border-0">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@localizer["Cancel"]</button>
-                <button type="button" class="btn btn-primary" id="confirm-source-change">@localizer["Yes, Start New Order"]</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@Localizer["Cancel"]</button>
+                <button type="button" class="btn btn-primary" id="confirm-source-change">@Localizer["YesStartNewOrder"]</button>
             </div>
         </div>
     </div>
@@ -30,15 +30,15 @@
     <div class="stepper-wrapper mb-5">
         <div class="stepper-item active">
             <div class="step-counter">1</div>
-            <div class="step-name">@localizer["Select Medicines"]</div>
+            <div class="step-name">@Localizer["SelectMedicines"]</div>
         </div>
         <div class="stepper-item">
             <div class="step-counter">2</div>
-            <div class="step-name">@localizer["Add Details"]</div>
+            <div class="step-name">@Localizer["AddDetails"]</div>
         </div>
         <div class="stepper-item">
             <div class="step-counter">3</div>
-            <div class="step-name">@localizer["Confirm"]</div>
+            <div class="step-name">@Localizer["Confirm"]</div>
         </div>
     </div>
 
@@ -48,8 +48,8 @@
                 <div class="icon-circle bg-primary-subtle text-primary mx-auto mb-3">
                     <i class="fas fa-shopping-bag fa-2x"></i>
                 </div>
-                <h2 class="display-6 fw-bold text-dark">@localizer["Create New Order"]</h2>
-                <p class="text-muted lead-sm">@localizer["Fill in the details below to create your order easily."]</p>
+                <h2 class="display-6 fw-bold text-dark">@Localizer["CreateNewOrder"]</h2>
+                <p class="text-muted lead-sm">@Localizer["FillDetails"]</p>
             </div>
 
             <form asp-action="ConfirmOrder" method="post" enctype="multipart/form-data" id="orderForm">
@@ -59,11 +59,11 @@
                     <div class="col-md-6">
                         <div class="card h-100 border-0 shadow-sm rounded-4">
                             <div class="card-header bg-light border-0 rounded-top-4 py-3">
-                                <h6 class="mb-0 fw-bold"><i class="fas fa-user text-primary me-2"></i> @localizer["Your Information"]</h6>
+                                <h6 class="mb-0 fw-bold"><i class="fas fa-user text-primary me-2"></i> @Localizer["YourInformation"]</h6>
                             </div>
                             <div class="card-body d-flex align-items-center">
                                 <p class="mb-0 fs-5">
-                                    <strong class="text-dark">@localizer["Name:"]</strong> @Model.FromUserName
+                                    <strong class="text-dark">@Localizer["Name"]</strong> @Model.FromUserName
                                 </p>
                                 <input type="hidden" asp-for="FromUserId" />
                                 <input type="hidden" asp-for="FromUserName" />
@@ -73,11 +73,11 @@
                     <div class="col-md-6">
                         <div class="card h-100 border-0 shadow-sm rounded-4" id="source-card">
                             <div class="card-header bg-light border-0 rounded-top-4 py-3">
-                                <h6 class="mb-0 fw-bold"><i class="fas fa-truck text-info me-2"></i> @localizer["Source Information"]</h6>
+                                <h6 class="mb-0 fw-bold"><i class="fas fa-truck text-info me-2"></i> @Localizer["SourceInformation"]</h6>
                             </div>
                             <div class="card-body d-flex align-items-center">
                                 <p class="mb-0 fs-5">
-                                    <strong class="text-dark">@localizer["Source:"]</strong> <span id="selected-source" class="fw-semibold text-muted">@localizer["Not Selected"]</span>
+                                    <strong class="text-dark">@Localizer["Source"]</strong> <span id="selected-source" class="fw-semibold text-muted">@Localizer["NotSelected"]</span>
                                 </p>
                                 <input type="hidden" asp-for="PharmacyId" id="source-id" />
                                 <input type="hidden" asp-for="PharmacyName" id="source-name" />
@@ -87,18 +87,18 @@
                 </div>
 
                 <hr class="my-5" />
-                <h4 class="text-center fw-bold mb-4" id="step1-title">@localizer["Step 1: Search & Add Medicines"]</h4>
+                <h4 class="text-center fw-bold mb-4" id="step1-title">@Localizer["Step1"]</h4>
 
                 <div class="row g-5 mb-5">
                     <div class="col-lg-7">
                         <div class="card border-0 rounded-4 shadow-sm h-100">
                             <div class="card-header bg-success-subtle text-success-emphasis border-bottom border-success-subtle rounded-top-4 py-3">
-                                <h5 class="mb-0 fw-bold"><i class="fas fa-pills me-2"></i> @localizer["Find Your Medicine"]</h5>
+                                <h5 class="mb-0 fw-bold"><i class="fas fa-pills me-2"></i> @Localizer["FindYourMedicine"]</h5>
                             </div>
                             <div class="card-body p-4">
                                 <div class="input-group input-group-lg">
                                     <span class="input-group-text bg-light border-end-0 text-muted rounded-start-3"><i class="fas fa-search"></i></span>
-                                    <input type="text" class="form-control border-start-0" id="medicine-search" placeholder="@localizer["Start typing to search..."]">
+                                    <input type="text" class="form-control border-start-0" id="medicine-search" placeholder="@Localizer["StartTypingToSearch"]">
                                 </div>
                                 <div id="search-results-skeleton" class="mt-4" style="display: none;">
                                     <div class="skeleton-item">
@@ -118,9 +118,9 @@
                     <div class="col-lg-5">
                         <div class="card border-0 rounded-4 shadow-sm h-100 order-summary-card">
                             <div class="card-header bg-primary text-white border-0 rounded-top-4 py-3 d-flex justify-content-between align-items-center">
-                                <h5 class="mb-0"><i class="fas fa-list-ul me-2"></i> @localizer["Your Order"]</h5>
+                                <h5 class="mb-0"><i class="fas fa-list-ul me-2"></i> @Localizer["YourOrder"]</h5>
                                 <button type="button" class="btn btn-sm btn-outline-light" id="clear-cart-btn" style="display: none;">
-                                    <i class="fas fa-times me-1"></i> @localizer["Clear All"]
+                                    <i class="fas fa-times me-1"></i> @Localizer["ClearAll"]
                                 </button>
                             </div>
                             <div class="card-body p-4" id="selected-items-container">
@@ -130,30 +130,30 @@
                 </div>
 
                 <hr class="my-5" />
-                <h4 class="text-center fw-bold mb-4" id="step2-title">@localizer["Step 2: Additional Details"]</h4>
+                <h4 class="text-center fw-bold mb-4" id="step2-title">@Localizer["Step2"]</h4>
 
                 <div class="details-section-wrapper p-4 rounded-4 shadow-sm mb-5">
                     @if (Model.IsPatient)
                     {
                         <div class="mb-4">
                             <label for="PrescriptionFile" class="form-label fw-semibold fs-5 text-dark-emphasis">
-                                <i class="fas fa-file-prescription me-2 text-primary"></i>@localizer["Upload Prescription (Optional)"]
+                                <i class="fas fa-file-prescription me-2 text-primary"></i>@Localizer["UploadPrescriptionOptional"]
                             </label>
                             <div class="input-group">
                                 <input asp-for="PrescriptionFile" class="form-control d-none" type="file" id="actual-file-input" accept="image/*,.pdf" />
                                 <label for="actual-file-input" class="btn btn-outline-secondary">
-                                    <i class="fas fa-upload me-2"></i> @localizer["Choose File"]
+                                    <i class="fas fa-upload me-2"></i> @Localizer["ChooseFile"]
                                 </label>
-                                <span id="file-chosen" class="form-control text-muted" style="border-left: 0;">@localizer["No file chosen"]</span>
+                                <span id="file-chosen" class="form-control text-muted" style="border-left: 0;">@Localizer["NoFileChosen"]</span>
                             </div>
-                            <div class="form-text text-muted mt-2">@localizer["You can upload an image or PDF file of your prescription."]</div>
+                            <div class="form-text text-muted mt-2">@Localizer["UploadPrescriptionHelpText"]</div>
                         </div>
                     }
                     <div>
                         <label for="Notes" class="form-label fw-semibold fs-5 text-dark-emphasis">
-                            <i class="fas fa-sticky-note me-2 text-primary"></i>@localizer["Additional Notes"]
+                            <i class="fas fa-sticky-note me-2 text-primary"></i>@Localizer["AdditionalNotes"]
                         </label>
-                        <textarea asp-for="Notes" class="form-control" rows="4" placeholder="@localizer["Any special instructions or delivery details..."]"></textarea>
+                        <textarea asp-for="Notes" class="form-control" rows="4" placeholder="@Localizer["SpecialInstructions"]"></textarea>
                     </div>
                 </div>
 
@@ -163,28 +163,28 @@
                 @if (Model.IsPharmacy)
                 {
                     <hr class="my-5" />
-                    <h4 class="text-center fw-bold mb-4">@localizer["Or Upload an Excel Sheet"]</h4>
+                    <h4 class="text-center fw-bold mb-4">@Localizer["OrUploadExcel"]</h4>
                     <div class="details-section-wrapper p-4 rounded-4 shadow-sm mb-5">
                         <div class="mb-4">
                             <label for="excel-file-input" class="form-label fw-semibold fs-5 text-dark-emphasis">
-                                <i class="fas fa-file-excel me-2 text-success"></i>@localizer["Upload Excel Sheet"]
+                                <i class="fas fa-file-excel me-2 text-success"></i>@Localizer["UploadExcelSheet"]
                             </label>
                             <div class="input-group">
                                 <input class="form-control" type="file" id="excel-file-input" accept=".xls,.xlsx" />
                             </div>
-                            <div class="form-text text-muted mt-2">@localizer["Upload a list of medicines in an Excel file."]</div>
+                            <div class="form-text text-muted mt-2">@Localizer["UploadExcelHelpText"]</div>
                         </div>
                     </div>
 
                     <div id="excel-preview-section" class="mt-5" style="display: none;">
-                        <h4 class="text-center fw-bold mb-4">@localizer["Order Preview from Excel"]</h4>
+                        <h4 class="text-center fw-bold mb-4">@Localizer["ExcelPreview"]</h4>
                         <div class="table-responsive">
                             <table class="table table-bordered table-striped table-hover">
                                 <thead class="table-dark">
                                     <tr>
-                                        <th>@localizer["Medicine"]</th>
-                                        <th>@localizer["Supplier"]</th>
-                                        <th>@localizer["Stock"]</th>
+                                        <th>@Localizer["Medicine"]</th>
+                                        <th>@Localizer["Supplier"]</th>
+                                        <th>@Localizer["Stock"]</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -211,7 +211,7 @@
 
                 <div class="text-center mt-5">
                     <button type="submit" class="btn btn-success btn-lg px-5 py-3 rounded-pill cta-button" id="submit-btn" disabled>
-                        <i class="fas fa-check me-2"></i> @localizer["Confirm Order"]
+                        <i class="fas fa-check me-2"></i> @Localizer["ConfirmOrder"]
                     </button>
                 </div>
             </form>
@@ -223,7 +223,19 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-
+    <script>
+        var localizedStrings = {
+            noMedicinesFound: @Html.Raw(Json.Serialize(Localizer["NoMedicinesFound"].Value)),
+            errorSearching: @Html.Raw(Json.Serialize(Localizer["ErrorSearching"].Value)),
+            quantityExceedsStock: @Html.Raw(Json.Serialize(Localizer["QuantityExceedsStock"].Value)),
+            medicineAdded: @Html.Raw(Json.Serialize(Localizer["MedicineAdded"].Value)),
+            yourOrderIsEmpty: @Html.Raw(Json.Serialize(Localizer["YourOrderIsEmpty"].Value)),
+            useSearchBar: @Html.Raw(Json.Serialize(Localizer["UseSearchBar"].Value)),
+            totalAmount: @Html.Raw(Json.Serialize(Localizer["TotalAmount"].Value)),
+            notSelected: @Html.Raw(Json.Serialize(Localizer["NotSelected"].Value)),
+            noFileChosen: @Html.Raw(Json.Serialize(Localizer["NoFileChosen"].Value))
+        };
+    </script>
     <script>
         let selectedItems = [];
         let currentSourceId = null;
@@ -298,7 +310,7 @@
                 const medicines = await response.json();
                 displaySearchResults(medicines);
             } catch (error) {
-                displayMessage('Error searching for medicines', 'danger');
+                displayMessage(localizedStrings.errorSearching, 'danger');
                 console.error('Search error:', error);
             } finally {
                 skeletonLoader.style.display = 'none';
@@ -307,7 +319,7 @@
 
         function displaySearchResults(medicines) {
             if (medicines.length === 0) {
-                resultsContainer.innerHTML = `<div class="alert alert-warning text-center rounded-3 p-3">No medicines found.</div>`;
+                resultsContainer.innerHTML = `<div class="alert alert-warning text-center rounded-3 p-3">${localizedStrings.noMedicinesFound}</div>`;
                 return;
             }
             let html = '<div class="list-group list-group-flush">';
@@ -353,7 +365,7 @@
             const quantity = parseInt(quantityInput.value);
 
             if (quantity > parseInt(quantityInput.max)) {
-                displayMessage('Quantity exceeds available stock.', 'warning');
+                displayMessage(localizedStrings.quantityExceedsStock, 'warning');
                 return;
             }
 
@@ -386,7 +398,7 @@
                 });
             }
             updateSelectedItemsDisplay();
-            displayMessage('Medicine added successfully', 'success');
+            displayMessage(localizedStrings.medicineAdded, 'success');
         }
 
         function updateSelectedItemsDisplay() {
@@ -394,8 +406,8 @@
                 selectedContainer.innerHTML = `
                     <div class="empty-cart-message">
                         <i class="fas fa-shopping-cart fa-3x text-light-emphasis"></i>
-                        <h5 class="mt-3">Your order is empty</h5>
-                        <p class="text-muted small">Use the search bar to add medicines.</p>
+                        <h5 class="mt-3">${localizedStrings.yourOrderIsEmpty}</h5>
+                        <p class="text-muted small">${localizedStrings.useSearchBar}</p>
                     </div>
                 `;
                 hiddenContainer.innerHTML = '';
@@ -439,7 +451,7 @@
             const totalHtml = `
                 <div class="order-total-summary mt-4 p-3 rounded-3">
                     <div class="d-flex justify-content-between align-items-center">
-                        <h6 class="text-dark fw-bold mb-0">Total Amount:</h6>
+                        <h6 class="text-dark fw-bold mb-0">${localizedStrings.totalAmount}</h6>
                         <span class="fs-4 fw-bolder text-success">EGP ${total.toFixed(2)}</span>
                     </div>
                 </div>
@@ -485,7 +497,7 @@
         function clearSourceInfo() {
              currentSourceId = null;
              currentSourceName = null;
-             document.getElementById('selected-source').textContent = 'Not Selected';
+             document.getElementById('selected-source').textContent = localizedStrings.notSelected;
              document.getElementById('selected-source').classList.add('text-muted');
              document.getElementById('selected-source').classList.remove('text-info');
              document.getElementById('source-card').classList.remove('source-selected-glow');
@@ -507,7 +519,7 @@
 
         if (actualFileInput) {
             actualFileInput.addEventListener('change', () => {
-                fileChosenSpan.textContent = actualFileInput.files.length > 0 ? actualFileInput.files[0].name : 'No file chosen';
+                fileChosenSpan.textContent = actualFileInput.files.length > 0 ? actualFileInput.files[0].name : localizedStrings.noFileChosen;
             });
         }
 

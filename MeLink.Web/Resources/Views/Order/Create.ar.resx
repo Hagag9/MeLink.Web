@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="CreateNewOrder" xml:space="preserve">
+    <value>إنشاء طلب جديد</value>
+  </data>
+  <data name="ChangeOrderSource" xml:space="preserve">
+    <value>تغيير مصدر الطلب؟</value>
+  </data>
+  <data name="ChangeSourceConfirmation" xml:space="preserve">
+    <value>يمكنك الطلب من مصدر واحد فقط في كل مرة. هل تريد مسح اختيارك الحالي وبدء طلب جديد بهذا العنصر؟</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>إلغاء</value>
+  </data>
+  <data name="YesStartNewOrder" xml:space="preserve">
+    <value>نعم، ابدأ طلبًا جديدًا</value>
+  </data>
+  <data name="SelectMedicines" xml:space="preserve">
+    <value>اختر الأدوية</value>
+  </data>
+  <data name="AddDetails" xml:space="preserve">
+    <value>أضف التفاصيل</value>
+  </data>
+  <data name="Confirm" xml:space="preserve">
+    <value>تأكيد</value>
+  </data>
+  <data name="FillDetails" xml:space="preserve">
+    <value>املأ التفاصيل أدناه لإنشاء طلبك بسهولة.</value>
+  </data>
+  <data name="YourInformation" xml:space="preserve">
+    <value>معلوماتك</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>الاسم:</value>
+  </data>
+  <data name="SourceInformation" xml:space="preserve">
+    <value>معلومات المصدر</value>
+  </data>
+  <data name="Source" xml:space="preserve">
+    <value>المصدر:</value>
+  </data>
+  <data name="NotSelected" xml:space="preserve">
+    <value>لم يتم الاختيار</value>
+  </data>
+  <data name="Step1" xml:space="preserve">
+    <value>الخطوة 1: البحث وإضافة الأدوية</value>
+  </data>
+  <data name="FindYourMedicine" xml:space="preserve">
+    <value>ابحث عن دوائك</value>
+  </data>
+  <data name="StartTypingToSearch" xml:space="preserve">
+    <value>ابدأ بالكتابة للبحث...</value>
+  </data>
+  <data name="YourOrder" xml:space="preserve">
+    <value>طلبك</value>
+  </data>
+  <data name="ClearAll" xml:space="preserve">
+    <value>مسح الكل</value>
+  </data>
+  <data name="Step2" xml:space="preserve">
+    <value>الخطوة 2: تفاصيل إضافية</value>
+  </data>
+  <data name="UploadPrescriptionOptional" xml:space="preserve">
+    <value>تحميل الروشتة (اختياري)</value>
+  </data>
+  <data name="ChooseFile" xml:space="preserve">
+    <value>اختر ملف</value>
+  </data>
+  <data name="NoFileChosen" xml:space="preserve">
+    <value>لم يتم اختيار ملف</value>
+  </data>
+  <data name="UploadPrescriptionHelpText" xml:space="preserve">
+    <value>يمكنك تحميل صورة أو ملف PDF للروشتة.</value>
+  </data>
+  <data name="AdditionalNotes" xml:space="preserve">
+    <value>ملاحظات إضافية</value>
+  </data>
+  <data name="SpecialInstructions" xml:space="preserve">
+    <value>أي تعليمات خاصة أو تفاصيل توصيل...</value>
+  </data>
+  <data name="OrUploadExcel" xml:space="preserve">
+    <value>أو قم بتحميل ملف إكسل</value>
+  </data>
+  <data name="UploadExcelSheet" xml:space="preserve">
+    <value>تحميل ملف إكسل</value>
+  </data>
+  <data name="UploadExcelHelpText" xml:space="preserve">
+    <value>قم بتحميل قائمة بالأدوية في ملف إكسل.</value>
+  </data>
+  <data name="ExcelPreview" xml:space="preserve">
+    <value>معاينة الطلب من إكسل</value>
+  </data>
+  <data name="Medicine" xml:space="preserve">
+    <value>الدواء</value>
+  </data>
+  <data name="Supplier" xml:space="preserve">
+    <value>المورد</value>
+  </data>
+  <data name="Stock" xml:space="preserve">
+    <value>المخزون</value>
+  </data>
+  <data name="ConfirmOrder" xml:space="preserve">
+    <value>تأكيد الطلب</value>
+  </data>
+  <data name="NoMedicinesFound" xml:space="preserve">
+    <value>لم يتم العثور على أدوية.</value>
+  </data>
+  <data name="ErrorSearching" xml:space="preserve">
+    <value>خطأ في البحث عن الأدوية</value>
+  </data>
+  <data name="QuantityExceedsStock" xml:space="preserve">
+    <value>الكمية تتجاوز المخزون المتاح.</value>
+  </data>
+  <data name="MedicineAdded" xml:space="preserve">
+    <value>تمت إضافة الدواء بنجاح</value>
+  </data>
+  <data name="YourOrderIsEmpty" xml:space="preserve">
+    <value>طلبك فارغ</value>
+  </data>
+  <data name="UseSearchBar" xml:space="preserve">
+    <value>استخدم شريط البحث لإضافة الأدوية.</value>
+  </data>
+  <data name="TotalAmount" xml:space="preserve">
+    <value>المبلغ الإجمالي:</value>
+  </data>
+</root>
