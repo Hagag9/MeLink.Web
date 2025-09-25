@@ -141,16 +141,16 @@
 {
     <script>
         var localizedStrings = {
-            per100Item: "@Localizer["Per100Item"]",
-            inStock: "@Localizer["InStock"]",
-            outOfStock: "@Localizer["OutOfStock"]",
-            addToCart: "@Localizer["AddToCart"]",
-            clearCartConfirmation: "@Localizer["ClearCartConfirmation"]",
-            maxQuantityAlert: "@Localizer["MaxQuantityAlert"]",
-            qty: "@Localizer["Qty"]",
-            source: "@Localizer["Source"]",
-            total: "@Localizer["Total"]",
-            yourCartIsCurrentlyEmpty: "@Localizer["YourCartIsCurrentlyEmpty"]"
+            per100Item: @Html.Raw(Json.Serialize(Localizer["Per100Item"].Value)),
+            inStock: @Html.Raw(Json.Serialize(Localizer["InStock"].Value)),
+            outOfStock: @Html.Raw(Json.Serialize(Localizer["OutOfStock"].Value)),
+            addToCart: @Html.Raw(Json.Serialize(Localizer["AddToCart"].Value)),
+            clearCartConfirmation: @Html.Raw(Json.Serialize(Localizer["ClearCartConfirmation"].Value)),
+            maxQuantityAlert: @Html.Raw(Json.Serialize(Localizer["MaxQuantityAlert"].Value)),
+            qty: @Html.Raw(Json.Serialize(Localizer["Qty"].Value)),
+            source: @Html.Raw(Json.Serialize(Localizer["Source"].Value)),
+            total: @Html.Raw(Json.Serialize(Localizer["Total"].Value)),
+            yourCartIsCurrentlyEmpty: @Html.Raw(Json.Serialize(Localizer["YourCartIsCurrentlyEmpty"].Value))
         };
     </script>
     <style>
