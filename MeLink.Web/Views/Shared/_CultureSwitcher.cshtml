@@ -8,8 +8,20 @@
 @{
     var requestCulture = Context.Features.Get<IRequestCultureFeature>();
     var currentCultureName = requestCulture.RequestCulture.UICulture.Name;
+
+    // Êã ÊÚÏíá åÐÇ ÇáÌÒÁ
     var cultureItems = LocOptions.Value.SupportedUICultures
-        .Select(c => new SelectListItem { Value = c.Name, Text = c.NativeName })
+        .Select(c => new SelectListItem
+        {
+            Value = c.Name,
+    
+            Text = c.Name switch
+            {
+                "ar-EG" => "ÚÑÈí",       
+                "en-US" => "English",   
+                _ => c.NativeName    
+            }
+        })
         .ToList();
 }
 

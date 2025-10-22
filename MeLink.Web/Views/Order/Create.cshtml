@@ -179,29 +179,198 @@
                     <div id="excel-preview-section" class="mt-5" style="display: none;">
                         <h4 class="text-center fw-bold mb-4">@Localizer["ExcelPreview"]</h4>
                         <div class="table-responsive">
-                            <table class="table table-bordered table-striped table-hover">
+                            <table class="table table-bordered table-hover align-middle" id="excel-demo-table">
                                 <thead class="table-dark">
                                     <tr>
-                                        <th>@Localizer["Medicine"]</th>
-                                        <th>@Localizer["Supplier"]</th>
-                                        <th>@Localizer["Stock"]</th>
+                                        <th style="min-width: 180px;">@Localizer["Medicine"]</th>
+
+                                        <th>شركة الدلتا للأدوية</th>
+                                        <th>شركة النيل فارما</th>
+                                        <th>مخزن المستقبل</th>
+                                        <th>مخزن الشرق الأوسط</th>
+                                        <th>مصنع فارما إيجيبت</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>Panadol Extra</td>
-                                        <td>Supplier A</td>
-                                        <td>150</td>
+                                        <td class="fw-bold">Panadol</td>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="med1-comp1">
+                                                <label class="form-check-label" for="med1-comp1">  50.00</label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="med1-comp2">
+                                                <label class="form-check-label" for="med1-comp2">  52.00</label>
+                                            </div>
+                                        </td>
+                                        <td class="best-price">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="med1-comp3">
+                                                <label class="form-check-label fw-bold" for="med1-comp3">
+                                                     49.00
+                                                    <span class="badge bg-success ms-1">Best price</span>
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="med1-comp4">
+                                                <label class="form-check-label" for="med1-comp4">  51.00</label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="med1-comp5">
+                                                <label class="form-check-label" for="med1-comp5">  50.50</label>
+                                            </div>
+                                        </td>
                                     </tr>
                                     <tr>
-                                        <td>Congestal</td>
-                                        <td>Supplier B</td>
-                                        <td>200</td>
+                                        <td class="fw-bold">Ibuprofen</td>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="med2-comp1">
+                                                <label class="form-check-label" for="med2-comp1">  30.00</label>
+                                            </div>
+                                        </td>
+                                        <td class="best-price">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="med2-comp2">
+                                                <label class="form-check-label fw-bold" for="med2-comp2">
+                                                     28.50
+                                                    <span class="badge bg-success ms-1">Best price</span>
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="med2-comp3">
+                                                <label class="form-check-label" for="med2-comp3">  30.00</label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="med2-comp4">
+                                                <label class="form-check-label" for="med2-comp4">  29.00</label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="med2-comp5">
+                                                <label class="form-check-label" for="med2-comp5">  31.00</label>
+                                            </div>
+                                        </td>
                                     </tr>
                                     <tr>
-                                        <td>Cataflam</td>
-                                        <td>Supplier A</td>
-                                        <td>75</td>
+                                        <td class="fw-bold">Amoxicillin</td>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="med3-comp1">
+                                                <label class="form-check-label" for="med3-comp1">  45.00</label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="med3-comp2">
+                                                <label class="form-check-label" for="med3-comp2">  44.50</label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="med3-comp3">
+                                                <label class="form-check-label" for="med3-comp3">  46.00</label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="med3-comp4">
+                                                <label class="form-check-label" for="med3-comp4"> 45.00</label>
+                                            </div>
+                                        </td>
+                                        <td class="best-price">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="med3-comp5">
+                                                <label class="form-check-label fw-bold" for="med3-comp5">
+                                                     44.00
+                                                    <span class="badge bg-success ms-1">Best price</span>
+                                                </label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">Aspirin</td>
+                                        <td class="best-price">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="med4-comp1">
+                                                <label class="form-check-label fw-bold" for="med4-comp1">
+                                                     120.00
+                                                    <span class="badge bg-success ms-1">Best price</span>
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="med4-comp2">
+                                                <label class="form-check-label" for="med4-comp2">  122.00</label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="med4-comp3">
+                                                <label class="form-check-label" for="med4-comp3">  121.50</label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="med4-comp4">
+                                                <label class="form-check-label" for="med4-comp4">  125.00</label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="med4-comp5">
+                                                <label class="form-check-label" for="med4-comp5">  123.00</label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="fw-bold">Lisinopril</td>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="med5-comp1">
+                                                <label class="form-check-label" for="med5-comp1">  75.00</label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="med5-comp2">
+                                                <label class="form-check-label" for="med5-comp2"> 76.00</label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="med5-comp3">
+                                                <label class="form-check-label" for="med5-comp3"> 77.00</label>
+                                            </div>
+                                        </td>
+                                        <td class="best-price">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="med5-comp4">
+                                                <label class="form-check-label fw-bold" for="med5-comp4">
+                                                     74.50
+                                                    <span class="badge bg-success ms-1">Best Price</span>
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" id="med5-comp5">
+                                                <label class="form-check-label" for="med5-comp5"> 75.00</label>
+                                            </div>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -731,6 +900,39 @@
             background-color: #f8f9fa; /* Lighter grey background */
             border: 1px solid #dee2e6; /* Subtle border */
         }
+        /* === NEW: Styles for Excel Demo Table === */
+        #excel-demo-table {
+            min-width: 900px; /* لضمان عدم تداخل الأعمدة في الشاشات الصغيرة */
+        }
+
+        #excel-demo-table .form-check {
+           
+            min-height: auto;
+            margin-bottom: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem; 
+        }
+
+        #excel-demo-table .form-check-input {
+
+            position: relative; 
+        }
+
+            #excel-demo-table .form-check-label {
+                cursor: pointer;
+                display: inline-block; /* للسماح للـ badge بالظهور بجواره */
+                margin-bottom: 0;
+            }
+
+            #excel-demo-table .best-price {
+                background-color: #d1e7dd !important; /* لون أخضر خفيف (success-subtle) */
+                border: 2px solid #198754; /* بوردر بلون أخضر (success) */
+            }
+
+                #excel-demo-table .best-price .form-check-label {
+                    color: #0f5132; /* لون خط أغمق للوضوح */
+                }
 
     </style>
 }

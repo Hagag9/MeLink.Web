@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using MeLink.Web.Data;
 using MeLink.Web.Models;
 using MeLink.Web.ViewModels;
+using Microsoft.Extensions.Localization; 
 
 namespace MeLink.Web.Controllers
 {
@@ -13,11 +14,16 @@ namespace MeLink.Web.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IStringLocalizer<SupplierController> _localizer; 
 
-        public SupplierController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+      
+        public SupplierController(ApplicationDbContext context,
+                                  UserManager<ApplicationUser> userManager,
+                                  IStringLocalizer<SupplierController> localizer)
         {
             _context = context;
             _userManager = userManager;
+            _localizer = localizer; 
         }
 
         public async Task<IActionResult> Index()
@@ -29,22 +35,21 @@ namespace MeLink.Web.Controllers
 
             if (currentUser is Pharmacy)
             {
-                types.Add(new SupplierTypeViewModel { Type = "Manufacturer", Title = "Manufacturers", Description = "Order from factories.", Icon = "fas fa-industry", Color = "warning" });
-                types.Add(new SupplierTypeViewModel { Type = "Warehouse", Title = "Medicine Warehouses", Description = "Order from local warehouses.", Icon = "fas fa-warehouse", Color = "info" });
-                types.Add(new SupplierTypeViewModel { Type = "DistributionCompany", Title = "Distribution Companies", Description = "Order from wholesalers.", Icon = "fas fa-truck", Color = "success" });
+                // استخدام الـ Localizer لجلب النصوص
+                types.Add(new SupplierTypeViewModel { Type = "Manufacturer", Title = _localizer["ManufacturersTitle"], Description = _localizer["ManufacturersDescription"], Icon = "fas fa-industry", Color = "warning" });
+                types.Add(new SupplierTypeViewModel { Type = "Warehouse", Title = _localizer["WarehousesTitle"], Description = _localizer["WarehousesDescription"], Icon = "fas fa-warehouse", Color = "info" });
+                types.Add(new SupplierTypeViewModel { Type = "DistributionCompany", Title = _localizer["DistributionTitle"], Description = _localizer["DistributionDescription"], Icon = "fas fa-truck", Color = "success" });
             }
             else if (currentUser is MedicineWarehouse)
             {
-                types.Add(new SupplierTypeViewModel { Type = "Manufacturer", Title = "Manufacturers", Description = "Order from factories.", Icon = "fas fa-industry", Color = "warning" });
-                types.Add(new SupplierTypeViewModel { Type = "DistributionCompany", Title = "Distribution Companies", Description = "Order from wholesalers.", Icon = "fas fa-truck", Color = "success" });
-                types.Add(new SupplierTypeViewModel { Type = "Warehouse", Title = "Other Warehouses", Description = "Order from other warehouses.", Icon = "fas fa-warehouse", Color = "info" });
+                types.Add(new SupplierTypeViewModel { Type = "Manufacturer", Title = _localizer["ManufacturersTitle"], Description = _localizer["ManufacturersDescription"], Icon = "fas fa-industry", Color = "warning" });
+                types.Add(new SupplierTypeViewModel { Type = "DistributionCompany", Title = _localizer["DistributionTitle"], Description = _localizer["DistributionDescription"], Icon = "fas fa-truck", Color = "success" });
+                types.Add(new SupplierTypeViewModel { Type = "Warehouse", Title = _localizer["OtherWarehousesTitle"], Description = _localizer["OtherWarehousesDescription"], Icon = "fas fa-warehouse", Color = "info" });
             }
-            // **تمت إضافة هذا الشرط لـ DistributionCompany**
             else if (currentUser is DistributionCompany)
             {
-                types.Add(new SupplierTypeViewModel { Type = "Manufacturer", Title = "Manufacturers", Description = "Order from factories.", Icon = "fas fa-industry", Color = "warning" });
+                types.Add(new SupplierTypeViewModel { Type = "Manufacturer", Title = _localizer["ManufacturersTitle"], Description = _localizer["ManufacturersDescription"], Icon = "fas fa-industry", Color = "warning" });
             }
-            // يمكنك إضافة المزيد من الشروط هنا لأنواع مستخدمين أخرى
 
             return View(types);
         }
@@ -55,23 +60,24 @@ namespace MeLink.Web.Controllers
             if (currentUser == null) return Forbid();
 
             IQueryable<ApplicationUser> suppliersQuery = _context.Users.AsQueryable();
-            var pageTitle = $"{type}s";
+            string pageTitle; // <-- تم إزالة القيمة الافتراضية
 
             switch (type)
             {
                 case "Manufacturer":
                     suppliersQuery = _context.Users.OfType<Manufacturer>();
+                    pageTitle = _localizer["PageTitle_Manufacturers"]; // <-- استخدام الـ Localizer
                     break;
                 case "Warehouse":
                     suppliersQuery = _context.Users.OfType<MedicineWarehouse>().Where(w => w.Id != currentUser.Id);
-                    pageTitle = "Other Warehouses";
+                    pageTitle = _localizer["PageTitle_OtherWarehouses"]; // <-- استخدام الـ Localizer
                     break;
                 case "DistributionCompany":
                     suppliersQuery = _context.Users.OfType<DistributionCompany>();
-                    pageTitle = "Distribution Companies";
+                    pageTitle = _localizer["PageTitle_DistributionCompanies"]; // <-- استخدام الـ Localizer
                     break;
                 default:
-                    return BadRequest("Invalid supplier type.");
+                    return BadRequest(_localizer["InvalidSupplierType"]); // <-- استخدام الـ Localizer
             }
 
             var suppliers = await suppliersQuery
@@ -86,7 +92,6 @@ namespace MeLink.Web.Controllers
                 })
                 .ToListAsync();
 
-            // This logic ensures that only valid supplier types are shown based on the current user's role.
             if (currentUser is DistributionCompany && type != "Manufacturer")
                 suppliers.Clear();
             if (currentUser is MedicineWarehouse && !new[] { "Manufacturer", "DistributionCompany", "Warehouse" }.Contains(type))
@@ -100,7 +105,5 @@ namespace MeLink.Web.Controllers
 
             return View(viewModel);
         }
-
-
     }
 }

@@ -5,25 +5,31 @@
 }
 
 <div class="container py-5">
-    <div class="p-5 text-center hero-section-enhanced rounded-4 mb-5 shadow-sm">
+    <div class="p-5 text-center rounded-4 mb-5 shadow-sm">
         <div class="row align-items-center">
-            <div class="col-md-7 text-md-start">
-                <h1 class="display-3 fw-bold text-primary mb-3">@Localizer["YourHealthOurPriority"]</h1>
-                <p class="fs-5 text-muted mb-4">
+
+            <div class="col-md-5 text-md-start">
+                <h6 class="display-6 fw-bold text-primary mb-3">@Localizer["YourHealthOurPriority"]</h6>
+                <p class="fs-6 text-muted mb-4">
                     @Localizer["FindAndOrder"]
                 </p>
                 <div class="d-grid gap-2 d-sm-flex justify-content-center justify-content-md-start mb-4">
-                    <a asp-controller="Order" asp-action="@(ViewBag.IsPatient ? "Index" : "BrowseMedicines")" class="btn btn-primary btn-lg rounded-pill px-5">
+                    <a asp-controller="Order" asp-action="@(ViewBag.IsPatient ? "Index" : "BrowseMedicines")" class="btn btn-primary rounded-pill px-5">
                         <i class="fas fa-pills me-2"></i> @Localizer["StartYourOrder"]
                     </a>
-                    <a asp-controller="Home" asp-action="About" class="btn btn-outline-primary btn-lg rounded-pill px-5">
+                    <a asp-controller="Home" asp-action="About" class="btn btn-outline-primary rounded-pill px-5">
                         <i class="fas fa-info-circle me-2"></i> @Localizer["LearnMore"]
                     </a>
                 </div>
             </div>
-            <div class="col-md-5 d-none d-md-block text-center">
-                <img src="~/images/pharmacist-cuate.svg" alt="Medicine delivery" class="img-fluid rounded-4 shadow-lg">
+
+            <div class="col-md-7 d-none d-md-block text-center">
+                <video class="w-100 rounded-4 shadow-lg" autoplay loop muted playsinline>
+                    <source src="~/videos/vhome1.mp4" type="video/mp4">
+                    متصفحك لا يدعم عرض الفيديوهات.
+                </video>
             </div>
+
         </div>
     </div>
 
@@ -151,7 +157,7 @@
 
         /* === NEW: Style for the enhanced hero section background === */
         .hero-section-enhanced {
-            /* A subtle, modern gradient from light blue to a light cyan */
+          
             background: linear-gradient(135deg, #e0f2fe 0%, #cff4fc 100%);
         }
 

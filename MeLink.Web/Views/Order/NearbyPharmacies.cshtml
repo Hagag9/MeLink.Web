@@ -31,13 +31,21 @@
                                 <h2 class="text-2xl font-bold text-gray-800 dark:text-white">@pharmacy.DisplayName</h2>
                                 <span class="inline-block px-3 py-1 text-sm font-semibold text-white bg-[var(--bs-green)] rounded-full">@localizer["Open Now"]</span>
                             </div>
-                            <div class="flex items-center text-gray-600 dark:text-gray-300 mb-2">
+                             <div class="flex items-center text-gray-600 dark:text-gray-300 mb-2">
                                 <span class="material-symbols-outlined mr-2 text-[var(--bs-blue)]">location_on</span>
-                                <p>@pharmacy.Address</p>
+                                <span class="flex-grow">@pharmacy.Address</span>
+                                <a href="https://maps.app.goo.gl/MENE4KQg5vQeZYzF7?g_st=aw" 
+                                   target="_blank" 
+                                   rel="noopener noreferrer" 
+                                   title="Show diriction"
+                                   class="ml-2 text-[var(--bs-blue)] hover:text-[var(--bs-primary)] transition-colors">
+                                    <span class="material-symbols-outlined mt-1">directions</span>
+                                </a>
                             </div>
+
                             <div class="flex items-center text-gray-600 dark:text-gray-300 mb-6">
                                 <span class="material-symbols-outlined mr-2 text-[var(--bs-blue)]">directions_walk</span>
-                                <p>@($"{pharmacy.DistanceInKm!.Value:F2} {localizer["km away"]}")</p>
+                                <p>@pharmacy.DistanceInKm!.Value.ToString("F2") @localizer["km away"]</p>
                             </div>
                             <div class="flex flex-col sm:flex-row gap-4">
                                 <a asp-controller="Order" asp-action="Index" asp-route-supplierId="@pharmacy.UserId" class="w-full sm:w-1/2 flex items-center justify-center px-4 py-2 bg-[var(--bs-blue)] text-white font-semibold rounded-md hover:bg-blue-700 transition-colors duration-300">

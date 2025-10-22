@@ -50,43 +50,38 @@
 <body>
     <div class="relative flex min-h-screen flex-col">
         <div class="flex flex-1">
-             @if (User.Identity.IsAuthenticated)
-              { 
-            <aside id="sidebar" class="sticky top-0 h-full self-start flex w-20 flex-col items-center bg-gray-800 p-4 text-white transition-all duration-300">
-                <button id="sidebar-toggle" class="mb-8 rounded-md p-2 text-white transition-colors hover:bg-[#283039] focus:outline-none">
-                    <span class="material-symbols-outlined">menu</span>
-                </button>
-                <nav class="flex flex-col gap-y-6">
-                    <a class="sidebar-link flex items-center gap-4 rounded-md p-3 transition-colors bg-[var(--primary-color)]" href="~/Home/Index">
-                        <span class="material-symbols-outlined">home</span>
-                        <span class="sidebar-text-label text-base font-medium sr-only">@localizer["Home"]</span>
-                    </a>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <aside id="sidebar" class="sticky top-0 h-full self-start flex w-20 flex-col items-center bg-gray-800 p-4 text-white transition-all duration-300">
+                    <button id="sidebar-toggle" class="mb-8 rounded-md p-2 text-white transition-colors hover:bg-[#283039] focus:outline-none">
+                        <span class="material-symbols-outlined">menu</span>
+                    </button>
+                    <nav class="flex flex-col gap-y-6">
+                        <a class="sidebar-link flex items-center gap-4 rounded-md p-3 transition-colors bg-[var(--primary-color)]" href="~/Home/Index">
+                            <span class="material-symbols-outlined">home</span>
+                            <span class="sidebar-text-label text-base font-medium sr-only">@localizer["Home"]</span>
+                        </a>
 
-                    @await Component.InvokeAsync("UserType")
+                        @await Component.InvokeAsync("UserType")
 
-                </nav>
-                <div class="mt-auto flex flex-col gap-y-6">
-                    <a class="sidebar-link flex items-center gap-4 rounded-md p-3 transition-colors" href="#">
-                        <span class="material-symbols-outlined">person</span>
-                        <span class="sidebar-text-label text-base font-medium sr-only">@localizer["Profile"]</span>
-                    </a>
-                    <a class="sidebar-link flex items-center gap-4 rounded-md p-3 transition-colors" href="#">
-                        <span class="material-symbols-outlined">more_horiz</span>
-                        <span class="sidebar-text-label text-base font-medium sr-only">@localizer["More"]</span>
-                    </a>
-                </div>
-            </aside>
+                    </nav>
+                    <div class="mt-auto flex flex-col gap-y-6">
+                        <a class="sidebar-link flex items-center gap-4 rounded-md p-3 transition-colors" href="#">
+                            <span class="material-symbols-outlined">person</span>
+                            <span class="sidebar-text-label text-base font-medium sr-only">@localizer["Profile"]</span>
+                        </a>
+                        <a class="sidebar-link flex items-center gap-4 rounded-md p-3 transition-colors" href="#">
+                            <span class="material-symbols-outlined">more_horiz</span>
+                            <span class="sidebar-text-label text-base font-medium sr-only">@localizer["More"]</span>
+                        </a>
+                    </div>
+                </aside>
             }
             <div class="flex-1 flex flex-col">
                 <header class="sticky top-0 z-40 flex items-center justify-between whitespace-nowrap bg-white px-10 py-4">
                     <nav class="flex items-center gap-x-12">
-                        <a class="flex items-center gap-3 text-black" href="#">
-                            <div class="size-8 text-[var(--primary-color)]">
-                                <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M36.7273 44C33.9891 44 31.6043 39.8386 30.3636 33.69C29.123 39.8386 26.7382 44 24 44C21.2618 44 18.877 39.8386 17.6364 33.69C16.3957 39.8386 14.0109 44 11.2727 44C7.25611 44 4 35.0457 4 24C4 12.9543 7.25611 4 11.2727 4C14.0109 4 16.3957 8.16144 17.6364 14.31C18.877 8.16144 21.2618 4 24 4C26.7382 4 29.123 8.16144 30.3636 14.31C31.6043 8.16144 33.9891 4 36.7273 4C40.7439 4 44 12.9543 44 24C44 35.0457 40.7439 44 36.7273 44Z" fill="currentColor"></path>
-                                </svg>
-                            </div>
-                            <h1 class="text-xl font-bold">Pharma</h1>
+                        <a class="flex items-center gap-3 text-black" href="~/home/index">
+                            <img src="~/images/Logo2.png" alt="Logo" class="h-10 w-auto" />
                         </a>
                         <div class="flex items-center gap-x-8">
                             <a class="text-base font-medium text-slate-500 hover:text-[var(--primary-color)] transition-colors" href="~/Home/Index">@localizer["Home"]</a>
@@ -103,20 +98,31 @@
                         <partial name="_LoginPartial" />
                     </div>
                 </header>
+              <div class="w-full text-center py-3 bg-gray-100">
+                    <a href="#"> <img src="~/images/banner.png" alt="Advertisement"
+                             class="w-full h-[90px] max-w-[970px] mx-auto block object-cover" />
+                    </a>
+                </div>
                 <main class="bg-white">
-                    <div class="p-10">
+                    <div class="px-10 py-1">
                         @RenderBody()
                     </div>
                 </main>
             </div>
         </div>
 
+        <div class="w-full text-center py-3 bg-gray-100">
+            <a href="#">
+                <img src="~/images/banner.png" alt="Advertisement"
+                     class="w-full h-[90px] max-w-[970px] mx-auto block object-cover" />
+            </a>
+        </div>
         <footer class="footer-enhanced">
             <div class="container py-4">
                 <div class="row g-4 text-center text-md-start justify-content-lg-between">
                     <div class="col-lg-4 col-md-6 mb-4">
-                        <a href="#" class="d-inline-block mb-3">
-                            <i class="fas fa-pills fa-4x mb-2 text-primary"></i>
+                        <a href="#" class="d-inline-block mb-2">
+                            <img src="~/images/Logo2.png" alt="Logo" class="h-20 w-auto mb-2" />
                         </a>
                         <p class="small text-muted mb-4">
                             @localizer["A modern platform connecting patients and medical suppliers, ensuring easy access to essential medicines."]
@@ -152,9 +158,9 @@
                     <div class="col-lg-3 col-md-12 mb-4 text-center text-lg-start">
                         <h6 class="text-white fw-bold mb-3">@localizer["Contact Info"]</h6>
                         <ul class="list-unstyled small text-muted">
-                            <li class="mb-2"><i class="fas fa-map-marker-alt me-2 text-primary"></i> @localizer["123 Health St, Cairo, Egypt"]</li>
+                            <li class="mb-2"><i class="fas fa-map-marker-alt me-2 text-primary"></i> @localizer["Address"]</li>
                             <li class="mb-2"><i class="fas fa-envelope me-2 text-primary"></i> @localizer["info@Logicalsoft.com"]</li>
-                            <li class="mb-2"><i class="fas fa-phone me-2 text-primary"></i> @localizer["+123 456 7890"]</li>
+                            <li class="mb-2"><i class="fas fa-phone me-2 text-primary"></i> @localizer["01114201461"]</li>
                         </ul>
                         <div class="social-icons mt-4">
                             <a href="#" class="me-3" title="Facebook"><i class="fab fa-facebook-f fa-lg"></i></a>
