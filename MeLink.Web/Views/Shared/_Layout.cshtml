@@ -1,7 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Mvc.Localization
 @inject IViewLocalizer localizer
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="@(System.Globalization.CultureInfo.CurrentCulture.TextInfo.IsRightToLeft ? "rtl" : "ltr")">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -52,7 +52,7 @@
         <div class="flex flex-1">
             @if (User.Identity.IsAuthenticated)
             {
-                <aside id="sidebar" class="sticky top-0 h-full self-start flex w-20 flex-col items-center bg-gray-800 p-4 text-white transition-all duration-300">
+                <aside id="sidebar" class="fixed top-0 start-0 h-screen z-50 hidden md:flex w-20 flex-col items-center bg-gray-800 p-4 text-white transition-all duration-300">
                     <button id="sidebar-toggle" class="mb-8 rounded-md p-2 text-white transition-colors hover:bg-[#283039] focus:outline-none">
                         <span class="material-symbols-outlined">menu</span>
                     </button>
@@ -77,20 +77,23 @@
                     </div>
                 </aside>
             }
-            <div class="flex-1 flex flex-col">
+            <div class="flex-1 flex flex-col md:ms-20">
                 <header class="sticky top-0 z-40 flex items-center justify-between whitespace-nowrap bg-white px-10 py-4">
+                    <button id="mobile-sidebar-toggle" class="md:hidden rounded-md p-2 text-gray-800 transition-colors hover:bg-gray-200 focus:outline-none">
+                        <span class="material-symbols-outlined">menu</span>
+                    </button>
                     <nav class="flex items-center gap-x-12">
                         <a class="flex items-center gap-3 text-black" href="~/home/index">
                             <img src="~/images/Logo2.png" alt="Logo" class="h-10 w-auto" />
                         </a>
-                        <div class="flex items-center gap-x-8">
+                        <div class="hidden md:flex items-center gap-x-8">
                             <a class="text-base font-medium text-slate-500 hover:text-[var(--primary-color)] transition-colors" href="~/Home/Index">@localizer["Home"]</a>
                             <a class="text-base font-medium text-slate-500 hover:text-[var(--primary-color)] transition-colors" href="#">@localizer["Contact Us"]</a>
                             <a class="text-base font-medium text-slate-500 hover:text-[var(--primary-color)] transition-colors" href="#">@localizer["About"]</a>
                         </div>
-                        <div class="relative">
-                            <input class="w-80 rounded-full border border-gray-300 bg-gray-50 py-2.5 pl-12 pr-4 text-gray-700 focus:border-[var(--primary-color)] focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]/50" placeholder="@localizer["Search..."]" type="text" />
-                            <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">search</span>
+                        <div class="relative hidden md:block">
+                            <input class="w-80 rounded-full border border-gray-300 bg-gray-50 py-2.5 ps-12 pe-4 text-gray-700 focus:border-[var(--primary-color)] focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]/50" placeholder="@localizer["Search..."]" type="text" />
+                            <span class="material-symbols-outlined absolute start-4 top-1/2 -translate-y-1/2 text-gray-400">search</span>
                         </div>
                     </nav>
                     <div class="flex items-center gap-4">
@@ -158,14 +161,14 @@
                     <div class="col-lg-3 col-md-12 mb-4 text-center text-lg-start">
                         <h6 class="text-white fw-bold mb-3">@localizer["Contact Info"]</h6>
                         <ul class="list-unstyled small text-muted">
-                            <li class="mb-2"><i class="fas fa-map-marker-alt me-2 text-primary"></i> @localizer["Address"]</li>
-                            <li class="mb-2"><i class="fas fa-envelope me-2 text-primary"></i> @localizer["info@Logicalsoft.com"]</li>
-                            <li class="mb-2"><i class="fas fa-phone me-2 text-primary"></i> @localizer["01114201461"]</li>
+                            <li class="mb-2"><i class="fas fa-map-marker-alt ms-2 text-primary"></i> @localizer["Address"]</li>
+                            <li class="mb-2"><i class="fas fa-envelope ms-2 text-primary"></i> @localizer["info@Logicalsoft.com"]</li>
+                            <li class="mb-2"><i class="fas fa-phone ms-2 text-primary"></i> @localizer["01114201461"]</li>
                         </ul>
-                        <div class="social-icons mt-4">
-                            <a href="#" class="me-3" title="Facebook"><i class="fab fa-facebook-f fa-lg"></i></a>
-                            <a href="#" class="me-3" title="Twitter"><i class="fab fa-twitter fa-lg"></i></a>
-                            <a href="#" class="me-3" title="Instagram"><i class="fab fa-instagram fa-lg"></i></a>
+                        <div class="social-icons mt-4 rtl:space-x-reverse">
+                            <a href="#" class="ms-3" title="Facebook"><i class="fab fa-facebook-f fa-lg"></i></a>
+                            <a href="#" class="ms-3" title="Twitter"><i class="fab fa-twitter fa-lg"></i></a>
+                            <a href="#" class="ms-3" title="Instagram"><i class="fab fa-instagram fa-lg"></i></a>
                             <a href="#" title="LinkedIn"><i class="fab fa-linkedin-in fa-lg"></i></a>
                         </div>
                     </div>
@@ -192,16 +195,24 @@
     <script>
         const sidebar = document.getElementById('sidebar');
         const sidebarToggle = document.getElementById('sidebar-toggle');
+        const mobileSidebarToggle = document.getElementById('mobile-sidebar-toggle');
         const sidebarLabels = document.querySelectorAll('.sidebar-text-label');
 
         sidebarToggle.addEventListener('click', () => {
-            sidebar.classList.toggle('w-20');
-            sidebar.classList.toggle('w-64');
-            sidebar.classList.toggle('items-center');
-            sidebar.classList.toggle('items-start');
-            sidebarLabels.forEach(label => {
-                label.classList.toggle('sr-only');
-            });
+            if (window.innerWidth >= 768) {
+                sidebar.classList.toggle('w-20');
+                sidebar.classList.toggle('w-64');
+                sidebar.classList.toggle('items-center');
+                sidebar.classList.toggle('items-start');
+                sidebarLabels.forEach(label => {
+                    label.classList.toggle('sr-only');
+                });
+            }
+        });
+
+        mobileSidebarToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('hidden');
+            sidebar.classList.toggle('flex');
         });
     </script>
 </body>
